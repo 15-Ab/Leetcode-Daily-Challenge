@@ -3,8 +3,8 @@
 This is my attemp to make the coding experience easir for you guys so that you can easily learn what to do in today's leetcode challenge.
 
 
-## Preview 
-
+## A very happy near year to all you guys, may god give you strenth to overcome what you want.
+## Always here to assist you guys.
 
 ## Todays 01-01-24
 
