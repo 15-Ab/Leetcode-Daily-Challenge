@@ -6,9 +6,8 @@ This is my attemp to make the coding experience easier for you guys so that you 
 ## A very Happy Near Year to all you guys, may god give you strenth to overcome what you want.
 ## Always here to assist you guys.
 
-## Todays 01-01-24 [Problem Link]{https://leetcode.com/problems/assign-cookies/description/?envType=daily-question&envId=2024-01-01}
+## Todays 01-01-24 [Problem Link](https://leetcode.com/problems/assign-cookies/description/?envType=daily-question&envId=2024-01-01)
 
-# Problem can be found here - https://leetcode.com/problems/assign-cookies/description/?envType=daily-question&envId=2024-01-01
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
 Unitary method.
