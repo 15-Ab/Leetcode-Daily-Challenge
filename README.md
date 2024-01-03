@@ -5,7 +5,7 @@ This is my attemp to make the coding experience easier for you guys so that you 
 
 ## Always here to assist you guys.
 
-## Today's 03-01-24 [Problem Link](https://leetcode.com/problems/number-of-laser-beams-in-a-bank/solutions/?envType=daily-question&envId=2024-01-03)
+## Today's 03-01-24 [Problem Link](https://leetcode.com/problems/number-of-laser-beams-in-a-bank/description/?envType=daily-question&envId=2024-01-03)
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
