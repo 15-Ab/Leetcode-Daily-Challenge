@@ -5,7 +5,6 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-<<<<<<< HEAD
 ## Today's 04-01-24 [Problem Link](https://leetcode.com/problems/minimum-number-of-operations-to-make-array-empty/description/)
 
 # Intuition
