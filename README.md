@@ -10,14 +10,14 @@ This is my attempt to make the coding experience easier for you guys so that you
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
 - Dynamic Programming
-- - Algorithm must uses dynamic programming to efficiently update and maintain the longest increasing subsequence.
+- - My algorithm must use dynamic programming to efficiently update and maintain the longest increasing subsequence.
 - Greedy Choice
-- - The algorithm must makes a greedy choice to update the current longest increasing subsequence (a) based on the incoming elements from the input array (nums).
+- - My algorithm must makes a greedy choice to update the current longest increasing subsequence (a) based on the incoming elements from the input array (nums).
 
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-- ArrayList a
+- ArrayList 'a'
 - - I used 'a' to store the current longest increasing subsequence.
 - - It starts as an empty ArrayList.
 - Iterating through nums
