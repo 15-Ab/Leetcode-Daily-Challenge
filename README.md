@@ -6,6 +6,7 @@ This is my attempt to make the coding experience easier for you guys so that you
 ## Always here to assist you guys.
 
 ## Today's 06-01-24 [Problem Link](https://leetcode.com/problems/maximum-profit-in-job-scheduling/description/)
+## 1235. Maximum Profit in Job Scheduling
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
