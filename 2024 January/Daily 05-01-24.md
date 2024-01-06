@@ -1,4 +1,5 @@
 ## Today's 05-01-24 [Problem Link](https://leetcode.com/problems/longest-increasing-subsequence/description/?envType=daily-question&envId=2024-01-05)
+## 300. Longest Increasing Subsequence
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
