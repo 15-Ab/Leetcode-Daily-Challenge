@@ -5,99 +5,77 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 06-01-24 [Problem Link](https://leetcode.com/problems/maximum-profit-in-job-scheduling/description/)
-## 1235. Maximum Profit in Job Scheduling
+## Today's 07-01-24 [Problem Link](https://leetcode.com/problems/arithmetic-slices-ii-subsequence/description/?envType=daily-question&envId=2024-01-07)
+## 446. Arithmetic Slices II - Subsequence
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-This question aims to solve the Job Scheduling problem, where a set of jobs with start times, end times, and associated profits needs to be scheduled to maximize the total profit. The intuition involves dynamically determining the optimal schedule to achieve the maximum profit while ensuring that no two jobs overlap in time.
+An arithmetic slice is a sequence of elements in the array such that the difference between consecutive elements is the same.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-- Job Class :
-- - I created a Job class which is defined to represent each job with its start time (st), end time (et), and profit (p). This encapsulates the information related to each job.
-- Sorting :
-- - The jobs are sorted based on their start times (st). Sorting is crucial to process jobs sequentially and to facilitate dynamic programming.
-- Dynamic Programming Array :
-- - I created an array 'gp' of size l+1 to store the maximum profit achievable up to the i-th job. Each element gp[i] represents the maximum profit achievable up to job i.
-- Iterative Update :
-- - My code iterates through the sorted jobs in reverse order (i from l-1 to 0). For each job, it calculates the profit (lo) by adding the current job's profit to the maximum profit achievable after considering non-overlapping jobs.
-- Binary Search Helper Function :
-- - I created and used a helper function here. The 'pehlabraYabrabr' function performs a binary search to find the index of the first job whose start time is greater than or equal to the given end time khtm.
-- Result :
-- - The final result is the maximum profit achievable by scheduling jobs optimally, and it is stored in gp[0], representing the maximum profit achievable starting from the first job.
+- Initialization :
+- - I initialized the variable 'jawab' to keep track of the total number of arithmetic slices.
+- Data Structures :
+- - I created a 2D array gp to store the number of arithmetic slices. gp[i][j] represents the number of slices ending at index i with the last element at index j.
+- - I have used a HashMap called 'map' to store indices of elements with the same value. This is done to efficiently find potential common differences.
+- Populate the Map :
+- - I iterated through the elements of the array (nums) and populate the map with indices of elements having the same value. The key is the element value, and the value is a list of indices.
+- Dynamic Programming :
+- - I iterated through each element in the array (nums) using two nested loops.
+- - For each pair of indices (i, j) where i is the current index and j is less than i :
+- - - Calculate the potential common difference l using the formula 2 * nums[j] - nums[i].
+- - - Check if there are elements with value l in the map.
+- - - If yes, iterate through the indices of elements with value l in the map:
+- - - - For each index in, if j > in, update gp[i][j] by adding gp[j][in] + 1. This is because a new arithmetic slice is formed by extending the slice ending at index in.
+- - - Accumulate the value of gp[i][j] to the overall answer jawab.
+- Final Result :
+- - The final answer is stored in the variable jawab.
 ---
 Have a look at the code , still have any confusion then please let me know in the comments
 Keep Solving.:)
 
 # Complexity
-- Time complexity : $$O(l*logl)=O(sorting)$$
+- Time complexity : $$O(l^2)$$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
 
-- Space complexity : $$O(l)$$
-<!-- Add your space complexity here, e.g. $$O(n)$$ -->.
-$$l$$ : length of array ( all 3 array are of same length)
-
+- Space complexity :  $$O(l^2)$$
+<!-- Add your space complexity here, e.g. $$O(n)$$ -->
+ $$l$$ : length of array.
 # Code
 ```
-// Defining a Job class to represent each job with start time, end time, and profit
-class Job {
-    int st; // start time of this job 
-    int et; // end time of this job 
-    int p;  // profit of this job 
-
-    Job(int starttime, int endtime, int profit) {
-        this.st = starttime;
-        this.et = endtime;
-        this.p = profit;
-    }
-}
-
 class Solution {
+    public int numberOfArithmeticSlices(int[] nums) {
+        int jawab = 0; // Initialize the answer variable to 0
+        int[][] gp = new int[nums.length][nums.length]; // 2D array to store the number of arithmetic slices
+        Map<Long, List<Integer>> map = new HashMap<>(); // Map to store indices of elements with the same value
 
-    public int jobScheduling(int[] startTime, int[] endTime, int[] profit) {
-        int l = profit.length;
-        Job[] job = new Job[l];
-        int[] gp = new int[l + 1];
-
-        // Creating Job objects and populating the array
-        for (int i = 0; i < l; i++) {
-            job[i] = new Job(startTime[i], endTime[i], profit[i]);
+        // Populate the map with indices of elements having the same value
+        for (int i = 0; i < nums.length; i++) {
+            map.putIfAbsent(1L * nums[i], new ArrayList<>());
+            map.get(1L * nums[i]).add(i);
         }
 
-        // Sorting jobs based on their start times
-        Arrays.sort(job, (x, y) -> x.st - y.st);
+        // Iterate through each element in the array
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = 0; j < i; j++) {
+                long l = 2L * nums[j] - nums[i]; // Calculate the potential common difference
 
-        // Updating startTime array after sorting
-        for (int i = 0; i < l; i++) {
-            startTime[i] = job[i].st;
-        }
-
-        // Dynamic Programming: Iteratively updating the maximum profit
-        for (int i = l - 1; i >= 0; i--) {
-            int bb = pehlabraYabrabr(i + 1, startTime, job[i].et);
-            int lo = job[i].p + gp[bb];
-            int mtlo = gp[i + 1];
-            gp[i] = Math.max(lo, mtlo);
-        }
-
-        // Final result is the maximum profit achievable by optimal scheduling
-        return gp[0];
-    }
-
-    // Helper function using binary search to find the index of the first job whose start time is greater than or equal to a given end time
-    static int pehlabraYabrabr(int suru, int[] startTime, int khtm) {
-        int l = suru;
-        int r = startTime.length;
-        while (l < r) {
-            int m = (l + r) / 2;
-            if (khtm <= startTime[m]) {
-                r = m;
-            } else {
-                l = m + 1;
+                // Check if there are elements in the map with the calculated common difference
+                if (map.containsKey(l)) {
+                    // Iterate through indices of elements with the calculated common difference
+                    for (int in : map.get(l)) {
+                        if (j > in) {
+                            // Update the count of arithmetic slices in the 2D array
+                            gp[i][j] += gp[j][in] + 1;
+                        }
+                    }
+                }
+                jawab += gp[i][j]; // Accumulate the count to the overall answer
             }
         }
-        return l;
+
+        return jawab; // Return the final answer
     }
 }
 
