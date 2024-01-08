@@ -36,15 +36,14 @@ My code will perform an inorder traversal to selectively accumulate values withi
 Have a look at the code , still have any confusion then please let me know in the comments
 Keep Solving.:)
 
----
+
 # Complexity
 - Time complexity : $O(n)$
+   $n$ : number of nodes
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
 
 - Space complexity : $O(h)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
----
-$n$ : number of nodes
 $h$ : height of tree
 
 ---
