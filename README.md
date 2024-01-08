@@ -13,7 +13,6 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 My code will perform an inorder traversal to selectively accumulate values within the specified range.
 
----
 # Approach
 <!-- Describe your approach to solving the problem. -->
 - Inorder Traversal :
@@ -28,7 +27,7 @@ My code will perform an inorder traversal to selectively accumulate values withi
 - - Set the low and high values based on the input parameters.
 - - Called the inorder method starting from the root of the BST.
 - - Returned the final sum.
----
+
 # Optimizations
 - The use of static variables allows for state retention, avoiding the need for passing parameters across recursive calls.
 - The 'inorder' traversal efficiently considers only nodes that could contribute to the sum within the specified range, enhancing performance.
@@ -36,11 +35,11 @@ My code will perform an inorder traversal to selectively accumulate values withi
 Have a look at the code , still have any confusion then please let me know in the comments
 Keep Solving.:)
 
-
+---
 # Complexity
 - Time complexity : $O(n)$
-   $n$ : number of nodes
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
+ $n$ : number of nodes
 
 - Space complexity : $O(h)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
