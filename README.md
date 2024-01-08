@@ -38,14 +38,14 @@ Keep Solving.:)
 
 ---
 # Complexity
-- Time complexity : $$O(n)$$
+- Time complexity : $O(n)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
 
-- Space complexity : $$O(h)$$
+- Space complexity : $O(h)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 ---
-$$n$$ : number of nodes
-$$h$$ : height of tree
+$n$ : number of nodes
+$h$ : height of tree
 
 ---
 # Code
