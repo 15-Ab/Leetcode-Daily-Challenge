@@ -5,47 +5,45 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 08-01-24 [Problem Link](https://leetcode.com/problems/range-sum-of-bst/description/)
-## 938. Range Sum of BST
+## Today's 09-01-24 [Problem Link](https://leetcode.com/problems/leaf-similar-trees/description/?submissionId=1141098031)
+## 872. Leaf-Similar Trees
+
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-
-My code will perform an inorder traversal to selectively accumulate values within the specified range.
+The leaf sequence of a tree refers to the sequence of values encountered when performing a depth-first traversal and reaching a leaf node. My intuition is to compare the leaf sequences of both trees to check if they are identical.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-- Inorder Traversal :
-- - I implemented a recursive inorder traversal function that follows the BST properties :
-- - - Recursively traversed the left subtree.
-- - - Checked if the current node's value is within the specified range [low, high].
-- - - If true, thrn added the value to the sum.
-- - - Recursively traversed the right subtree.
-- Main Method (rangeSumBST) :
-- - Initialized the static variables (jor, l, h) to store the sum and the low and high values.
-- - Initialized 'jor' to zero.
-- - Set the low and high values based on the input parameters.
-- - Called the inorder method starting from the root of the BST.
-- - Returned the final sum.
-
-# Optimizations
-- The use of static variables allows for state retention, avoiding the need for passing parameters across recursive calls.
-- The 'inorder' traversal efficiently considers only nodes that could contribute to the sum within the specified range, enhancing performance.
+- Leaf Sequence Extraction :
+- - My code defines two static lists (t1 and t2) to store the leaf values of the two trees.
+- - Two helper methods (leaf1 and leaf2) are implemented to perform a depth-first traversal of each tree and populate the corresponding leaf lists.
+- Leaf Traversal :
+- - The 'leaf1' method traverses 'root1', identifies leaf nodes, and adds their values to the list 't1'.
+- - Similarly, the 'leaf2' method traverses 'root2', identifies leaf nodes, and adds their values to the list 't2'.
+- Comparison :
+- - After both leaf lists are populated, the code compares the sizes of 't1' and 't2'.
+- - If the sizes are different, the leaf sequences cannot be similar, and the code returns false.
+- - If the sizes are the same, the code proceeds to compare each element of t1 with the corresponding element in t2.
+- - If any pair of corresponding elements is not equal, the leaf sequences are not similar, and the code returns false.
+- Result :
+- - If the sizes and elements of t1 and t2 are equal, the leaf sequences are considered similar, and the code returns true.
 ---
 Have a look at the code , still have any confusion then please let me know in the comments
 Keep Solving.:)
 
----
+
 # Complexity
-- Time complexity : $O(n)$
+- Time complexity : $$O(n)$$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
- $n$ : number of nodes
+$$n$$ : number of nodes
 
-- Space complexity : $O(h)$
+- Space complexity : $$O(n + r)$$
+$$r = max(h1, h2) $$ ( since recursion stack is used for DFS trversal )
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
-$h$ : height of tree
+$$h1$$ : height of tree 1 
+$$h2$$ : height of tree 2 
 
----
 # Code
 ```
 /**
@@ -64,43 +62,70 @@ $h$ : height of tree
  * }
  */
 class Solution {
-    // Static variables to store the sum, low, and high values
-    static int jor;
-    static int l;
-    static int h;
+    // Static lists to store the leaf values of the two trees
+    static List<Integer> t1;
+    static List<Integer> t2;
 
-    // Main method to calculate the range sum in the BST
-    public int rangeSumBST(TreeNode root, int low, int high) {
-        // Initialize the sum, low, and high values
-        jor = 0;
-        l = low;
-        h = high;
+    // Main method to check if the leaf sequences of two trees are similar
+    public boolean leafSimilar(TreeNode root1, TreeNode root2) {
+        // Initialize the static lists to store leaf values
+        t1 = new ArrayList<>();
+        t2 = new ArrayList<>();
 
-        // Perform inorder traversal to calculate the sum within the specified range
-        inorder(root);
+        // Populate t1 with leaf values of root1
+        leaf1(root1);
 
-        // Return the final sum
-        return jor;
+        // Populate t2 with leaf values of root2
+        leaf2(root2);
+
+        // Compare the sizes of the two lists
+        if (t1.size() != t2.size()) {
+            return false;
+        }
+
+        // Compare each element of the two lists
+        for (int i = 0; i < t1.size(); i++) {
+            if (t1.get(i) != t2.get(i)) {
+                return false;
+            }
+        }
+
+        // If sizes and elements are equal, the leaf sequences are similar
+        return true;
     }
 
-    // Helper method for inorder traversal
-    static void inorder(TreeNode r) {
+    // Helper method to populate t1 with leaf values of a tree
+    static void leaf1(TreeNode t) {
         // Base case: if the current node is null, return
-        if (r == null) {
+        if (t == null) {
             return;
         }
 
-        // Recursively traverse the left subtree
-        inorder(r.left);
-
-        // Check if the value of the current node is within the specified range [low, high]
-        if (r.val >= l && r.val <= h) {
-            // If yes, add the value to the sum
-            jor += r.val;
+        // If the current node is a leaf, add its value to t1
+        if (t.left == null && t.right == null) {
+            t1.add(t.val);
         }
 
-        // Recursively traverse the right subtree
-        inorder(r.right);
+        // Recursively call leaf1 on the left and right subtrees
+        leaf1(t.left);
+        leaf1(t.right);
+    }
+
+    // Helper method to populate t2 with leaf values of a tree
+    static void leaf2(TreeNode t) {
+        // Base case: if the current node is null, return
+        if (t == null) {
+            return;
+        }
+
+        // If the current node is a leaf, add its value to t2
+        if (t.left == null && t.right == null) {
+            t2.add(t.val);
+        }
+
+        // Recursively call leaf2 on the left and right subtrees
+        leaf2(t.left);
+        leaf2(t.right);
     }
 }
 
