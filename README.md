@@ -43,6 +43,7 @@ $n$ : number of nodes
 $r = max(h1, h2)$ ( since recursion stack is used for DFS trversal )
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 $h1$ : height of tree 1 
+
 $h2$ : height of tree 2 
 
 # Code
