@@ -36,15 +36,15 @@ Keep Solving.:)
 # Complexity
 - Time complexity : $O(n)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-$n$ : number of nodes
+- - $n$ : number of nodes
 
 - Space complexity : $O(n + r)$
 
-$r = max(h1, h2)$ ( since recursion stack is used for DFS trversal )
+- - $r = max(h1, h2)$ ( since recursion stack is used for DFS trversal )
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
-$h1$ : height of tree 1 
+- - $h1$ : height of tree 1 
 
-$h2$ : height of tree 2 
+- - $h2$ : height of tree 2 
 
 # Code
 ```
