@@ -5,46 +5,38 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 09-01-24 [Problem Link](https://leetcode.com/problems/leaf-similar-trees/description/?submissionId=1141098031)
-## 872. Leaf-Similar Trees
+## Today's 10-01-24 [Problem Link](https://leetcode.com/problems/amount-of-time-for-binary-tree-to-be-infected/description/)
+## 2385. Amount of Time for Binary Tree to Be Infected
 
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-The leaf sequence of a tree refers to the sequence of values encountered when performing a depth-first traversal and reaching a leaf node. My intuition is to compare the leaf sequences of both trees to check if they are identical.
+My code aims to calculate the amount of time it takes to visit all unique nodes in a tree, starting from a specified node. It uses Breadth-First Search (BFS) for traversing the tree and employs a visualization process to represent the tree as an adjacency list.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-- Leaf Sequence Extraction :
-- - My code defines two static lists (t1 and t2) to store the leaf values of the two trees.
-- - Two helper methods (leaf1 and leaf2) are implemented to perform a depth-first traversal of each tree and populate the corresponding leaf lists.
-- Leaf Traversal :
-- - The 'leaf1' method traverses 'root1', identifies leaf nodes, and adds their values to the list 't1'.
-- - Similarly, the 'leaf2' method traverses 'root2', identifies leaf nodes, and adds their values to the list 't2'.
-- Comparison :
-- - After both leaf lists are populated, the code compares the sizes of 't1' and 't2'.
-- - If the sizes are different, the leaf sequences cannot be similar, and the code returns false.
-- - If the sizes are the same, the code proceeds to compare each element of t1 with the corresponding element in t2.
-- - If any pair of corresponding elements is not equal, the leaf sequences are not similar, and the code returns false.
-- Result :
-- - If the sizes and elements of t1 and t2 are equal, the leaf sequences are considered similar, and the code returns true.
----
-Have a look at the code , still have any confusion then please let me know in the comments
-Keep Solving.:)
+**Visualization:**
+   - The `visualisation` method performs a BFS traversal of the tree, creating an adjacency list representation of the tree. It uses a `HashMap` named `visual` where each node is mapped to its neighbors.
+
+**BFS Traversal for Time Calculation:**
+   - The `amountOfTime` method uses BFS to traverse the tree starting from the specified node (`start`).
+   - It initializes a queue (`q`) with the starting node and a set (`dekhahua`) to keep track of visited nodes.
+   - The variable `jawab` is used to store the result, initialized to -1.
+   - In each iteration, the code explores the neighbors of the current node, marking them as visited and enqueuing them for further exploration.
+   - The loop continues until all nodes are visited, and `jawab` is incremented at each level of the BFS traversal.
+
+**Result:**
+   - The final result is the value of `jawab`, representing the amount of time needed to visit all unique nodes in the tree starting from the specified node.
 
 
 # Complexity
-- Time complexity : $O(n)$
+- Time complexity : $O(V+E)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-- - $n$ : number of nodes
 
-- Space complexity : $O(n + r)$
-
-- - $r = max(h1, h2)$ ( since recursion stack is used for DFS trversal )
+- Space complexity : $O(V+E)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
-- - $h1$ : height of tree 1 
-
-- - $h2$ : height of tree 2 
+$V$ : number of vertices
+$E$ : number of edges
 
 # Code
 ```
@@ -64,70 +56,72 @@ Keep Solving.:)
  * }
  */
 class Solution {
-    // Static lists to store the leaf values of the two trees
-    static List<Integer> t1;
-    static List<Integer> t2;
+    // HashMap to store the visualization of the tree
+    static HashMap<Integer, ArrayList<Integer>> visual;
 
-    // Main method to check if the leaf sequences of two trees are similar
-    public boolean leafSimilar(TreeNode root1, TreeNode root2) {
-        // Initialize the static lists to store leaf values
-        t1 = new ArrayList<>();
-        t2 = new ArrayList<>();
+    public int amountOfTime(TreeNode root, int start) {
+        // Generated the visualization of the tree
+        visualisation(root);
 
-        // Populate t1 with leaf values of root1
-        leaf1(root1);
+        // Queue for BFS traversal starting from the specified node
+        Queue<Integer> q = new ArrayDeque<>(Arrays.asList(start));
 
-        // Populate t2 with leaf values of root2
-        leaf2(root2);
+        // HashSet to keep track of visited nodes
+        HashSet<Integer> dekhahua = new HashSet<>(Arrays.asList(start));
 
-        // Compare the sizes of the two lists
-        if (t1.size() != t2.size()) {
-            return false;
+        // Variable to store the result
+        int jawab = -1;
+
+        // Performed BFS traversal
+        while(!q.isEmpty()) {
+            for (int s = q.size(); s > 0; s--) {
+                int t = q.poll();
+                // Skip if the node is not in the visualization
+                if (!visual.containsKey(t)) {
+                    continue;
+                }
+                // Enqueued neighbors of the current node
+                for (int n : visual.get(t)) {
+                    if (dekhahua.contains(n)) {
+                        continue; // Skip if the neighbor is already visited
+                    }
+                    dekhahua.add(n);
+                    q.offer(n);
+                }
+            }
+            jawab++;
         }
+        return jawab;
+    }
 
-        // Compare each element of the two lists
-        for (int i = 0; i < t1.size(); i++) {
-            if (t1.get(i) != t2.get(i)) {
-                return false;
+    // Method to generate the visualization of the tree
+    void visualisation(TreeNode root) {
+        // Queue for BFS traversal
+        Queue<Pair<TreeNode, Integer>> q = new ArrayDeque<>(Arrays.asList(new Pair<>(root, -1)));
+
+        // Initialized the HashMap
+        visual = new HashMap<>();
+
+        // Performed BFS traversal to generate the visualization
+        while (!q.isEmpty()) {
+            Pair<TreeNode, Integer> jora = q.poll();
+            TreeNode n = jora.getKey();
+            int p = jora.getValue();
+            if (p != -1) {
+                // Add edges to the visualization
+                visual.putIfAbsent(p, new ArrayList<>());
+                visual.putIfAbsent(n.val, new ArrayList<>());
+                visual.get(p).add(n.val);
+                visual.get(n.val).add(p);
+            }
+            // Enqueued left and right children for further exploration
+            if (n.right != null) {
+                q.add(new Pair<>(n.right, n.val));
+            }
+            if (n.left != null) {
+                q.add(new Pair<>(n.left, n.val));
             }
         }
-
-        // If sizes and elements are equal, the leaf sequences are similar
-        return true;
-    }
-
-    // Helper method to populate t1 with leaf values of a tree
-    static void leaf1(TreeNode t) {
-        // Base case: if the current node is null, return
-        if (t == null) {
-            return;
-        }
-
-        // If the current node is a leaf, add its value to t1
-        if (t.left == null && t.right == null) {
-            t1.add(t.val);
-        }
-
-        // Recursively call leaf1 on the left and right subtrees
-        leaf1(t.left);
-        leaf1(t.right);
-    }
-
-    // Helper method to populate t2 with leaf values of a tree
-    static void leaf2(TreeNode t) {
-        // Base case: if the current node is null, return
-        if (t == null) {
-            return;
-        }
-
-        // If the current node is a leaf, add its value to t2
-        if (t.left == null && t.right == null) {
-            t2.add(t.val);
-        }
-
-        // Recursively call leaf2 on the left and right subtrees
-        leaf2(t.left);
-        leaf2(t.right);
     }
 }
 
