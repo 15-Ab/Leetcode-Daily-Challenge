@@ -5,41 +5,43 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 10-01-24 [Problem Link](https://leetcode.com/problems/amount-of-time-for-binary-tree-to-be-infected/description/)
-## 2385. Amount of Time for Binary Tree to Be Infected
+## Today's 11-01-24 [Problem Link](https://leetcode.com/problems/maximum-difference-between-node-and-ancestor/description/)
+## 1026. Maximum Difference Between Node and Ancestor
 
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-My code aims to calculate the amount of time it takes to visit all unique nodes in a tree, starting from a specified node. It uses Breadth-First Search (BFS) for traversing the tree and employs a visualization process to represent the tree as an adjacency list.
+My code aims to find the maximum absolute difference between the values of any two nodes in the same path from the root to a leaf in a binary tree. It utilizes a recursive approach to traverse the tree while maintaining the minimum and maximum values encountered along the path.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-**Visualization:**
-   - The `visualisation` method performs a BFS traversal of the tree, creating an adjacency list representation of the tree. It uses a `HashMap` named `visual` where each node is mapped to its neighbors.
+**Base Case:**
+   - If the root is null, return 0 as there are no nodes to compare.
 
-**BFS Traversal for Time Calculation:**
-   - The `amountOfTime` method uses BFS to traverse the tree starting from the specified node (`start`).
-   - It initializes a queue (`q`) with the starting node and a set (`dekhahua`) to keep track of visited nodes.
-   - The variable `jawab` is used to store the result, initialized to -1.
-   - In each iteration, the code explores the neighbors of the current node, marking them as visited and enqueuing them for further exploration.
-   - The loop continues until all nodes are visited, and `jawab` is incremented at each level of the BFS traversal.
+**Recursive Calculation:**
+   - The `maxAncestorDiff` method takes three parameters: the current node `r`, the minimum value encountered so far `chota`, and the maximum value encountered so far `bara`.
+   - Update `chota` and `bara` based on the current node's value.
+   - Calculate the current absolute difference (`currentDifference`) between `bara` and `chota`.
+
+**Recursive Calls for Left and Right Subtrees:**
+   - Recursively call `maxAncestorDiff` on the left subtree if it exists and update `leftChildMax` with the result.
+   - Recursively call `maxAncestorDiff` on the right subtree if it exists and update `rightChildMax` with the result.
+
+**Calculate Maximum Difference:**
+   - Calculate the maximum difference from the left and right subtrees (`maxFromChild`).
+   - Return the maximum value among the current path and the subtrees.
 
 **Result:**
-   - The final result is the value of `jawab`, representing the amount of time needed to visit all unique nodes in the tree starting from the specified node.
+   - The result is the maximum absolute difference among the values of any two nodes in the same path from the root to a leaf.
 ---
 Have a look at the code , still have any confusion then please let me know in the comments Keep Solving.:)
-
 # Complexity
-- Time complexity : $O(V+E)$
+- Time complexity : $O(n)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-
-- Space complexity : $O(V+E)$
+$n$ : number of nodes
+- Space complexity : $O(h)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
-$V$ : number of vertices
-
-$E$ : number of edges
-
+$h$ : height of tree
 # Code
 ```
 /**
@@ -58,72 +60,44 @@ $E$ : number of edges
  * }
  */
 class Solution {
-    // HashMap to store the visualization of the tree
-    static HashMap<Integer, ArrayList<Integer>> visual;
-
-    public int amountOfTime(TreeNode root, int start) {
-        // Generated the visualization of the tree
-        visualisation(root);
-
-        // Queue for BFS traversal starting from the specified node
-        Queue<Integer> q = new ArrayDeque<>(Arrays.asList(start));
-
-        // HashSet to keep track of visited nodes
-        HashSet<Integer> dekhahua = new HashSet<>(Arrays.asList(start));
-
-        // Variable to store the result
-        int jawab = -1;
-
-        // Performed BFS traversal
-        while(!q.isEmpty()) {
-            for (int s = q.size(); s > 0; s--) {
-                int t = q.poll();
-                // Skip if the node is not in the visualization
-                if (!visual.containsKey(t)) {
-                    continue;
-                }
-                // Enqueued neighbors of the current node
-                for (int n : visual.get(t)) {
-                    if (dekhahua.contains(n)) {
-                        continue; // Skip if the neighbor is already visited
-                    }
-                    dekhahua.add(n);
-                    q.offer(n);
-                }
-            }
-            jawab++;
+    
+    public int maxAncestorDiff(TreeNode root) {
+        // Checked if the tree is empty
+        if (root == null) {
+            return 0;
         }
-        return jawab;
+        // Called the helper method with the root and initial min/max values
+        return maxAncestorDiff(root, root.val, root.val);
     }
 
-    // Method to generate the visualization of the tree
-    void visualisation(TreeNode root) {
-        // Queue for BFS traversal
-        Queue<Pair<TreeNode, Integer>> q = new ArrayDeque<>(Arrays.asList(new Pair<>(root, -1)));
+    // Helper method to calculate the maximum ancestor difference recursively
+    static int maxAncestorDiff(TreeNode r, int chota, int bara) {
+        // Update the min and max values for the current path
+        chota = Math.min(chota, r.val);
+        bara = Math.max(bara, r.val);
 
-        // Initialized the HashMap
-        visual = new HashMap<>();
+        // Calculated the current difference between min and max values in the path
+        int currentDifference = bara - chota;
 
-        // Performed BFS traversal to generate the visualization
-        while (!q.isEmpty()) {
-            Pair<TreeNode, Integer> jora = q.poll();
-            TreeNode n = jora.getKey();
-            int p = jora.getValue();
-            if (p != -1) {
-                // Add edges to the visualization
-                visual.putIfAbsent(p, new ArrayList<>());
-                visual.putIfAbsent(n.val, new ArrayList<>());
-                visual.get(p).add(n.val);
-                visual.get(n.val).add(p);
-            }
-            // Enqueued left and right children for further exploration
-            if (n.right != null) {
-                q.add(new Pair<>(n.right, n.val));
-            }
-            if (n.left != null) {
-                q.add(new Pair<>(n.left, n.val));
-            }
+        // Initialized variables for maximum differences from left and right subtrees
+        int leftChildMax = 0;
+        int rightChildMax = 0;
+
+        // Recursively calculated the maximum difference from the left subtree
+        if (r.left != null) {
+            leftChildMax = maxAncestorDiff(r.left, chota, bara);
         }
+
+        // Recursively calculated the maximum difference from the right subtree
+        if (r.right != null) {
+            rightChildMax = maxAncestorDiff(r.right, chota, bara);
+        }
+
+        // Calculated the maximum difference among the current path and subtrees
+        int maxFromChild = Math.max(leftChildMax, rightChildMax);
+
+        // Returned the maximum difference among the current path and subtrees
+        return Math.max(maxFromChild, currentDifference);
     }
 }
 
