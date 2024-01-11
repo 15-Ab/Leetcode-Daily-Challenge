@@ -16,20 +16,20 @@ My code aims to find the maximum absolute difference between the values of any t
 # Approach
 <!-- Describe your approach to solving the problem. -->
 **Base Case:**
-   - If the root is null, return 0 as there are no nodes to compare.
+   - If the root is null, returned 0 as there are no nodes to compare.
 
 **Recursive Calculation:**
-   - The `maxAncestorDiff` method takes three parameters: the current node `r`, the minimum value encountered so far `chota`, and the maximum value encountered so far `bara`.
-   - Update `chota` and `bara` based on the current node's value.
-   - Calculate the current absolute difference (`currentDifference`) between `bara` and `chota`.
+   - My `maxAncestorDiff` method takes three parameters: the current node `r`, the minimum value encountered so far `chota`, and the maximum value encountered so far `bara`.
+   - Updated `chota` and `bara` based on the current node's value.
+   - Calculated the current absolute difference (`currentDifference`) between `bara` and `chota`.
 
 **Recursive Calls for Left and Right Subtrees:**
-   - Recursively call `maxAncestorDiff` on the left subtree if it exists and update `leftChildMax` with the result.
-   - Recursively call `maxAncestorDiff` on the right subtree if it exists and update `rightChildMax` with the result.
+   - Recursively called `maxAncestorDiff` on the left subtree if it exists and updated `leftChildMax` with the result.
+   - Recursively called `maxAncestorDiff` on the right subtree if it exists and updated `rightChildMax` with the result.
 
 **Calculate Maximum Difference:**
-   - Calculate the maximum difference from the left and right subtrees (`maxFromChild`).
-   - Return the maximum value among the current path and the subtrees.
+   - Calculated the maximum difference from the left and right subtrees (`maxFromChild`).
+   - Returned the maximum value among the current path and the subtrees.
 
 **Result:**
    - The result is the maximum absolute difference among the values of any two nodes in the same path from the root to a leaf.
