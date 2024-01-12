@@ -5,99 +5,71 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 11-01-24 [Problem Link](https://leetcode.com/problems/maximum-difference-between-node-and-ancestor/description/)
-## 1026. Maximum Difference Between Node and Ancestor
-
+## Today's 12-01-24 [Problem Link](https://leetcode.com/problems/determine-if-string-halves-are-alike/description/)
+## 1704. Determine if String Halves Are Alike
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-My code aims to find the maximum absolute difference between the values of any two nodes in the same path from the root to a leaf in a binary tree. It utilizes a recursive approach to traverse the tree while maintaining the minimum and maximum values encountered along the path.
+My code checks whether the two halves of a given string have an equal number of vowels. The comparison is case-insensitive, and the goal is to determine if the two halves are alike in terms of the number of vowels.
+
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-**Base Case:**
-   - If the root is null, returned 0 as there are no nodes to compare.
 
-**Recursive Calculation:**
-   - My `maxAncestorDiff` method takes three parameters: the current node `r`, the minimum value encountered so far `chota`, and the maximum value encountered so far `bara`.
-   - Updated `chota` and `bara` based on the current node's value.
-   - Calculated the current absolute difference (`currentDifference`) between `bara` and `chota`.
+**Converted to Lowercase:**
+   - I Convert the input string `s` to lowercase for case-insensitive comparison.
 
-**Recursive Calls for Left and Right Subtrees:**
-   - Recursively called `maxAncestorDiff` on the left subtree if it exists and updated `leftChildMax` with the result.
-   - Recursively called `maxAncestorDiff` on the right subtree if it exists and updated `rightChildMax` with the result.
+**Initialize Vowel Counter:**
+   - I initialized a counter variable `vowel` to keep track of the number of vowels.
 
-**Calculate Maximum Difference:**
-   - Calculated the maximum difference from the left and right subtrees (`maxFromChild`).
-   - Returned the maximum value among the current path and the subtrees.
+**Check First Half:**
+   - Iterated through the first half of the string (`s.length() / 2`).
+   - If the current character is a vowel ('a', 'e', 'i', 'o', 'u'), incremented the `vowel` counter.
 
-**Result:**
-   - The result is the maximum absolute difference among the values of any two nodes in the same path from the root to a leaf.
+**Check Second Half:**
+   - Iterated through the second half of the string (`s.length() / 2` to `s.length()`).
+   - If the current character is a vowel, decremented the `vowel` counter.
+
+**Check if Halves Are Alike:**
+   - If the `vowel` counter is zero after both iterations, return `true`, indicating that the two halves have an equal number of vowels.
 ---
 Have a look at the code , still have any confusion then please let me know in the comments Keep Solving.:)
+
 # Complexity
-- Time complexity : $O(n)$
+- Time complexity : $O(c)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-$n$ : number of nodes
-- Space complexity : $O(h)$
+ $c$ : number of characters in array
+- Space complexity : $O(1)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
-$h$ : height of tree
+
 # Code
 ```
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
 class Solution {
-    
-    public int maxAncestorDiff(TreeNode root) {
-        // Checked if the tree is empty
-        if (root == null) {
-            return 0;
-        }
-        // Called the helper method with the root and initial min/max values
-        return maxAncestorDiff(root, root.val, root.val);
-    }
+    public boolean halvesAreAlike(String s) {
+        // Converted the string to lowercase (Note: Strings in Java are immutable)
+        s = s.toLowerCase();
 
-    // Helper method to calculate the maximum ancestor difference recursively
-    static int maxAncestorDiff(TreeNode r, int chota, int bara) {
-        // Update the min and max values for the current path
-        chota = Math.min(chota, r.val);
-        bara = Math.max(bara, r.val);
+        // Initialized a counter for vowels
+        int vowel = 0;
 
-        // Calculated the current difference between min and max values in the path
-        int currentDifference = bara - chota;
-
-        // Initialized variables for maximum differences from left and right subtrees
-        int leftChildMax = 0;
-        int rightChildMax = 0;
-
-        // Recursively calculated the maximum difference from the left subtree
-        if (r.left != null) {
-            leftChildMax = maxAncestorDiff(r.left, chota, bara);
+        // Checked the first half of the string
+        for (int i = 0; i < s.length() / 2; i++) {
+            // If the current character is a vowel, incremented the vowel counter
+            if (s.charAt(i) == 'a' || s.charAt(i) == 'e' || s.charAt(i) == 'i' || s.charAt(i) == 'o' || s.charAt(i) == 'u') {
+                vowel++;
+            }
         }
 
-        // Recursively calculated the maximum difference from the right subtree
-        if (r.right != null) {
-            rightChildMax = maxAncestorDiff(r.right, chota, bara);
+        // Checked the second half of the string
+        for (int i = s.length() / 2; i < s.length(); i++) {
+            // If the current character is a vowel, decremented the vowel counter
+            if (s.charAt(i) == 'a' || s.charAt(i) == 'e' || s.charAt(i) == 'i' || s.charAt(i) == 'o' || s.charAt(i) == 'u') {
+                vowel--;
+            }
         }
 
-        // Calculated the maximum difference among the current path and subtrees
-        int maxFromChild = Math.max(leftChildMax, rightChildMax);
-
-        // Returned the maximum difference among the current path and subtrees
-        return Math.max(maxFromChild, currentDifference);
+        // If the vowel counter is 0, the two halves are alike; otherwise, they are not alike
+        return vowel == 0;
     }
 }
 
