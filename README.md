@@ -21,7 +21,9 @@ As the goal is to find the minimum number of steps required to make two strings,
    - If the character exists in the HashMap and has a positive frequency, decrement its frequency in the HashMap.
    - If the character is not found or has no remaining occurrences in the HashMap, increment the `extra` count.
 5. The final value of `extra` represents the minimum number of steps needed to make strings `s` and `t` anagrams.
-
+---
+Have a look at the code , still have any confusion then please let me know in the comments
+Keep Solving.:)
 
 # Complexity
 - Time complexity : $O(l)$
@@ -33,22 +35,35 @@ $l$ : length of string
 # Code
 ```
 class Solution {
+    
     public int minSteps(String s, String t) {
+        // Created a HashMap to store the frequency of characters in string s
         HashMap<Character, Integer> m = new HashMap<>();
-        for( char c : s.toCharArray()){
+        
+        // Counted the frequency of each character in string s
+        for (char c : s.toCharArray()) {
             m.putIfAbsent(c, 0);
-            m.put( c, m.getOrDefault(c, 0) + 1);
+            m.put(c, m.getOrDefault(c, 0) + 1);
         }
+        
+        // Variable to track the extra characters in string t
         int extra = 0;
-        for( char c : t.toCharArray()){
-            if( m.getOrDefault(c,0) > 0){
-                m.put( c, m.get(c) - 1);
-            }
-            else{
+        
+        // Checked characters in string t against the frequency in the HashMap
+        for (char c : t.toCharArray()) {
+            // If the character exists in the HashMap and has a positive frequency
+            if (m.getOrDefault(c, 0) > 0) {
+                // Decrease the frequency in the HashMap
+                m.put(c, m.get(c) - 1);
+            } else {
+                // If the character is not found or has no remaining occurrences in the HashMap, increment extra
                 extra++;
             }
         }
+        
+        // Returned the total count of extra characters in string t
         return extra;
     }
 }
+
 ```
