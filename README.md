@@ -5,7 +5,7 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 12-01-24 [Problem Link](https://leetcode.com/problems/minimum-number-of-steps-to-make-two-strings-anagram/description/?envType=daily-question&envId=2024-01-13)
+## Today's 13-01-24 [Problem Link](https://leetcode.com/problems/minimum-number-of-steps-to-make-two-strings-anagram/description/?envType=daily-question&envId=2024-01-13)
 ## 1347. Minimum Number of Steps to Make Two Strings Anagram
 
 # Intuition
