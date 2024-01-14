@@ -5,65 +5,78 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 13-01-24 [Problem Link](https://leetcode.com/problems/minimum-number-of-steps-to-make-two-strings-anagram/description/?envType=daily-question&envId=2024-01-13)
-## 1347. Minimum Number of Steps to Make Two Strings Anagram
+## Today's 14-01-24 [Problem Link](https://leetcode.com/problems/determine-if-two-strings-are-close/description/?envType=daily-question&envId=2024-01-14)
+## 1657. Determine if Two Strings Are Close
+
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-As the goal is to find the minimum number of steps required to make two strings, s and t, anagrams of each other. An anagram is a word or phrase formed by rearranging the letters of another. In this context, it means transforming one string into another by changing the order of its characters.
+As the goal of this code is to determine if two strings are "close." Two strings are considered "close" if they have the same set of characters and the frequency of each character is the same in both strings.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-1. Created a HashMap (`m`) to store the frequency of characters in string `s`.
-2. Iterated through each character in string `s` and update its frequency in the HashMap.
-3. Initialized a variable `extra` to track the number of extra characters needed in string `t` to make it an anagram of `s`.
-4. Iterated through each character in string `t`:
-   - If the character exists in the HashMap and has a positive frequency, decrement its frequency in the HashMap.
-   - If the character is not found or has no remaining occurrences in the HashMap, increment the `extra` count.
-5. The final value of `extra` represents the minimum number of steps needed to make strings `s` and `t` anagrams.
+-  Checked if the lengths of both input strings (`word1` and `word2`) are equal. If not, return `false` since strings of different lengths cannot be "close."
+
+- Created two HashMaps (`m1` and `m2`) to store the frequency of each character in `word1` and `word2` respectively.
+
+- Iterated through each character in `word1` and update the frequency in `m1`.
+
+- Iterated through each character in `word2` and update the frequency in `m2`.
+
+- Checked if the sets of characters in both HashMaps are equal. If not, return `false` since the characters must be the same for the strings to be "close."
+
+- Extracted the frequency lists from both HashMaps and sort them.
+
+- Checked if the sorted frequency lists are equal. If they are, return `true`; otherwise, return `false`.
 ---
 Have a look at the code , still have any confusion then please let me know in the comments
 Keep Solving.:)
 
 # Complexity
-- Time complexity : $O(l)$
+- Time complexity : $O(nlogn)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-$l$ : length of string
-- Space complexity : $O(l)$
+$n$ : size of array 
+- Space complexity : $O(n)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 
 # Code
 ```
 class Solution {
-    
-    public int minSteps(String s, String t) {
-        // Created a HashMap to store the frequency of characters in string s
-        HashMap<Character, Integer> m = new HashMap<>();
-        
-        // Counted the frequency of each character in string s
-        for (char c : s.toCharArray()) {
-            m.putIfAbsent(c, 0);
-            m.put(c, m.getOrDefault(c, 0) + 1);
+    public boolean closeStrings(String word1, String word2) {
+        // Checked if the lengths of the two words are different, they cannot be "close."
+        if (word1.length() != word2.length()) {
+            return false;
         }
-        
-        // Variable to track the extra characters in string t
-        int extra = 0;
-        
-        // Checked characters in string t against the frequency in the HashMap
-        for (char c : t.toCharArray()) {
-            // If the character exists in the HashMap and has a positive frequency
-            if (m.getOrDefault(c, 0) > 0) {
-                // Decrease the frequency in the HashMap
-                m.put(c, m.get(c) - 1);
-            } else {
-                // If the character is not found or has no remaining occurrences in the HashMap, increment extra
-                extra++;
-            }
+
+        // HashMaps to store character frequencies for each word.
+        HashMap<Character, Integer> m1 = new HashMap<>();
+        HashMap<Character, Integer> m2 = new HashMap<>();
+
+        // Counted character frequencies in word1.
+        for (char ch : word1.toCharArray()) {
+            m1.merge(ch, 1, Integer::sum);
         }
-        
-        // Returned the total count of extra characters in string t
-        return extra;
+
+        // Counted character frequencies in word2.
+        for (char ch : word2.toCharArray()) {
+            m2.merge(ch, 1, Integer::sum);
+        }
+
+        // Checked if the sets of characters are the same in both words.
+        if (!m1.keySet().equals(m2.keySet())) {
+            return false;
+        }
+
+        // Extracted frequency lists for each word.
+        ArrayList<Integer> f1 = new ArrayList<>(m1.values());
+        ArrayList<Integer> f2 = new ArrayList<>(m2.values());
+
+        // Sorted frequency lists.
+        Collections.sort(f1);
+        Collections.sort(f2);
+
+        // Checked if the sorted frequency lists are equal.
+        return f1.equals(f2);
     }
 }
-
 ```
