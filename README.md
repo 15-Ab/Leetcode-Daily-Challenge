@@ -60,8 +60,11 @@ Keep Solving.:)
 - Time complexity : $O(N + M + K*log(K))$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
 $N$ : number of matches 
+
 $M$ : number of players 
+
 $K$ : number of players who have lost only once
+
 $K*log(K)$ : sorting of lists
 
 - Space complexity : $O(M+K)$
