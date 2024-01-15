@@ -5,78 +5,119 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 14-01-24 [Problem Link](https://leetcode.com/problems/determine-if-two-strings-are-close/description/?envType=daily-question&envId=2024-01-14)
-## 1657. Determine if Two Strings Are Close
+## Today's 15-01-24 [Problem Link](https://leetcode.com/problems/find-players-with-zero-or-one-losses/description/?envType=daily-question&envId=2024-01-15)
+## 2225. Find Players With Zero or One Losses
 
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-As the goal of this code is to determine if two strings are "close." Two strings are considered "close" if they have the same set of characters and the frequency of each character is the same in both strings.
+My Java code aims to find the winners and players who have lost only once in a series of matches. It uses a HashMap to store the count of losses for each player and a HashSet to store the winners.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
--  Checked if the lengths of both input strings (`word1` and `word2`) are equal. If not, return `false` since strings of different lengths cannot be "close."
+###### HashMap and HashSet Initialization
 
-- Created two HashMaps (`m1` and `m2`) to store the frequency of each character in `word1` and `word2` respectively.
+- Initialized `loser` as a HashMap to store the count of losses for each player.
+- Initialized `winner` as a HashSet to store the winners.
 
-- Iterated through each character in `word1` and update the frequency in `m1`.
+###### Iterated through Matches
 
-- Iterated through each character in `word2` and update the frequency in `m2`.
+- For each match in the `matches` array:
+  - Add the first player of the match to the `winner` set.
+  - If the second player is not in the `loser` map, add it with a count of 1.
+  - If the second player is already in the `loser` map, increment its count by 1.
 
-- Checked if the sets of characters in both HashMaps are equal. If not, return `false` since the characters must be the same for the strings to be "close."
+###### Identified `Not Lost` Players
 
-- Extracted the frequency lists from both HashMaps and sort them.
+- Created a list `notlost` to store players who haven't lost.
+- Iterated through the `winner` set:
+  - If a player is not in the `loser` map, added them to the `notlost` list.
 
-- Checked if the sorted frequency lists are equal. If they are, return `true`; otherwise, return `false`.
+###### Identified Players `Lost Only` Once
+
+- Created a list `lostone` to store players who have lost only once.
+- Iterate through the `loser` map:
+  - If a player has lost only once (count = 1), added them to the `lostone` list.
+
+###### Sort Lists
+
+- Sorted both `notlost` and `lostone` lists.
+
+###### Created a Result List
+
+- Created a list of lists `jawab` to store the final result.
+- Added `notlost` and `lostone` lists to `jawab`.
+
+###### Return Result
+
+- Returned the `jawab` list containing the players who haven't lost and those who have lost only once.
 ---
 Have a look at the code , still have any confusion then please let me know in the comments
 Keep Solving.:)
 
+
 # Complexity
-- Time complexity : $O(nlogn)$
+- Time complexity : $O(N + M + K*log(K))$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-$n$ : size of array 
-- Space complexity : $O(n)$
+$N$ : number of matches 
+$M$ : number of players 
+$K$ : number of players who have lost only once
+$K*log(K)$ : sorting of lists
+
+- Space complexity : $O(M+K)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 
 # Code
 ```
 class Solution {
-    public boolean closeStrings(String word1, String word2) {
-        // Checked if the lengths of the two words are different, they cannot be "close."
-        if (word1.length() != word2.length()) {
-            return false;
+    public List<List<Integer>> findWinners(int[][] matches) {
+        // HashMap to store the count of losses for each player
+        HashMap<Integer, Integer> loser = new HashMap<>();
+        // HashSet to store the winners
+        HashSet<Integer> winner = new HashSet<>();
+
+        // Iterated through each match
+        for (int[] r : matches) {
+            // Added the first player of the match to the winner set
+            winner.add(r[0]);
+            // If the second player is not in the loser map, added it with a count of 1
+            // If the second player is already in the loser map, incremented its count by 1
+            loser.putIfAbsent(r[1], 0);
+            loser.put(r[1], loser.get(r[1]) + 1);
         }
 
-        // HashMaps to store character frequencies for each word.
-        HashMap<Character, Integer> m1 = new HashMap<>();
-        HashMap<Character, Integer> m2 = new HashMap<>();
+        // Lists to store players who haven't lost and those who have lost only once
+        List<Integer> notlost = new ArrayList<>();
+        List<Integer> lostone = new ArrayList<>();
 
-        // Counted character frequencies in word1.
-        for (char ch : word1.toCharArray()) {
-            m1.merge(ch, 1, Integer::sum);
+        // Iterated through the winner set
+        for (int w : winner) {
+            // If a player is not in the loser map, added them to the notlost list
+            if (!loser.containsKey(w)) {
+                notlost.add(w);
+            }
         }
 
-        // Counted character frequencies in word2.
-        for (char ch : word2.toCharArray()) {
-            m2.merge(ch, 1, Integer::sum);
+        // Iterated through the loser map
+        for (int lo : loser.keySet()) {
+            // If a player has lost only once (count = 1), added them to the lostone list
+            if (loser.get(lo) == 1) {
+                lostone.add(lo);
+            }
         }
 
-        // Checked if the sets of characters are the same in both words.
-        if (!m1.keySet().equals(m2.keySet())) {
-            return false;
-        }
+        // Sorted both notlost and lostone lists
+        Collections.sort(notlost);
+        Collections.sort(lostone);
 
-        // Extracted frequency lists for each word.
-        ArrayList<Integer> f1 = new ArrayList<>(m1.values());
-        ArrayList<Integer> f2 = new ArrayList<>(m2.values());
+        // List of lists to store the final result
+        List<List<Integer>> jawab = new ArrayList<>();
+        jawab.add(notlost);
+        jawab.add(lostone);
 
-        // Sorted frequency lists.
-        Collections.sort(f1);
-        Collections.sort(f2);
-
-        // Checked if the sorted frequency lists are equal.
-        return f1.equals(f2);
+        // Returned the result
+        return jawab;
     }
 }
+
 ```
