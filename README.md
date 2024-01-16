@@ -5,122 +5,114 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 15-01-24 [Problem Link](https://leetcode.com/problems/find-players-with-zero-or-one-losses/description/?envType=daily-question&envId=2024-01-15)
-## 2225. Find Players With Zero or One Losses
+## Today's 15-01-24 [Problem Link](https://leetcode.com/problems/insert-delete-getrandom-o1/description/?envType=daily-question&envId=2024-01-16)
+## 380. Insert Delete GetRandom O(1)
 
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-My Java code aims to find the winners and players who have lost only once in a series of matches. It uses a HashMap to store the count of losses for each player and a HashSet to store the winners.
+This `RandomizedSet` class aims to efficiently manage a set of unique integers while supporting insert, remove, and getRandom operations. The underlying data structure used by me is a HashSet, ensuring constant-time complexity for basic set operations.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-###### HashMap and HashSet Initialization
+#### `insert` Operation:
+   - **Objective:** Added a new element to the set if it doesn't already exist.
+   - **Implementation:**
+     - Checked if the element is already present in the HashSet (`h`).
+     - If not present, added the element to the HashSet.
 
-- Initialized `loser` as a HashMap to store the count of losses for each player.
-- Initialized `winner` as a HashSet to store the winners.
+#### `remove` Operation:
+   - **Objective:** Removed a specified element from the set if it exists.
+   - **Implementation:**
+     - Checked if the element is present in the HashSet.
+     - If present, removed the element.
 
-###### Iterated through Matches
+#### `getRandom` Operation:
+   - **Objective:** Returned a random element from the set.
+   - **Implementation:**
+     - Generated a random index (`ri`) within the size of the HashSet.
+     - Iterated through the HashSet using an iterator.
+     - When the iterator reaches the element at index `ri`, returned that element.
 
-- For each match in the `matches` array:
-  - Add the first player of the match to the `winner` set.
-  - If the second player is not in the `loser` map, add it with a count of 1.
-  - If the second player is already in the `loser` map, increment its count by 1.
-
-###### Identified `Not Lost` Players
-
-- Created a list `notlost` to store players who haven't lost.
-- Iterated through the `winner` set:
-  - If a player is not in the `loser` map, added them to the `notlost` list.
-
-###### Identified Players `Lost Only` Once
-
-- Created a list `lostone` to store players who have lost only once.
-- Iterate through the `loser` map:
-  - If a player has lost only once (count = 1), added them to the `lostone` list.
-
-###### Sort Lists
-
-- Sorted both `notlost` and `lostone` lists.
-
-###### Created a Result List
-
-- Created a list of lists `jawab` to store the final result.
-- Added `notlost` and `lostone` lists to `jawab`.
-
-###### Return Result
-
-- Returned the `jawab` list containing the players who haven't lost and those who have lost only once.
+#### Key Points:
+   - The use of a HashSet ensures uniqueness and constant-time complexity for insert and remove operations.
+   - The getRandom operation leverages the fact that HashSet doesn't guarantee any specific order, allowing random access with constant time.
+   - The random index is generated using `Random().nextInt(h.size())`.
 ---
 Have a look at the code , still have any confusion then please let me know in the comments
 Keep Solving.:)
 
 
 # Complexity
-- Time complexity : $O(N + M + K*log(K))$
+- Time complexity : $O(1)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-$N$ : number of matches 
 
-$M$ : number of players 
-
-$K$ : number of players who have lost only once
-
-$K*log(K)$ : sorting of lists
-
-- Space complexity : $O(M+K)$
+- Space complexity : $O(n)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
+$n$ : number of unique elements stored in the HashSet
 
 # Code
 ```
-class Solution {
-    public List<List<Integer>> findWinners(int[][] matches) {
-        // HashMap to store the count of losses for each player
-        HashMap<Integer, Integer> loser = new HashMap<>();
-        // HashSet to store the winners
-        HashSet<Integer> winner = new HashSet<>();
+class RandomizedSet {
 
-        // Iterated through each match
-        for (int[] r : matches) {
-            // Added the first player of the match to the winner set
-            winner.add(r[0]);
-            // If the second player is not in the loser map, added it with a count of 1
-            // If the second player is already in the loser map, incremented its count by 1
-            loser.putIfAbsent(r[1], 0);
-            loser.put(r[1], loser.get(r[1]) + 1);
+    // HashSet to store unique integers
+    static HashSet<Integer> h;
+
+    // Constructor initializes the HashSet
+    public RandomizedSet() {
+        h = new HashSet<>();
+    }
+    
+    // Method to insert a value into the set
+    public boolean insert(int val) {
+        // If the set already contains the value, returned false (no insertion)
+        if (h.contains(val)) {
+            return false;
+        } else {
+            // Otherwise, added the value to the set and returned true (insertion successful)
+            h.add(val);
+            return true;
         }
+    }
+    
+    // Method to remove a value from the set
+    public boolean remove(int val) {
+        // If the set contains the value, removed it and return true (removal successful)
+        if (h.contains(val)) {
+            h.remove(val);
+            return true;
+        } else {
+            // Otherwise, returned false (value not present, no removal)
+            return false;
+        }
+    }
+    
+    // Method to get a random element from the set
+    public int getRandom() {
+        // Generated a random index within the size of the set
+        int randomIndex = new Random().nextInt(h.size());
+        int currentIndex = 0;
 
-        // Lists to store players who haven't lost and those who have lost only once
-        List<Integer> notlost = new ArrayList<>();
-        List<Integer> lostone = new ArrayList<>();
-
-        // Iterated through the winner set
-        for (int w : winner) {
-            // If a player is not in the loser map, added them to the notlost list
-            if (!loser.containsKey(w)) {
-                notlost.add(w);
+        // Iterated over the set to find the element at the random index
+        for (int element : h) {
+            // If the current index matches the random index, returned the element
+            if (currentIndex == randomIndex) {
+                return element;
             }
+            currentIndex++;
         }
 
-        // Iterated through the loser map
-        for (int lo : loser.keySet()) {
-            // If a player has lost only once (count = 1), added them to the lostone list
-            if (loser.get(lo) == 1) {
-                lostone.add(lo);
-            }
-        }
-
-        // Sorted both notlost and lostone lists
-        Collections.sort(notlost);
-        Collections.sort(lostone);
-
-        // List of lists to store the final result
-        List<List<Integer>> jawab = new ArrayList<>();
-        jawab.add(notlost);
-        jawab.add(lostone);
-
-        // Returned the result
-        return jawab;
+        // Returned -1 if the set is empty or for any other unexpected condition
+        return -1;
     }
 }
+
+/**
+ * Your RandomizedSet object will be instantiated and called as such:
+ * RandomizedSet obj = new RandomizedSet();
+ * boolean param_1 = obj.insert(val);
+ * boolean param_2 = obj.remove(val);
+ * int param_3 = obj.getRandom();
+ */
 
 ```
