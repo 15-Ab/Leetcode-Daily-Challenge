@@ -5,7 +5,7 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 15-01-24 [Problem Link](https://leetcode.com/problems/insert-delete-getrandom-o1/description/?envType=daily-question&envId=2024-01-16)
+## Today's 16-01-24 [Problem Link](https://leetcode.com/problems/insert-delete-getrandom-o1/description/?envType=daily-question&envId=2024-01-16)
 ## 380. Insert Delete GetRandom O(1)
 
 
