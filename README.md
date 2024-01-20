@@ -15,25 +15,31 @@ The goal is to find the sum of minimums for all subarrays of the given array. To
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-**Initialize Stacks and Arrays :**
+**My initialized Stacks and Arrays :**
 - Created two stacks (`l` and `r`) to keep track of indices for elements to the left and right.
 - Initialized two arrays (`baya` and `daya`) to store the count of elements to the left and right, respectively.
+
+
 **Process Elements to the Left (`l` Stack) :**
 - Iterated through the array from left to right.
 - Used the stack `l` to keep track of indices of elements encountered.
 - For each element, popped elements from the stack until finding an element greater than the current one.
 - Updated the `baya` array with the count of elements to the left.
+
 **Process Elements to the Right (`r` Stack) :**
 - Iterated through the array from right to left.
 - Used the stack `r` to keep track of indices of elements encountered.
 - For each element, popped elements from the stack until finding an element greater than or equal to the current one.
 - Updated the `daya` array with the count of elements to the right.
+
 **Calculate Sum of Minimums :**
 - Iterated through the array.
 - For each element, calculated the product of counts from `baya`, `daya`, and the element itself.
 - Accumulated the products to obtain the sum of minimums.
+
 **Applied Modulo Operation :**
 - To avoid integer overflow, applied the modulo operation (1,000,000,007) to the sum.
+
 **Returned the Result :**
 Returned the final sum of minimums after the modulo operation.
 ---
