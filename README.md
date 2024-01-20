@@ -32,8 +32,8 @@ The goal is to find the sum of minimums for all subarrays of the given array. To
 - For each element, popped elements from the stack until finding an element greater than or equal to the current one.
 - Updated the `daya` array with the count of elements to the right.
 
-**Calculate Sum of Minimums :**
-- Iterated through the array.
+**Calculated Sum of Minimums :**
+- I iterated through the array.
 - For each element, calculated the product of counts from `baya`, `daya`, and the element itself.
 - Accumulated the products to obtain the sum of minimums.
 
