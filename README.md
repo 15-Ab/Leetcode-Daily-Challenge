@@ -25,7 +25,7 @@ This is my attempt to make the coding experience easier for you guys so that you
 - Found the positive element in the array, which corresponds to the missing element.
 
 **Result Array :**
-- Created an array `jawab` to store the identified duplicate and missing elements.
+- Created an array `jawab` in start to store the identified duplicate and missing elements.
 
 **Return Result :**
    - Returned the `jawab` array as the final output.
