@@ -5,29 +5,30 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 21-01-24 [Problem Link](https://leetcode.com/problems/house-robber/description/?envType=daily-question&envId=2024-01-21)
+## Today's 22-01-24 [Problem Link](https://leetcode.com/problems/house-robber/description/?envType=daily-question&envId=2024-01-21)
 ## 198. House Robber
 
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-My Java code aims to find the maximum amount that can be robbed from an array of houses, where adjacent houses cannot be robbed simultaneously.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-**Base Cases :**
-- Handled base cases for arrays with lengths 0, 1, 2, and 3.
+**Marked the Elements :**
+- Iterated through the array.
+- Marked the presence of elements by changing the sign of the element at the index equal to the absolute value of the current element.
 
-**Initialization :**
-- Initialized a pointer `p` to track the position in the array.
-- Updated the value at index 2 by adding the value at index 0.
+**Identified Duplicate :**
+- If the element at the calculated index is already negative, it means the absolute value of the current element is a duplicate.
 
-**Dynamic Programming :**
-- Iterated from index 3 to the end of the array.
-- Updated the value at the current index by adding the maximum of the values at indices `i-2` and `i-3`.
+**Identifying Missing :**
+- Found the positive element in the array, which corresponds to the missing element.
 
-**Result Calculation :**
-- Returned the maximum value between the last two elements of the modified array.
+**Result Array :**
+- Created an array 'result' to store the identified duplicate and missing elements.
+
+**Return Result :**
+   - Returned the 'result' array as the final output.
 
 ---
 Have a look at the code , still have any confusion then please let me know in the comments
@@ -35,43 +36,44 @@ Keep Solving.:)
 # Complexity
 - Time complexity : $O(l)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-$l$ : length of the input array
+$l$ : length of array
 - Space complexity : $O(1)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 
 # Code
 ```
-public class Solution {
-    
-    public int rob(int[] nums) {
+class Solution {
 
-        // Base cases for small arrays
-        if (nums.length == 0) {
-            return 0;
-        }
-        if (nums.length == 1) {
-            return nums[0];
-        }
-        if (nums.length == 2) {
-            return Math.max(nums[0], nums[1]);
-        }
-        if (nums.length == 3) {
-            return Math.max(nums[0] + nums[2], nums[1]);
-        }
+    // Variables to store the duplicate, missing, and the final result
+    static int duplicate;
+    static int missing;
+    static int[] result = new int[2];
 
-        // Initializing a pointer 'p' to track the position
-        int p = 0;
-        // Updating the value at index 2 by adding the value at index 0
-        nums[2] += nums[0];
+    public int[] findErrorNums(int[] nums) {
 
-        // Iterating from index 3 to the end of the array
-        for (int i = 3; i < nums.length; i++) {
-            // Updating the value at the current index by adding the maximum of the two preceding values
-            nums[i] += Math.max(nums[i - 2], nums[i - 3]);
+        // Iterating through the array
+        for (int s : nums) {
+            // Marking the element at the index equal to the absolute value of 's' as negative
+            if (nums[Math.abs(s) - 1] > 0) {
+                nums[Math.abs(s) - 1] *= -1;
+            } else {
+                // If the element is already negative, it is the duplicate
+                duplicate = Math.abs(s);
+            }
         }
-
-        // Returning the maximum value between the last two elements of the modified array
-        return Math.max(nums[nums.length - 1], nums[nums.length - 2]);
+        
+        // Finding the positive element in the array, which corresponds to the missing element
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] > 0) {
+                missing = i + 1;
+                break;
+            }
+        }
+        
+        // Storing the results in the 'result' array
+        result[0] = duplicate;
+        result[1] = missing;
+        return result;
     }
 }
 
