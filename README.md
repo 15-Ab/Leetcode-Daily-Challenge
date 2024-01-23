@@ -5,75 +5,104 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 22-01-24 [Problem Link](https://leetcode.com/problems/set-mismatch/description/?envType=daily-question&envId=2024-01-22)
-## 645. Set Mismatch
+## Today's 23-01-24 [Problem Link](https://leetcode.com/problems/maximum-length-of-a-concatenated-string-with-unique-characters/description/?envType=daily-question&envId=2024-01-23)
+## 1239. Maximum Length of a Concatenated String with Unique Characters
 
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
+As this problem aims to find the maximum length of a concatenated string with unique characters. To achieve this, I need to explore all possible combinations of strings and select those with unique characters. This involves using a bitmask approach to represent the set of characters present in a string efficiently.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-**Marked the Elements :**
-- Iterated through the array.
-- Marked the presence of elements by changing the sign of the element at the index equal to the absolute value of the current element.
+**Initialized a Data Structures :**
+- Created an ArrayList `masks` to store the masks of valid strings (strings with unique characters).
+   
+**Generated Masks :**
+- Iterated through the input strings (`arr`) and use the `getMask` function to obtain the mask for each string.
+- Added valid masks to the `masks` ArrayList.
 
-**Identified Duplicate :**
-- If the element at the calculated index is already negative, it means the absolute value of the current element is a duplicate.
+**Depth-First Search (DFS) :**
+- Implemented the DFS function (`dfs`) to explore all possible combinations of masks and find the maximum length.
+- Started DFS from index 0 with an initially empty set (`used`).
 
-**Identifying Missing :**
-- Found the positive element in the array, which corresponds to the missing element.
+**DFS Exploration :**
+- For each mask, checked if it can be added to the current combination (`used`).
+- If yes, updated the result (`res`) with the maximum length obtained by adding the current mask.
 
-**Result Array :**
-- Created an array `jawab` in start to store the identified duplicate and missing elements.
+**Result :**
+- The final result is the count of set bits in the `used` mask, representing the maximum length of a concatenated string with unique characters.
 
-**Return Result :**
-   - Returned the `jawab` array as the final output.
+**Helper Function (`getMask`) :**
+- The `getMask` function converts a string into a bitmask, where each bit corresponds to a character's presence.
+- Returns -1 if the string has duplicate characters, indicating it is not a valid mask.
 
 ---
 Have a look at the code , still have any confusion then please let me know in the comments
 Keep Solving.:)
 # Complexity
-- Time complexity : $O(l)$
+- Time complexity : $O(2^n)$ 
+
+$n$ : number of valid masks.
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-$l$ : length of array
-- Space complexity : $O(1)$
+
+- Space complexity : $O(2^n)$ 
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 
 # Code
 ```
+import java.util.ArrayList;
+import java.util.List;
+
 class Solution {
 
-    // Variables to store the duplicate, missing, and the final result
-    static int duplicate;
-    static int missing;
-    static int[] result = new int[2];
+    // ArrayList to store the masks of valid strings
+    static ArrayList<Integer> masks;
 
-    public int[] findErrorNums(int[] nums) {
+    public int maxLength(List<String> arr) {
+        masks = new ArrayList<>();
 
-        // Iterating through the array
-        for (int s : nums) {
-            // Marking the element at the index equal to the absolute value of 's' as negative
-            if (nums[Math.abs(s) - 1] > 0) {
-                nums[Math.abs(s) - 1] *= -1;
-            } else {
-                // If the element is already negative, it is the duplicate
-                duplicate = Math.abs(s);
+        // Iterating through the input strings and get their masks, add valid masks to the ArrayList
+        for (String s : arr) {
+            int mask = getMask(s);
+            if (mask != -1) {
+                masks.add(mask);
             }
         }
-        
-        // Finding the positive element in the array, which corresponds to the missing element
-        for (int i = 0; i < nums.length; i++) {
-            if (nums[i] > 0) {
-                missing = i + 1;
-                break;
+
+        // Calling the DFS function starting from index 0 with an initially empty set
+        return dfs(0, 0);
+    }
+
+    // DFS function to explore all possible combinations of masks
+    static int dfs(int s, int used) {
+        // Initialize the result with the count of set bits in the 'used' mask
+        int res = Integer.bitCount(used);
+
+        // Iterating through the masks and explore valid combinations
+        for (int i = s; i < masks.size(); i++) {
+            // Checking if the current mask can be added to the combination
+            if ((used & masks.get(i)) == 0) {
+                // Updating the result with the maximum length obtained by adding the current mask
+                res = Math.max(res, dfs(i + 1, used | masks.get(i)));
             }
         }
-        
-        // Storing the results in the 'result' array
-        result[0] = duplicate;
-        result[1] = missing;
-        return result;
+        return res;
+    }
+
+    // Helper function to get the mask of a string, returns -1 if the string has duplicate characters
+    static int getMask(String s) {
+        int mask = 0;
+        for (char c : s.toCharArray()) {
+            int i = c - 'a';
+            // Checking for duplicate characters in the string
+            if ((mask & (1 << i)) != 0) {
+                return -1;
+            }
+            // Set the corresponding bit for the character in the mask
+            mask |= 1 << i;
+        }
+        return mask;
     }
 }
 
