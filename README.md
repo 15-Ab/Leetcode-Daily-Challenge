@@ -5,104 +5,114 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 23-01-24 [Problem Link](https://leetcode.com/problems/maximum-length-of-a-concatenated-string-with-unique-characters/description/?envType=daily-question&envId=2024-01-23)
-## 1239. Maximum Length of a Concatenated String with Unique Characters
+## Today's 24-01-24 [Problem Link](https://leetcode.com/problems/pseudo-palindromic-paths-in-a-binary-tree/description/?envType=daily-question&envId=2024-01-24)
+## 1457. Pseudo-Palindromic Paths in a Binary Tree
 
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-As this problem aims to find the maximum length of a concatenated string with unique characters. To achieve this, I need to explore all possible combinations of strings and select those with unique characters. This involves using a bitmask approach to represent the set of characters present in a string efficiently.
+The goal is to find the number of pseudo-palindromic paths in a binary tree. A pseudo-palindromic path is a path where the frequency of each digit in the path is such that at most one digit has an odd frequency, making it possible to form a palindrome.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-**Initialized a Data Structures :**
-- Created an ArrayList `masks` to store the masks of valid strings (strings with unique characters).
+##### TreeNode Class :
+   - My code starts with the definition of a `TreeNode` class representing a node in the binary tree.
+
+##### Main Solution Class :
+   - The `Solution` class contains a static variable `jawab` to store the final result.
+
+   - The `pseudoPalindromicPaths` method initialized the result variable and calls the helper method to traverse the tree and find paths.
+
+##### Helper Method :
+   - The `helper` method is my recursive function that traversed the binary tree.
    
-**Generated Masks :**
-- Iterated through the input strings (`arr`) and use the `getMask` function to obtain the mask for each string.
-- Added valid masks to the `masks` ArrayList.
+   - For each node encountered :
+     - It XORs the current node's value with the bitmask `rasta`.
+     - If the node is a leaf node :
+       - It checked if the updated bitmask has at most one set bit, indicating a pseudo-palindromic path.
+       - If true, incremented the result variable `jawab`.
+     - Recursively called itself for the left and right children, updating the bitmask accordingly.
 
-**Depth-First Search (DFS) :**
-- Implemented the DFS function (`dfs`) to explore all possible combinations of masks and find the maximum length.
-- Started DFS from index 0 with an initially empty set (`used`).
+##### Bitmask :
+   - The bitmask `rasta` is used to keep track of the frequency of digits encountered in the path.
+   
+   - XOR operation is used to toggle the bit corresponding to the current node's value.
 
-**DFS Exploration :**
-- For each mask, checked if it can be added to the current combination (`used`).
-- If yes, updated the result (`res`) with the maximum length obtained by adding the current mask.
+   - The expression `((rasta - 1) & rasta) == 0` checks if the updated bitmask has at most one set bit, ensuring the pseudo-palindromic property.
 
-**Result :**
-- The final result is the count of set bits in the `used` mask, representing the maximum length of a concatenated string with unique characters.
-
-**Helper Function (`getMask`) :**
-- The `getMask` function converts a string into a bitmask, where each bit corresponds to a character's presence.
-- Returns -1 if the string has duplicate characters, indicating it is not a valid mask.
+##### Result :
+   - The final result is the count of pseudo-palindromic paths, stored in the `jawab` variable.
 
 ---
 Have a look at the code , still have any confusion then please let me know in the comments
 Keep Solving.:)
+
 # Complexity
-- Time complexity : $O(2^n)$ 
-
-$n$ : number of valid masks.
+- Time complexity : $O(N)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-
-- Space complexity : $O(2^n)$ 
+$N$ : number of nodes in the binary tree, as each node is visited once.
+- Space complexity : $O(H)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
+$H$ : height of the binary tree, due to the recursion stack
 
 # Code
 ```
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
 class Solution {
 
-    // ArrayList to store the masks of valid strings
-    static ArrayList<Integer> masks;
+    // Static variable to store the result
+    static int jawab;
 
-    public int maxLength(List<String> arr) {
-        masks = new ArrayList<>();
+    public int pseudoPalindromicPaths (TreeNode root) {
+        // Initializing the result variable
+        jawab = 0;
 
-        // Iterating through the input strings and get their masks, add valid masks to the ArrayList
-        for (String s : arr) {
-            int mask = getMask(s);
-            if (mask != -1) {
-                masks.add(mask);
-            }
-        }
+        // Calling the helper function to traverse the tree and find paths
+        helper(0, root);
 
-        // Calling the DFS function starting from index 0 with an initially empty set
-        return dfs(0, 0);
+        // Returning the final result
+        return jawab;
     }
 
-    // DFS function to explore all possible combinations of masks
-    static int dfs(int s, int used) {
-        // Initialize the result with the count of set bits in the 'used' mask
-        int res = Integer.bitCount(used);
-
-        // Iterating through the masks and explore valid combinations
-        for (int i = s; i < masks.size(); i++) {
-            // Checking if the current mask can be added to the combination
-            if ((used & masks.get(i)) == 0) {
-                // Updating the result with the maximum length obtained by adding the current mask
-                res = Math.max(res, dfs(i + 1, used | masks.get(i)));
-            }
+    // Helper function to recursively traverse the tree and find paths
+    static void helper(int rasta, TreeNode r) {
+        // Base case: If the current node is null, return
+        if (r == null) {
+            return;
         }
-        return res;
-    }
 
-    // Helper function to get the mask of a string, returns -1 if the string has duplicate characters
-    static int getMask(String s) {
-        int mask = 0;
-        for (char c : s.toCharArray()) {
-            int i = c - 'a';
-            // Checking for duplicate characters in the string
-            if ((mask & (1 << i)) != 0) {
-                return -1;
+        // Checking if the current node is a leaf node
+        if (r.left == null && r.right == null) {
+            // Update=ing the bitmask by toggling the bit corresponding to the current node's value
+            rasta ^= 1 << r.val;
+
+            // Checking if the updated bitmask has at most one set bit
+            if (((rasta - 1) & rasta) == 0) {
+                // If true, incrementing the result variable
+                jawab++;
             }
-            // Set the corresponding bit for the character in the mask
-            mask |= 1 << i;
+
+            // Returning after processing the leaf node
+            return;
         }
-        return mask;
+
+        // Recursively calling the helper function for the left and right children
+        helper(rasta ^ 1 << r.val, r.left);
+        helper(rasta ^ 1 << r.val, r.right);
     }
 }
 
