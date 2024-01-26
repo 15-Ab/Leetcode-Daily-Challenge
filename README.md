@@ -1,4 +1,4 @@
-# Celebrating Unity in Diversity: Happy Republic Day ! :smile: 
+# Celebrating Unity in Diversity: Happy Republic Day ! 🇮🇳: 
 
 
 # Leetcode Daily Challenge Solutions
