@@ -1,4 +1,4 @@
-# Celebrating Unity in Diversity: Happy Republic Day ! :india: [<img src="https://images.emojiterra.com/google/noto-emoji/unicode-15.1/color/svg/1f1ee-1f1f3.svg">](http://example.com/)
+# Celebrating Unity in Diversity: Happy Republic Day ! :smile: 
 
 
 # Leetcode Daily Challenge Solutions
