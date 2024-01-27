@@ -1,6 +1,3 @@
-# Celebrating Unity in Diversity: Happy Republic Day ! :india:
-
-
 # Leetcode Daily Challenge Solutions
 
 This is my attempt to make the coding experience easier for you guys so that you can easily learn what to do in today's leetcode challenge.
