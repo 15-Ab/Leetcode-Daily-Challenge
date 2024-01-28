@@ -5,77 +5,99 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 27-01-24 [Problem Link](https://leetcode.com/problems/k-inverse-pairs-array/description/?envType=daily-question&envId=2024-01-27)
-## 629. K Inverse Pairs Array
+## Today's 28-01-24 [Problem Link](https://leetcode.com/problems/number-of-submatrices-that-sum-to-target/description/?envType=daily-question&envId=2024-01-28)
+## 1074. Number of Submatrices That Sum to Target
 
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-This problem requires counting the number of permutations of numbers from 1 to n with a given number of inverse pairs. An inverse pair in a permutation (a[i], a[j]) is defined as (i < j and a[i] > a[j]). The goal is to find the count of permutations with a specific number of inverse pairs.
-
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-**Base Case :** 
-  - When j is 0 (no inverse pairs), there is only one way to arrange the numbers, i.e., the ascending order. So, gp[i][0] is set to 1 for all i.
+**Initialized Variables :**
+   - `jawab`: A static variable to store the final result.
+   - `r`: Number of rows in the matrix.
+   - `c`: Number of columns in the matrix.
+   - `m`: A HashMap to store cumulative sum frequencies.
 
-**Dynamic Programming Transition :**
-   - For each i and j, I updated the gp[i][j] using the following recurrence relation:
-     ```
-     gp[i][j] = (gp[i][j - 1] + gp[i - 1][j]) % MOD;
-     ```
-     This accounted for permutations with the same number of inverse pairs as the previous step.
-   
-   - Additionally, if (j - i) is non-negative, I subtracted the count of permutations with (j - i) inverse pairs to avoid double counting:
-     ```
-     gp[i][j] = (gp[i][j] - gp[i - 1][j - i] + MOD) % MOD;
-     ```
+**Calculated Cumulative Sums :**
+   - Iterated over each row in the matrix and calculated cumulative sums for each element in that row. This is done to efficiently compute the sum of submatrices.
 
-**Result :**
-   - The final result is stored in `gp[n][k]`, representing the count of permutations of numbers 1 to n with k inverse pairs.
+**Iterated Over Column Combinations :**
+   - Used two nested loops to iterate over all possible combinations of columns (ic and j).
+   - For each column combination, initialized the HashMap (`m`) to store cumulative sum frequencies.
+
+**Calculate Cumulative Sums for Submatrices :**
+   - Iterated over each row to calculate the cumulative sum (`jor`) for submatrices.
+   - Adjusted the cumulative sum if `ic` is greater than 0 (not the first column).
+
+**Updated Result and HashMap :**
+   - Updated the result (`jawab`) by adding the frequency of the target cumulative sum found in the HashMap.
+   - Updated the HashMap with the current cumulative sum and its frequency.
+
+**Return Result :**
+   - Returned the final result, which represents the count of submatrices with the target sum.
+
+My approach leverages cumulative sums and dynamic programming to efficiently count submatrices with a target sum, making it an optimized solution.
 
 ---
 Have a look at the code , still have any confusion then please let me know in the comments
 Keep Solving.:)
-
-
 # Complexity
-- Time complexity : $O(n*k)$
+- Time complexity : $O(r * c^2)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
+$r$ : number of rows in the matrix
 
-- Space complexity : $O(n*k)$
+$c$ : number of columns in the matrix
+- Space complexity : $O(c)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 
 # Code
 ```
+
 class Solution {
-    static int MOD = 1_000_000_007;
+    static int jawab; // Static variable to store the final result
+    static int r;     // Number of rows in the matrix
+    static int c;     // Number of columns in the matrix
+    static HashMap<Integer, Integer> m; // HashMap to store the cumulative sum frequencies
 
-    // Function to calculate the number of arrays with k inverse pairs
-    public int kInversePairs(int n, int k) {
-        // gp[i][j] representing the number of arrays of length i with j inverse pairs
-        int[][] gp = new int[n + 1][k + 1];
-
-        // Base case: If there are no inverse pairs (j=0), there is only one array (empty array).
-        for (int i = 0; i <= n; i++) {
-            gp[i][0] = 1;
-        }
-
-        // Dynamic Programming to fill the gp array
-        for (int i = 1; i <= n; ++i) {
-            for (int j = 1; j <= k; ++j) {
-                // Calculating the number of arrays with j inverse pairs
-                gp[i][j] = (gp[i][j - 1] + gp[i - 1][j]) % MOD;
-                
-                // If j - i is non-negative, subtracting the count of arrays with (j - i) inverse pairs
-                if (j - i >= 0) {
-                    gp[i][j] = (gp[i][j] - gp[i - 1][j - i] + MOD) % MOD;
-                }
+    public int numSubmatrixSumTarget(int[][] matrix, int target) {
+        jawab = 0; // Initialize the result to 0
+        r = matrix.length; // Number of rows in the matrix
+        c = matrix[0].length; // Number of columns in the matrix
+        
+        // Calculating the cumulative sum for each row
+        for (int[] p : matrix) {
+            for (int j = 1; j < c; j++) {
+                p[j] += p[j - 1];
             }
         }
 
-        // Returning the result, which represents the number of arrays of length n with k inverse pairs
-        return gp[n][k];
+        // Iterating over all possible column combinations
+        for (int ic = 0; ic < c; ic++) {
+            for (int j = ic; j < c; j++) {
+                m = new HashMap<>(); // Initializing the HashMap for each column combination
+                m.put(0, 1); // Initializing the HashMap with the base case (cumulative sum = 0, frequency = 1)
+                int jor = 0; // Initializing the cumulative sum variable
+
+                // Iterating over each row to calculate the cumulative sum
+                for (int p = 0; p < r; p++) {
+                    jor += matrix[p][j];
+                    
+                    // Adjusting the cumulative sum if ic > 0 (not the first column)
+                    if (ic > 0) {
+                        jor -= matrix[p][ic - 1];
+                    }
+
+                    // Updating the result with the frequency of the target cumulative sum
+                    jawab += m.getOrDefault(jor - target, 0);
+                    
+                    // Updating the HashMap with the current cumulative sum
+                    m.merge(jor, 1, Integer::sum);
+                }
+            }
+        }
+        return jawab; // Returning the final result
     }
 }
 
