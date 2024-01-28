@@ -11,6 +11,7 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
+The problem is finding the number of submatrices in a given matrix whose sum is equal to a target value. 
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
