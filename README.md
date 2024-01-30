@@ -5,81 +5,104 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 29-01-24 [Problem Link](https://leetcode.com/problems/implement-queue-using-stacks/description/?envType=daily-question&envId=2024-01-29)
-## 232. Implement Queue using Stacks
+## Today's 30-01-24 [Problem Link](https://leetcode.com/problems/evaluate-reverse-polish-notation/description/?envType=daily-question&envId=2024-01-30)
+## 150. Evaluate Reverse Polish Notation
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-My code implements a queue data structure using two stacks (`andar` and `bahar`). A queue follows the First-In-First-Out (FIFO) principle, and stacks follow the Last-In-First-Out (LIFO) principle. By utilizing two stacks cleverly, I can simulate the behavior of a queue efficiently.
+Given an expression in Reverse Polish Notation (RPN), I evaluated the expression and return the result.
+
+My solution uses a stack to keep track of the numeric values during the evaluation of the RPN expression.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-**Initialization :**
-  - Two stacks, andar and bahar, represent the input and output of the queue.
+**Initialized the Stack :** Created a stack to store numeric values.
 
-**Push Operation (push method) :**
-  - Added elements to the input stack (andar), representing the enqueue operation.
+**Iterated Through Tokens :** Loop through each token in the RPN expression.
+  - If the token is a numeric value, pushed it onto the stack.  
+  - If the token is an operator (+, -, *, /), poped two values from the stack, performed the operation, and pushed the result back onto the stack.
 
-**Pop Operation (pop method) :**
-  - Ensured the output stack (bahar) is populated before popping an element.
-  - Called the peek method to populate the output stack if needed and then pops the front element.
+**Final Result :** After processing all tokens, the final result is the only element remaining in the stack. Poped it and returned.
 
-**Peek Operation (peek method) :**
-  - Transferred elements from the input stack to the output stack if the output stack is empty.
-  - Ensured the front element of the queue is always at the top of the output stack.
-  - Returned the front element without removing it.
+##### Helper Method
+My solution includes a helper method `isNumeric` to check if a given string represents a numeric value.
 
-**Empty Check (empty method) :**
-  - Checked if both the input and output stacks are empty, indicating an empty queue.
-  - 
-My implementation provides an efficient way to simulate the behavior of a queue using two stacks while maintaining the FIFO order of elements.
+My approach leverages the stack data structure to efficiently process and evaluate the RPN expression, handling both numeric values and operators appropriately.
+
+---
+Have a look at the code , still have any confusion then please let me know in the comments
+Keep Solving.:)
+
 
 # Complexity
-- Time complexity : $O(1)$
+- Time complexity : $O(t)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
+$t$ : number of tokens in the input expression
 
-- Space complexity : $O(e)$
+- Space complexity : $O(t)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
-$e$ : number of elements in the queue
 
 # Code
 ```
-import java.util.ArrayDeque;
-import java.util.Deque;
+class Solution {
 
-// Implementation of a queue using two stacks
-class MyQueue {
-  // Two stacks to represent the queue
-  private Deque<Integer> andar = new ArrayDeque<>();
-  private Deque<Integer> bahar = new ArrayDeque<>();
-  
-  // Method to push an element onto the queue
-  public void push(int x) {
-    andar.push(x);
-  }
+    // Static stack to store numeric values during evaluation
+    static Stack<Integer> num;
 
-  // Method to pop an element from the queue
-  public int pop() {
-    // Ensuring the output stack is populated before popping
-    peek();
-    return bahar.pop();
-  }
+    // Method to evaluate Reverse Polish Notation (RPN) expression
+    public int evalRPN(String[] tokens) {
+        
+        // Initializing the stack
+        num = new Stack<>();
 
-  // Method to peek at the front element of the queue
-  public int peek() {
-    // If the output stack is empty, transferring elements from input to output
-    if (bahar.isEmpty()) {
-      while (!andar.isEmpty()) {
-        bahar.push(andar.pop());
-      }
+        // Looping through each token in the expression
+        for (int i = 0; i < tokens.length; i++) {
+            String s = tokens[i];
+
+            // If the token is a numeric value, pushing it onto the stack
+            if (isNumeric(s)) {
+                num.push(Integer.parseInt(s));
+            } else {
+                // If the token is an operator, popping two values from the stack
+                int p1 = num.pop();
+                int p2 = num.pop();
+                int jawab = 0;
+
+                // Performing the operation based on the operator
+                if (s.charAt(0) == '+') {
+                    jawab = p2 + p1;
+                } else if (s.charAt(0) == '-') {
+                    jawab = p2 - p1;
+                } else if (s.charAt(0) == '*') {
+                    jawab = p2 * p1;
+                } else if (s.charAt(0) == '/') {
+                    jawab = p2 / p1;
+                }
+
+                // Pushing the result back onto the stack
+                num.push(jawab);
+            }
+        }
+
+        // The final result is the only element remaining in the stack
+        return num.pop();
     }
-    return bahar.peek();
-  }
 
-  // Method to check if the queue is empty
-  public boolean empty() {
-    return andar.isEmpty() && bahar.isEmpty();
-  }
+    // Method to check if a string represents a numeric value
+    static boolean isNumeric(String strNum) {
+        if (strNum == null) {
+            return false;
+        }
+        try {
+            // Attempting to parse the string as a double
+            double d = Double.parseDouble(strNum);
+        } catch (NumberFormatException nfe) {
+            // If an exception is caught, the string is not numeric
+            return false;
+        }
+        // If parsing is successful, the string is numeric
+        return true;
+    }
 }
 
 ```
