@@ -5,103 +5,78 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 30-01-24 [Problem Link](https://leetcode.com/problems/evaluate-reverse-polish-notation/description/?envType=daily-question&envId=2024-01-30)
-## 150. Evaluate Reverse Polish Notation
+## Today's 31-01-24 [Problem Link](https://leetcode.com/problems/daily-temperatures/description/?envType=daily-question&envId=2024-01-31)
+## 739. Daily Temperatures
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-Given an expression in Reverse Polish Notation (RPN), I evaluated the expression and return the result.
+This problem is to find the next higher temperature for each day in a given array of temperatures. To efficiently solve this problem, I used a stack to keep track of the indices of temperatures that we have encountered so far. My idea is to iterate through the array, and for each day, pop the indices from the stack where the corresponding temperatures are lower than the current day's temperature. For each popped index, I calculated the time difference to the current day and updated the result array with this information.
 
-My solution uses a stack to keep track of the numeric values during the evaluation of the RPN expression.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-**Initialized the Stack :** Created a stack to store numeric values.
+- Initialized an array `jawab` to store the result, where `jawab[i]` will represent the number of days until a warmer temperature is encountered for the day at index `i`.
 
-**Iterated Through Tokens :** Loop through each token in the RPN expression.
-  - If the token is a numeric value, pushed it onto the stack.  
-  - If the token is an operator (+, -, *, /), poped two values from the stack, performed the operation, and pushed the result back onto the stack.
+- Initialized an empty stack `s` to keep track of indices.
 
-**Final Result :** After processing all tokens, the final result is the only element remaining in the stack. Poped it and returned.
+- Iterated through the given array of temperatures using a loop.
 
-##### Helper Method
-My solution includes a helper method `isNumeric` to check if a given string represents a numeric value.
+- For each day, checked if the stack is not empty and the current temperature is greater than the temperature at the index at the top of the stack.
 
-My approach leverages the stack data structure to efficiently process and evaluate the RPN expression, handling both numeric values and operators appropriately.
+  - If true, popped the index from the stack, and calculated the time difference between the current day and the popped index. Updated `jawab` with this information.
+
+  - Continued this process until the stack is empty or the top of the stack has a temperature greater than or equal to the current day's temperature.
+
+- Pushed the current index onto the stack.
+
+- After the loop, the `jawab` array contained the desired result, representing the number of days until a warmer temperature is encountered for each day.
+
+- Returned the `jawab` array as the final result.
 
 ---
 Have a look at the code , still have any confusion then please let me know in the comments
 Keep Solving.:)
 
-
 # Complexity
-- Time complexity : $O(t)$
+- Time complexity : $O(e)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-$t$ : number of tokens in the input expression
 
-- Space complexity : $O(t)$
+$e$ :  number of elements in the given array of temperatures
+- Space complexity : $O(e)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 
 # Code
 ```
 class Solution {
 
-    // Static stack to store numeric values during evaluation
-    static Stack<Integer> num;
+    // Static array to store the result
+    static int[] jawab;
 
-    // Method to evaluate Reverse Polish Notation (RPN) expression
-    public int evalRPN(String[] tokens) {
+    // Method to calculate daily temperatures
+    public int[] dailyTemperatures(int[] temperatures) {
         
-        // Initializing the stack
-        num = new Stack<>();
+        // Initializing the result array with the length of temperatures array
+        jawab = new int[temperatures.length];
+        
+        // Stack to keep track of indices of temperatures
+        Stack<Integer> s = new Stack<>();
 
-        // Looping through each token in the expression
-        for (int i = 0; i < tokens.length; i++) {
-            String s = tokens[i];
+        // Iterating through the temperatures array
+        for (int i = 0; i < temperatures.length; i++) {
 
-            // If the token is a numeric value, pushing it onto the stack
-            if (isNumeric(s)) {
-                num.push(Integer.parseInt(s));
-            } else {
-                // If the token is an operator, popping two values from the stack
-                int p1 = num.pop();
-                int p2 = num.pop();
-                int jawab = 0;
-
-                // Performing the operation based on the operator
-                if (s.charAt(0) == '+') {
-                    jawab = p2 + p1;
-                } else if (s.charAt(0) == '-') {
-                    jawab = p2 - p1;
-                } else if (s.charAt(0) == '*') {
-                    jawab = p2 * p1;
-                } else if (s.charAt(0) == '/') {
-                    jawab = p2 / p1;
-                }
-
-                // Pushing the result back onto the stack
-                num.push(jawab);
+            // Checking if the stack is not empty and the current temperature is greater than the temperature at the index at the top of the stack
+            while (!s.isEmpty() && temperatures[i] > temperatures[s.peek()]) {
+                // Popping the index from the stack and calculate the time difference to the current day
+                int g = s.pop();
+                jawab[g] = i - g;
             }
+
+            // Pushing the current index onto the stack
+            s.push(i);
         }
 
-        // The final result is the only element remaining in the stack
-        return num.pop();
-    }
-
-    // Method to check if a string represents a numeric value
-    static boolean isNumeric(String strNum) {
-        if (strNum == null) {
-            return false;
-        }
-        try {
-            // Attempting to parse the string as a double
-            double d = Double.parseDouble(strNum);
-        } catch (NumberFormatException nfe) {
-            // If an exception is caught, the string is not numeric
-            return false;
-        }
-        // If parsing is successful, the string is numeric
-        return true;
+        // Returning the result array
+        return jawab;
     }
 }
 
