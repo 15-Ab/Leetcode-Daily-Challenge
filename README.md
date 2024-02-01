@@ -31,7 +31,7 @@ The goal of my code is to divide an array `nums` into subarrays of size 3, sort 
    - If the condition is met for any chunk, returned an empty 2D array.
    - Otherwise, stored the sorted subarray `t` in the result array `a`.
 
-**Return the Result Array :**
+**Result Array :**
    - After processing all chunks, returned the result array `a`.
 
 My code divides the array into sorted subarrays of size 3, checks if the differences between elements in each subarray are within a given threshold, and returns the result accordingly. My approach is focused on breaking down the problem into smaller parts and efficiently handling the sorting and validation for each subarray.
