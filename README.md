@@ -5,78 +5,85 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 31-01-24 [Problem Link](https://leetcode.com/problems/daily-temperatures/description/?envType=daily-question&envId=2024-01-31)
-## 739. Daily Temperatures
+## Today's 01-02-24 [Problem Link](https://leetcode.com/problems/divide-array-into-arrays-with-max-difference/description/?envType=daily-question&envId=2024-02-01)
+## 2966. Divide Array Into Arrays With Max Difference
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-This problem is to find the next higher temperature for each day in a given array of temperatures. To efficiently solve this problem, I used a stack to keep track of the indices of temperatures that we have encountered so far. My idea is to iterate through the array, and for each day, pop the indices from the stack where the corresponding temperatures are lower than the current day's temperature. For each popped index, I calculated the time difference to the current day and updated the result array with this information.
-
+The goal of my code is to divide an array `nums` into subarrays of size 3, sort each subarray, and check whether the differences between adjacent elements in each subarray are within a given threshold `k`. If the differences exceed the threshold for any subarray, my function returns an empty 2D array. Otherwise, it returns the 2D array containing the sorted subarrays.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-- Initialized an array `jawab` to store the result, where `jawab[i]` will represent the number of days until a warmer temperature is encountered for the day at index `i`.
+**Sorted the Array :**
+   - Sorted the input array `nums` using `Arrays.sort(nums)`.
 
-- Initialized an empty stack `s` to keep track of indices.
+**Initialized Result Array :**
+   - Determined the length of the input array `n`.
+   - Created a 2D array `a` to store the divided subarrays. The number of rows in `a` is calculated as `n/3` since each subarray has 3 elements.
 
-- Iterated through the given array of temperatures using a loop.
+**Iterated through Sorted Array in Chunks of 3 :**
+   - Used a for loop to iterate through the sorted array in chunks of 3.
+   - Calculated the row index `r` for the result array based on the current index `i`.
 
-- For each day, checked if the stack is not empty and the current temperature is greater than the temperature at the index at the top of the stack.
+**Check Differences and Store Subarrays :**
+   - Created a temporary array `t` to store the current chunk of 3 elements.
+   - Checked if the differences between elements in the chunk (`t[2] - t[1]`, `t[2] - t[0]`, `t[1] - t[0]`) exceed the threshold `k`.
+   - If the condition is met for any chunk, returned an empty 2D array.
+   - Otherwise, stored the sorted subarray `t` in the result array `a`.
 
-  - If true, popped the index from the stack, and calculated the time difference between the current day and the popped index. Updated `jawab` with this information.
+**Return the Result Array :**
+   - After processing all chunks, returned the result array `a`.
 
-  - Continued this process until the stack is empty or the top of the stack has a temperature greater than or equal to the current day's temperature.
-
-- Pushed the current index onto the stack.
-
-- After the loop, the `jawab` array contained the desired result, representing the number of days until a warmer temperature is encountered for each day.
-
-- Returned the `jawab` array as the final result.
+My code divides the array into sorted subarrays of size 3, checks if the differences between elements in each subarray are within a given threshold, and returns the result accordingly. My approach is focused on breaking down the problem into smaller parts and efficiently handling the sorting and validation for each subarray.
 
 ---
 Have a look at the code , still have any confusion then please let me know in the comments
 Keep Solving.:)
 
 # Complexity
-- Time complexity : $O(e)$
+- Time complexity : $O(n*logn)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-
-$e$ :  number of elements in the given array of temperatures
-- Space complexity : $O(e)$
+$n$ : length of the input array
+- Space complexity : $O(n)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 
 # Code
 ```
 class Solution {
-
-    // Static array to store the result
-    static int[] jawab;
-
-    // Method to calculate daily temperatures
-    public int[] dailyTemperatures(int[] temperatures) {
+    public int[][] divideArray(int[] nums, int k) {
+        // Sorting the input array
+        Arrays.sort(nums);
         
-        // Initializing the result array with the length of temperatures array
-        jawab = new int[temperatures.length];
+        // Calculating the length of the result array
+        int n = nums.length;
         
-        // Stack to keep track of indices of temperatures
-        Stack<Integer> s = new Stack<>();
-
-        // Iterating through the temperatures array
-        for (int i = 0; i < temperatures.length; i++) {
-
-            // Checking if the stack is not empty and the current temperature is greater than the temperature at the index at the top of the stack
-            while (!s.isEmpty() && temperatures[i] > temperatures[s.peek()]) {
-                // Popping the index from the stack and calculate the time difference to the current day
-                int g = s.pop();
-                jawab[g] = i - g;
+        // Creating a 2D array to store the divided arrays
+        // Each subarray will have 3 elements
+        int[][] a = new int[n/3][3];
+        
+        // Iterating through the sorted array in chunks of 3
+        for (int i = 0; i <= n - 3; i += 3) {
+            // Calculating the row index for the result array
+            int r = i / 3;
+            
+            // Creating a temporary array to store the current chunk of 3 elements
+            int[] t = new int[3];
+            t[0] = nums[i];
+            t[1] = nums[i+1];
+            t[2] = nums[i+2];
+            
+            // Checking if the difference between any two elements in the chunk is greater than k
+            if (t[2] - t[1] > k || t[2] - t[0] > k || t[1] - t[0] > k) {
+                // If the condition is not met, returning an empty 2D array
+                return new int[0][0];
             }
-
-            // Pushing the current index onto the stack
-            s.push(i);
+            
+            // Storing the current chunk in the result array
+            a[r] = t;
         }
-
+        
         // Returning the result array
-        return jawab;
+        return a;
     }
 }
 
