@@ -5,70 +5,69 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 02-02-24 [Problem Link](https://leetcode.com/problems/sequential-digits/description/?envType=daily-question&envId=2024-02-02)
-## 1291. Sequential Digits
+## Today's 03-02-24 [Problem Link](https://leetcode.com/problems/partition-array-for-maximum-sum/description/?envType=daily-question&envId=2024-02-03)
+## 1043. Partition Array for Maximum Sum
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-The goal is to efficiently find all sequential digits within a given range (low to high).
-A sequential digit is a number where each digit is one more than the previous digit.
+This problem involves partitioning an array into subarrays and finding the maximum sum of these subarrays. To efficiently solve this problem, I have used dynamic programming to keep track of the maximum sum for each subarray ending at a given index.
 
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-- Created a string 'digits' containing all the digits from 1 to 9 in order.
-- Converted 'low' and 'high' to strings to get their lengths.
-- Iterated through possible lengths, from 'lowLength' to 'highLength'.
-  - For each length, iterated through 'digits' to find the starting digit for the current length.
-  - Extracted a substring of the current length from 'digits'.
-  - Converted the substring to an integer.
-  - Checked if the integer is within the given range ('low' to 'high').
-  - If yes, added it to the result list.
-- Finally, returned the list of sequential numbers as the output.
+- Initialized a static array `jawab` to store the maximum sum for each subarray ending at index `i`.
+- Iterated through the array from index 1 to the length of the array.
+  - Initialized a variable `b` to the minimum integer value to store the maximum value in the current subarray.
+  - Iterated through the subarray lengths up to 'k' or 'i', whichever is smaller.
+    - Updated `b` to the maximum value in the current subarray.
+    - Updated the maximum sum for the current subarray ending at index `i` using the formula `jawab[i] = max(jawab[i], b * j + jawab[i - j])`.
+- Returned the maximum sum after partitioning the array, which is stored in `jawab[arr.length]`.
+
+My dynamic programming approach efficiently calculates the maximum sum for each subarray, considering previous results to avoid redundant computations and achieve an optimal solution.
 
 ---
 Have a look at the code , still have any confusion then please let me know in the comments
 Keep Solving.:)
-# Complexity
-- Time complexity : $O(81)$ $\approx$ $O(1)$
-<!-- Add your time complexity here, e.g. $$O(n)$$ -->
 
-- Space complexity : $O(9)$ $\approx$ $O(1)$
+# Complexity
+- Time complexity : $O(l*k)$
+<!-- Add your time complexity here, e.g. $$O(n)$$ -->
+$l$ : length of the input array `arr`
+$k$ : given
+- Space complexity :  $O(l)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 
 # Code
 ```
-import java.util.ArrayList;
-import java.util.List;
-
 class Solution {
-    public List<Integer> sequentialDigits(int low, int high) {
-        ArrayList<Integer> jawab = new ArrayList<>();
-        String digits = "123456789";
+    // Static array to store the maximum sum for each subarray ending at index i
+    static int[] jawab;
+    
+    // Variable to store the length of the subarray considered for partitioning
+    static int b;
+    
+    // Method to calculate the maximum sum after partitioning the array
+    public int maxSumAfterPartitioning(int[] arr, int k) {
+        // Initializing the static array to store results
+        jawab = new int[1 + arr.length];
 
-        // Converting low and high to strings to get their lengths
-        int lowLength = String.valueOf(low).length();
-        int highLength = String.valueOf(high).length();
-
-        // Iterating through possible lengths
-        for (int length = lowLength; length <= highLength; length++) {
-            // Iterating through the digits string
-            for (int start = 0; start + length <= 9; start++) {
-                // Extracting the substring of the current length
-                String substring = digits.substring(start, start + length);
-
-                // Converting the substring to an integer
-                int num = Integer.parseInt(substring);
-
-                // Checking if the number is within the given range
-                if (num >= low && num <= high) {
-                    // If yes, then adding it to the result list
-                    jawab.add(num);
-                }
+        // Iterating through the array
+        for (int i = 1; i <= arr.length; i++) {
+            // Initializing b to the minimum integer value
+            b = Integer.MIN_VALUE;
+            
+            // Iterating through the subarray lengths up to 'k' or 'i', whichever is smaller
+            for (int j = 1; j <= Math.min(i, k); j++) {
+                // Updating 'b' to the maximum value in the current subarray
+                b = Math.max(b, arr[i - j]);
+                
+                // Updating the maximum sum for the current subarray ending at index i
+                jawab[i] = Math.max(jawab[i], b * j + jawab[i - j]);
             }
         }
-         // Returning the final answer list
-        return jawab;
+        // Returning the maximum sum after partitioning the array
+        return jawab[arr.length];
     }
 }
+
 ```
