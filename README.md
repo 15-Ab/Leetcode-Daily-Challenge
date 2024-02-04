@@ -10,6 +10,7 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
+My code is aimed to find the minimum window substring in string `s` that contains all characters of string `t`. I utilized a sliding window approach to efficiently identify the minimum window.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
