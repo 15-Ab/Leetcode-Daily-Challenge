@@ -5,69 +5,84 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 03-02-24 [Problem Link](https://leetcode.com/problems/partition-array-for-maximum-sum/description/?envType=daily-question&envId=2024-02-03)
-## 1043. Partition Array for Maximum Sum
+## Today's 04-02-24 [Problem Link](https://leetcode.com/problems/minimum-window-substring/description/?envType=daily-question&envId=2024-02-04)
+## 76. Minimum Window Substring
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-This problem involves partitioning an array into subarrays and finding the maximum sum of these subarrays. To efficiently solve this problem, I have used dynamic programming to keep track of the maximum sum for each subarray ending at a given index.
-
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-- Initialized a static array `jawab` to store the maximum sum for each subarray ending at index `i`.
-- Iterated through the array from index 1 to the length of the array.
-  - Initialized a variable `b` to the minimum integer value to store the maximum value in the current subarray.
-  - Iterated through the subarray lengths up to 'k' or 'i', whichever is smaller.
-    - Updated `b` to the maximum value in the current subarray.
-    - Updated the maximum sum for the current subarray ending at index `i` using the formula `jawab[i] = max(jawab[i], b * j + jawab[i - j])`.
-- Returned the maximum sum after partitioning the array, which is stored in `jawab[arr.length]`.
+**Initialization:**
+   - I maintained an array `charCount` to store the count of characters in the ASCII range (128 characters).
+   - Initialized `requiredChars` to the length of string `t`, representing the number of characters required to form the window.
+   - Set `bestLeftIndex` to -1, indicating no valid window found yet.
+   - Initialized `minWindowSize` to a value greater than the length of string `s`.
 
-My dynamic programming approach efficiently calculates the maximum sum for each subarray, considering previous results to avoid redundant computations and achieve an optimal solution.
+**Character Counting :**
+   - Populated the `charCount` array with counts of characters in string `t`.
+
+**Sliding Window :**
+   - Used two pointers, `left` and `right`, to define a window.
+   - Iterated through the string `s` with the right pointer (`right`).
+   - Updated `charCount` and `requiredChars` based on the character at the right pointer.
+   - Checked if the current window contains all required characters.
+   - If the condition is satisfied, update the `bestLeftIndex` and `minWindowSize`.
+   - Moved the left pointer (`left`) to shrink the window, updating `charCount` and `requiredChars` accordingly.
+
+**Result :**
+   - The result is the minimum window substring found based on `bestLeftIndex` and `minWindowSize`.
+
+My sliding window approach efficiently explores all possible windows, ensuring that the minimum window containing all characters of `t` is identified.
 
 ---
 Have a look at the code , still have any confusion then please let me know in the comments
 Keep Solving.:)
 
 # Complexity
-- Time complexity : $O(l*k)$
+- Time complexity : $O(s + t)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-$l$ : length of the input array `arr`
+$s$ : length of string `s`
 
-$k$ : given
-- Space complexity :  $O(l)$
+$t$ : length of string `t`
+- Space complexity : $O(1)$ (as the size of the `charCount` array is constant)
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 
 # Code
 ```
 class Solution {
-    // Static array to store the maximum sum for each subarray ending at index i
-    static int[] jawab;
-    
-    // Variable to store the length of the subarray considered for partitioning
-    static int b;
-    
-    // Method to calculate the maximum sum after partitioning the array
-    public int maxSumAfterPartitioning(int[] arr, int k) {
-        // Initializing the static array to store results
-        jawab = new int[1 + arr.length];
+    public String minWindow(String s, String t) {
+        int[] charCount = new int[128];  // Array to store the count of characters
+        int requiredChars = t.length();  // Number of characters required to form the window
+        int bestLeftIndex = -1;          // Starting index of the best window
+        int minWindowSize = s.length() + 1;  // Minimum window size
 
-        // Iterating through the array
-        for (int i = 1; i <= arr.length; i++) {
-            // Initializing b to the minimum integer value
-            b = Integer.MIN_VALUE;
-            
-            // Iterating through the subarray lengths up to 'k' or 'i', whichever is smaller
-            for (int j = 1; j <= Math.min(i, k); j++) {
-                // Updating 'b' to the maximum value in the current subarray
-                b = Math.max(b, arr[i - j]);
-                
-                // Updating the maximum sum for the current subarray ending at index i
-                jawab[i] = Math.max(jawab[i], b * j + jawab[i - j]);
+        // Initializing charCount array with counts of characters in string 't'
+        for (char c : t.toCharArray())
+            ++charCount[c];
+
+        // Sliding window approach
+        for (int left = 0, right = 0; right < s.length(); ++right) {
+            // Update charCount and requiredChars based on the character at the right pointer
+            if (--charCount[s.charAt(right)] >= 0)
+                --requiredChars;
+
+            // Checking if the window contains all required characters
+            while (requiredChars == 0) {
+                // Updating the best window if the current window is smaller
+                if (right - left + 1 < minWindowSize) {
+                    bestLeftIndex = left;
+                    minWindowSize = right - left + 1;
+                }
+
+                // Moving the left pointer and update charCount and requiredChars
+                if (++charCount[s.charAt(left++)] > 0)
+                    ++requiredChars;
             }
         }
-        // Returning the maximum sum after partitioning the array
-        return jawab[arr.length];
+
+        // Returning the minimum window substring or an empty string if no such window exists
+        return bestLeftIndex == -1 ? "" : s.substring(bestLeftIndex, bestLeftIndex + minWindowSize);
     }
 }
 
