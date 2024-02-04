@@ -14,7 +14,7 @@ My code is aimed to find the minimum window substring in string `s` that contain
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-**Initialization:**
+**Initialization :**
    - I maintained an array `charCount` to store the count of characters in the ASCII range (128 characters).
    - Initialized `requiredChars` to the length of string `t`, representing the number of characters required to form the window.
    - Set `bestLeftIndex` to -1, indicating no valid window found yet.
