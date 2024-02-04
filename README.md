@@ -2,6 +2,8 @@
 
 This is my attempt to make the coding experience easier for you guys so that you can easily learn what to do in today's leetcode challenge.
 
+## Today is 4, a very auspicious day for me. You know, some dates are such that you're bound to keep them in your grateful diary, for me 4 is that day. No words can ever express how grateful I am to god for that feeling. It's a request to all you guys reading my repository - Life is full of ups and downs, happy in a momment and pain in another, you cann't avoid any of these, so remember who you are and keep faith in yourself as I do.
+Enjoy my solution and keep coding :)
 
 ## Always here to assist you guys.
 
