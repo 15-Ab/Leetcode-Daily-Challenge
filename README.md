@@ -4,75 +4,90 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 05-02-24 [Problem Link](https://leetcode.com/problems/first-unique-character-in-a-string/description/)
-## 387. First Unique Character in a String
+## Today's 06-02-24 [Problem Link](https://leetcode.com/problems/group-anagrams/description/?envType=daily-question&envId=2024-02-06)
+## 49. Group Anagrams
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-The goal of my code is to find the index of the first non-repeating character in a given string `s`.
+The goal of my algorithm is to group anagrams from a given array of strings. Two strings are considered anagrams if they can be rearranged to form the same string.
+
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-**Counted Frequency :** 
-   - Created a HashMap (`m`) to store the frequency of each character in the string.
-   - Iterated through the string and count the frequency of each character using the HashMap.
 
-**Founded First Non-Repeating Character :**
-   - Iterated through the string again.
-   - For each character, checked its frequency in the HashMap.
-   - If the frequency is 1, returned its index.
-   
-**Helper Function (`index`) :**
-   - A helper function is used to find the index of a specific character in the string.
+**Initialized the HashMap** : Created a HashMap (`m`) to store anagrams grouped by their sorted representations.
 
-**Returned -1 if No Non-Repeating Character :**
-   - If no non-repeating character is found, returned -1.
+**Iterate Through Strings** : Looped through each string (`str`) in the input array.
+
+**Sorted the Characters** : Converted the string to a character array (`c`) and sorted it. This ensured that anagrams have the same sorted representation.
+
+    ```java
+    char[] c = str.toCharArray();
+    Arrays.sort(c);
+    String s = new String(c);
+    ```
+
+**Group Anagrams** : Used `computeIfAbsent` to add the sorted representation (`s`) as a key in the HashMap. If the key is absent, created a new `ArrayList` as the value. Added the original string to the corresponding list.
+
+    ```java
+    m.computeIfAbsent(s, p -> new ArrayList<>()).add(str);
+    ```
+
+    Alternatively, I could have used `putIfAbsent` and `get`:
+
+    ```java
+    // m.putIfAbsent(s, new ArrayList<>());
+    // m.get(s).add(str);
+    ```
+
+**Return the Result** :  After processing all strings, returned the grouped anagrams as a list of lists.
+
+    ```java
+    return new ArrayList<>(m.values());
+    ```
+
+My approach ensured that anagrams are grouped together based on their sorted representations, allowing for efficient grouping and retrieval.
 
 ---
 Have a look at the code , still have any confusion then please let me know in the comments
 Keep Solving.:)
-
 # Complexity
-- Time complexity : $O(n)$
+- Time complexity : $O(N⋅K⋅log(K))$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-$n$ :  length of the input string `s`
-- Space complexity : $O(n)$
+$N$ : number of strings in the input array.
+
+$K$ : maximum length of a string.
+- Space complexity : $O(M)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
+$M$ : number of unique sorted representations.
 
 # Code
 ```
 class Solution {
-    
-    public int firstUniqChar(String s) {
-        // HashMap to store the frequency of each character in the string
-        HashMap<Character, Integer> m = new HashMap<>();
+    public List<List<String>> groupAnagrams(String[] strs) {
         
-        // Counting the frequency of each character and storing in the HashMap
-        for (int i = 0; i < s.length(); i++) {
-            m.put(s.charAt(i), m.getOrDefault(s.charAt(i), 0) + 1);
+        // Initializing a HashMap to store anagrams grouped by their sorted representations
+        HashMap<String, List<String>> m = new HashMap<>();
+
+        // Iterating through each string in the input array
+        for (String str : strs) {
+            // Converting the string to a char array and sort it
+            char[] c = str.toCharArray();
+            Arrays.sort(c);
+            String s = new String(c);
+            
+            // Using computeIfAbsent to add the sorted representation as a key
+            // If the key is absent, it will create a new ArrayList as the value and add the original string to the corresponding list
+            m.computeIfAbsent(s, p -> new ArrayList<>()).add(str);
+
+            // Alternative approach using putIfAbsent and get
+            //m.putIfAbsent(s, new ArrayList<>());
+            //m.get(s).add(str);
         }
-        
-        // Iterating through the string to find the first non-repeating character
-        for (char c : s.toCharArray()) {
-            if (m.get(c) == 1) {
-                // If found, returning the index using the helper function
-                return index(s, c);
-            }
-        }
-        
-        // If no non-repeating character is found, returning -1
-        return -1;
-    }
-    
-    // Helper function to find the index of a specific character in a string
-    static int index(String s, char c) {
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == c) {
-                return i;
-            }
-        }
-        // If the character is not found, returning -1 ( but this will not happen as character is present for sure )
-        return -1;
+
+        // Returning the grouped anagrams as a list of lists
+        return new ArrayList<>(m.values());
     }
 }
+
 ```
