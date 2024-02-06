@@ -40,7 +40,7 @@ The goal of my algorithm is to group anagrams from a given array of strings. Two
     // m.get(s).add(str);
     ```
 
-**Return the Result** :  After processing all strings, returned the grouped anagrams as a list of lists.
+**Returned the Result** :  After processing all strings, returned the grouped anagrams as a list of lists.
 
     ```java
     return new ArrayList<>(m.values());
