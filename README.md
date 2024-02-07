@@ -33,7 +33,7 @@ My approach ensured that the characters in the result string are sorted based on
 Have a look at the code , still have any confusion then please let me know in the comments
 Keep Solving.:)
 # Complexity
-- Time complexity : $ O(max * u)$
+- Time complexity : $O(max * u)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
 $max$ : maximum frequency
 
