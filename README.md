@@ -10,7 +10,7 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-This problem requires finding the minimum number of perfect squares that sum up to a given number n. Dynamic programming is a suitable approach, where I iteratively build the solution by considering optimal solutions to subproblems. My key was to break down the problem into smaller parts and leverage the solutions to those parts.
+This problem required finding the minimum number of perfect squares that sum up to a given number n. Dynamic programming was the suitable approach, where I iteratively built the solution by considering optimal solutions to subproblems. My key was to break down the problem into smaller parts and leverage the solutions to those parts.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
