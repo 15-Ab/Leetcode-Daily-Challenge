@@ -4,86 +4,78 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 07-02-24 [Problem Link](https://leetcode.com/problems/sort-characters-by-frequency/description/?envType=daily-question&envId=2024-02-07)
-## 451. Sort Characters By Frequency
+## Today's 08-02-24 [Problem Link](https://leetcode.com/problems/perfect-squares/description/?envType=daily-question&envId=2024-02-08)
+## 279. Perfect Squares
+
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-The intuition behind my code is to sort the characters in a given string based on their frequency. To achieve this, I utilized a HashMap to store the frequency of each character in the input string. The maximum frequency is tracked to later iterate through frequencies and build the final answer string.
+This problem requires finding the minimum number of perfect squares that sum up to a given number n. Dynamic programming is a suitable approach, where I iteratively build the solution by considering optimal solutions to subproblems. My key was to break down the problem into smaller parts and leverage the solutions to those parts.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-**Constructed Frequency Map :**
-- A HashMap (`m`) is initialized to store the frequency of each character.
-- The input string is iterated, and for each character, its frequency in the map is updated.
-- The maximum frequency (`max`) is maintained to determine the order of frequencies in the final result.
+**Dynamic Programming Array (gp) :**
+- Created a dynamic programming array `gp` of size `n+1` to store the minimum number of perfect squares needed for each value from 0 to n.
+- Initialized all values in the array to a large number (`n`) to represent an initial state.
 
-**Sorted by Frequency :**
-- Initialized an empty string (`jawab`) to store the final result.
-- Iterated through frequencies in descending order (from the maximum frequency to 1).
-- For each frequency, iterated through characters in the frequency map.
-- Appended each character to the answer string the number of times equal to its frequency.
+**Base Cases :**
+- Set `gp[0]` to 0 because 0 is already a perfect square (no additional squares needed).
+- Set `gp[1]` to 1 because 1 is a perfect square itself (only one square needed).
 
-**Returned the Result :**
-- The final answer string is returned.
+**Filled Iteratively :**
+- Iterated from 2 to `n`, considering each number as the target.
+- For each target number `i`, iterated over all possible perfect squares less than or equal to i to find the minimum number of squares needed.
 
-My approach ensured that the characters in the result string are sorted based on their frequency, with characters having higher frequencies appearing first.
+**Updated Minimum Squares :**
+- For each perfect square `s`, updated the minimum number of squares needed for `i` as `gp[i] = Math.min(gp[i], gp[i - s*s] + 1)`.
+
+**Result :**
+- After completing the iteration, `gp[n]` contained the minimum number of perfect squares needed for the given number `n`.
+
+
+My approach built the solution for larger numbers based on optimal solutions for smaller subproblems. I considered all possible combinations of perfect squares, ensuring an optimal and efficient solution. The final result is the minimum number of perfect squares needed to represent the target number `n`.
 
 ---
 Have a look at the code , still have any confusion then please let me know in the comments
 Keep Solving.:)
 # Complexity
-- Time complexity : $O(max * u)$
+- Time complexity : $O(n * \sqrt{n})$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-$max$ : maximum frequency
 
-$u$ : number of unique characters in the input string
-- Space complexity : $O(u)$
+- Space complexity : $O(n)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 
 # Code
 ```
 class Solution {
 
-    // Static variables to store character frequency map, maximum frequency, and the final answer
-    static HashMap<Character, Integer> m;
-    static int max;
-    static String jawab;
+    // Declaring an array to store the minimum number of perfect squares needed for each value
+    static int[] gp;
 
-    // Method to sort characters in a string based on their frequency
-    public String frequencySort(String s) {
-
-        // Initializing the character frequency map and maximum frequency
-        m = new HashMap<>();
-        max = 0;
-
-        // Populating the character frequency map and update the maximum frequency
-        for (char c : s.toCharArray()) {
-            m.put(c, m.getOrDefault(c, 0) + 1);
-            max = Math.max(max, m.get(c));
-        }
-
-        // Initializing the final answer string
-        jawab = "";
-
-        // Iterating over frequencies in descending order
-        for (int i = max; i > 0; i--) {
-
-            // Iterating over characters in the frequency map
-            for (char c : m.keySet()) {
-
-                // Appending the character to the answer string for its corresponding frequency
-                if (m.get(c) == i) {
-                    for (int d = 0; d < i; d++) {
-                        jawab += c;
-                    }
-                }
+    // Function to calculate the minimum number of perfect squares needed for a given number n
+    public int numSquares(int n) {
+        
+        // Initializing the array with size (n+1) and fill it with 'n'
+        gp = new int[n+1];
+        Arrays.fill(gp, n);
+        
+        // Base cases
+        gp[0] = 0;   // Zero is already a perfect square, so no additional squares needed
+        gp[1] = 1;   // One is a perfect square itself, so only one square needed
+        
+        // Iterating from 2 to n to fill the dp array
+        for( int i = 2; i <= n; i++){
+            
+            // Iterating over all possible perfect squares less than or equal to i
+            for( int s = 1; s*s <= i; s++){
+                
+                // Updating the minimum number of squares needed for i
+                gp[i] = Math.min(gp[i], gp[i - s*s] + 1);
             }
         }
-
-        // Returning the final answer string
-        return jawab;
+        
+        // Returning the minimum number of perfect squares needed for the given number n
+        return gp[n];
     }
 }
-
 ```
