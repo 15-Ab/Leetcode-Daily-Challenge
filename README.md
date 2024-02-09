@@ -17,7 +17,7 @@ This problem aimed to find the largest divisible subset from a given array of in
 **Sort** : Sorted the given array `nums` in ascending order. Sorting helped in efficiently checking divisibility relationships between elements.
 
 **Dynamic Programming** :
-- Initialized three arrays:
+- Initialized three arrays :
     - `khtm`: Array to store the length of the divisible subset ending at each index.
     - `pichla`: Array to store the index of the previous element in the divisible subset.
     - `jawab`: ArrayList to store the result, i.e., the largest divisible subset.
