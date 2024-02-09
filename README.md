@@ -24,7 +24,7 @@ This problem aimed to find the largest divisible subset from a given array of in
 
 - Initialized all elements of `khtm` to 1, as the minimum length of a subset is 1.
 - Initialized all elements of `pichla` to -1, indicating no previous element initially.
-- Used a nested loop to iterate through each pair of elements and update `khtm` and `pichla` based on the divisibility relationship.
+- Used a nested loop to iterate through each pair of elements and updated `khtm` and `pichla` based on the divisibility relationship.
 
 **Identified Maximum Length** :
 - Kept track of the maximum length `sbsebra` and its corresponding index `in` during the dynamic programming phase.
@@ -33,9 +33,9 @@ This problem aimed to find the largest divisible subset from a given array of in
 - Reconstructed the largest divisible subset using the information stored in the `pichla` array.
 
 **Returned the Result** :
-- Return the final result, i.e., the largest divisible subset.
+- Returned the final result, i.e., the largest divisible subset.
 
-My dynamic programming approach efficiently identified the length of the largest divisible subset ending at each index and uses this information to reconstruct the subset.
+My dynamic programming approach efficiently identified the length of the largest divisible subset ending at each index and used this information to reconstruct the subset.
 
 ---
 Have a look at the code , still have any confusion then please let me know in the comments
