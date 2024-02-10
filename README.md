@@ -25,7 +25,7 @@ The task was to find and count palindromic substrings in a given string. A palin
   - **Case 1 :** Palindromic substrings with odd length.
     - Visualization :  Place both index fingers at position 'i' and expand them outward, checking for palindromes.
    - **Case 2:** Palindromic substrings with even length.
-    - Visualization : Place the left index finger at position 'i' and the right index finger at 'i+1', then expand them outward, checking for palindromes.
+     - Visualization : Place the left index finger at position 'i' and the right index finger at 'i+1', then expand them outward, checking for palindromes.
 
 **Implemented the Helper Function :**
 - Created a helper function to check and count palindromic substrings expanding from the given indices.
