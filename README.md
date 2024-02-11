@@ -4,85 +4,103 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 10-02-24 [Problem Link](https://leetcode.com/problems/palindromic-substrings/description/)
-## 647. Palindromic Substrings
-
-
-[My previous answer](https://leetcode.com/problems/palindromic-substrings/solutions/4025719/simple-approach/?envType=daily-question&envId=2024-02-10)
+## Today's 11-02-24 [Problem Link](https://leetcode.com/problems/cherry-pickup-ii/description/?envType=daily-question&envId=2024-02-11)
+## 1463. Cherry Pickup II
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-The task was to find and count palindromic substrings in a given string. A palindromic substring is one that reads the same backward as forward.
+The goal was to find the maximum number of cherries that two robots can collect while starting from the top row and moving towards the bottom row in a grid.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-**Initialized the Count Variable :** Started with a count variable to keep track of the total number of palindromic substrings.
+**Initialized the Memoization Array (`m`) :**
+- Created a 3D memoization array to store intermediate results.
+- The memoization array was used to avoid redundant calculations during recursive calls.
 
-**Looped Through Characters :**
-- Iterated through each character in the string.
+**Recursive Cherry-Picking :**
+- Defined a recursive function (`cherryPick`) to explore all possible paths of both robots.
+- Base Cases :
+  - If the current row is at the bottom of the grid, returned 0.
+  - If either robot goes out of bounds, returned 0.
+  - If the result for the current state is already memoized, returned the memoized value.
+- Calculated the cherries collected in the current row based on the positions of both robots.
+- Recursively explored all the possible movements for both robots in the next row.
+- Updated the memoization array with the maximum cherries collected for the current state.
 
-**Considered Two Cases :**
-  - **Case 1 :** Palindromic substrings with odd length.
-    - Visualization :  Place both index fingers at position 'i' and expand them outward, checking for palindromes.
-   - **Case 2:** Palindromic substrings with even length.
-     - Visualization : Place the left index finger at position 'i' and the right index finger at 'i+1', then expand them outward, checking for palindromes.
+**Started the Recursive Process :**
+- Called the recursive function with the initial positions of both robots at the top row.
 
-**Implemented the Helper Function :**
-- Created a helper function to check and count palindromic substrings expanding from the given indices.
+**Returned the Maximum Cherries :**
+- The final result is the maximum cherries that can be collected by both robots.
 
-**While Loop for Expansion :**
-- Inside the helper function, used a while loop to continue expanding the indices until the string ends or the index fingers reach different characters.
-
-**Incremented the Count :**
-- Incremented the count for each valid palindromic substring found.
-
-**Returned the Final Count :**
-- Returned the final count as the result.
-
-My approach efficiently counted all palindromic substrings by expanding around each character in the string. My checking function ensured that all possible palindromic substrings are considered.
+My approach used recursion with memoization to explore all possible paths of the two robots, considering their movements in the grid. The memoization array helped optimizing the algorithm by avoiding redundant calculations and improving overall efficiency. The final result represented the maximum cherries that can be collected by both robots.
 
 ---
 Have a look at the code , still have any confusion then please let me know in the comments
 Keep Solving.:)
 
 # Complexity
-- Time complexity : $O(l^2)$
+- Time complexity : $O(9^m)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-l :  length of the input string.
-- Space complexity : $O(l)$
+$m$ : number of rows
+
+$n$ : number of columns
+- Space complexity : $O(m * n^2).$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 
 # Code
 ```
 class Solution {
-    // Function to count palindromic substrings in the given string
-    public static int countSubstrings(String s) {
-        int count = 0;
 
-        // Looping through each character in the string
-        for (int i = 0; i < s.length(); i++) {
-            // Counting palindromic substrings with odd length
-            count += checksides(i, i, s); // Visualization : Place both index fingers at position 'i' and expand them outward
+    // Memoization array to store intermediate results
+    static int[][][] m;
+    
+    public int cherryPickup(int[][] grid) {
 
-            // Counting palindromic substrings with even length
-            count += checksides(i, i + 1, s); // Visualization : Place left index finger at position 'i' and right index finger at 'i+1', then expand them outward
+        // Initializing the memoization array with dimensions based on the grid
+        m = new int[grid.length][grid[0].length][grid[0].length];
+
+        // Filling the memoization array with -1
+        for (int[][] a : m){
+            Arrays.stream(a).forEach(b -> Arrays.fill(b, -1));
         }
 
-        return count;
+        // Starting the recursive cherry-picking process from the top row and both robots
+        return cherryPick(grid, 0, 0, grid[0].length - 1);
     }
 
-    // Function to check and count palindromic substrings expanding from the given indices
-    static int checksides(int left, int right, String s) {
-        int c = 0;
-
-        // Keep incrementing until the string ends or index fingers reach different characters
-        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
-            c++;
-            left--;
-            right++;
+    // Recursive helper function to find the maximum cherries collected
+    private int cherryPick(int[][] grid, int x, int y1, int y2) {
+        
+        // Base case : we have reached the bottom of the grid
+        if (x == grid.length){
+          return 0;
         }
 
-        return c; // Returning the count of palindromic substrings
+        // Base case : robots are out of bounds
+        if (y1 < 0 || y1 == grid[0].length || y2 < 0 || y2 == grid[0].length){
+          return 0;
+        }
+
+        // Checking if the result is already memoized
+        if (m[x][y1][y2] != -1){
+          return m[x][y1][y2];
+        }
+
+        // Collecting cherries in the current row
+        int r = grid[x][y1] + (y1 == y2 ? 0 : grid[x][y2]);
+
+        // Trying all possible movements for both robots in the next row
+        for (int u = -1; u <= 1; u++){
+          for (int v = -1; v <= 1; v++){
+            // Updating the memoization array with the maximum cherries
+            m[x][y1][y2] = Math.max(m[x][y1][y2], r + cherryPick(grid, x + 1, y1 + u, y2 + v));
+          }
+        }
+
+        // Returning the maximum cherries collected for the current state
+        return m[x][y1][y2];
     }
 }
+
 ```
