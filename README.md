@@ -45,7 +45,7 @@ Keep Solving.:)
 $N$ : number of words
 
 $M$ : maximum length of a word
-- Space complexity : $o(1)$
+- Space complexity : $O(1)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 
 # Code
