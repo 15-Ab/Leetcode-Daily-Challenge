@@ -15,7 +15,7 @@ My intuition was to iterate through each word in the array and check if it is a 
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-- Method ``firstPalindrome` :
+- Method `firstPalindrome` :
   - This method took an array of words as input.
   - It iterated through each word in the array using a for-each loop.
   - For each word, it called the `isPalin` method to check if the word is a palindrome.
@@ -36,6 +36,7 @@ Overall, my approach involved iterating through the array of words and checking 
 
 ---
 Have a look at the code , still have any confusion then please let me know in the comments
+
 Keep Solving.:)
 
 # Complexity
