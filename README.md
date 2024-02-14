@@ -4,35 +4,18 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 13-02-24 [Problem Link](https://leetcode.com/problems/find-first-palindromic-string-in-the-array/description/?envType=daily-question&envId=2024-02-13)
-## 2108. Find First Palindromic String in the Array
+## Today's 14-02-24 [Problem Link](https://leetcode.com/problems/rearrange-array-elements-by-sign/description/)
+## 2149. Rearrange Array Elements by Sign
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-The goal of this problem is to find the first palindrome in an array of words. A palindrome is a string that reads the same forward and backward (ignoring spaces, punctuation, and capitalization). 
-
-My intuition was to iterate through each word in the array and check if it is a palindrome using a helper method.
+Separate positive and negative, then update original.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-- Method `firstPalindrome` :
-  - This method took an array of words as input.
-  - It iterated through each word in the array using a for-each loop.
-  - For each word, it called the `isPalin` method to check if the word is a palindrome.
-  - If a palindrome is found, the method immediately returned that word.
-  - If no palindrome is found in the entire array, it returned an empty string.
+- I stored the positive and negative in separate arrays in order of there occurence.
 
-- Method `isPalin` :
-  - This static method checked if a given string is a palindrome.
-  - It initialized two pointers (`l` and `r`) at the beginning and end of the string, respectively.
-  - It iterated while `l` is less than `r`.
-  - Within the loop, it compared characters at positions `l` and `r`.
-  - If the characters are not equal, the string is not a palindrome, and the method returned `false`.
-  - If the characters are equal, it incremented `l` and decremented `r` to check the next pair of characters.
-  - If the loop completed without returning `false`, the string is a palindrome, and the method `returned` true.
-
-
-Overall, my approach involved iterating through the array of words and checking each word for palindromic properties using the `isPalin` method. The first palindrome encountered is returned, or an empty string is returned if no palindrome is found in the array.
+- Then simply updated the original 'nums' array by updating alternately with positive and negative numbers.
 
 ---
 Have a look at the code , still have any confusion then please let me know in the comments
@@ -40,50 +23,47 @@ Have a look at the code , still have any confusion then please let me know in th
 Keep Solving.:)
 
 # Complexity
-- Time complexity : $O(N*M)$
+- Time complexity : $O(l)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-$N$ : number of words
 
-$M$ : maximum length of a word
-- Space complexity : $O(1)$
+- Space complexity : $O(2*(l/2))$ = $O(l)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
+$l$ is the length of array
 
 # Code
 ```
 class Solution {
-    // This method finds the first palindrome in the given array of words
-    public String firstPalindrome(String[] words) {
-        
-        // Iterating through each word in the array
-        for (String s : words) {
-            // Checking if the current word is a palindrome using the isPalin method
-            if (isPalin(s)) {
-                // If it is a palindrome, returning the word
-                return s;
+    public int[] rearrangeArray(int[] nums) {
+
+        int p[] = new int[nums.length/2]; // to store positive numbers
+        int ip = 0;                       // to maintain current added index 
+        int n[] = new int[nums.length/2]; // to store positive numbers
+        int in = 0;                       // to maintain current added index 
+
+        for( int i = 0; i < nums.length; i++){
+            if( nums[i] > 0){
+                p[ip++] = nums[i];
+
+            }
+            else{
+                n[in++] = nums[i];
             }
         }
-        // If no palindrome is found, returning an empty string
-        return "";
-    }
+        ip = 0;     // resetting value to update 'nums' from these values
+        in = 0;     // resetting value to update 'nums' from these values
 
-    // This method checks if the given string is a palindrome
-    static boolean isPalin(String s) {
-        // Initializing two pointers, one at the beginning and one at the end of the string
-        int l = 0;
-        int r = s.length() - 1;
+        //System.out.println(Arrays.toString(p));
+        //System.out.println(Arrays.toString(n));
 
-        // Continuing checking characters from both ends towards the center
-        while (l < r) {
-            // If characters at the current positions are not equal, the string is not a palindrome
-            if (s.charAt(l) != s.charAt(r)) {
-                return false;
+        for( int i = 0; i < nums.length; i++){ // updating 'nums' with its positive and negative numbers adding alternately 
+            if( i % 2 == 0){                  // for even index starting with first one, add positive numbers
+                nums[i] = p[ip++];
             }
-            // Moving the pointers towards the center
-            l++;
-            r--;
+            else{                    // else add negative numbers
+                nums[i] = n[in++];
+            }
         }
-        // If the loop completes, the string is a palindrome
-        return true;
+        return nums;
     }
 }
 ```
