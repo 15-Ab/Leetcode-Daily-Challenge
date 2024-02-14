@@ -1,3 +1,5 @@
+# बसंत पंचमी की हार्दिक शुभकामनाएं।
+
 # Leetcode Daily Challenge Solutions
 
 This is my attempt to make the coding experience easier for you guys so that you can easily learn what to do in today's leetcode challenge.
@@ -9,7 +11,7 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-Separate positive and negative, then update original.
+Separated the positive and negative, then update original.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
