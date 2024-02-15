@@ -34,12 +34,6 @@ Have a look at the code , still have any confusion then please let me know in th
 Keep Solving.:)
 
 # Complexity
-<<<<<<< Updated upstream
-- Time complexity : $O(l)$
-<!-- Add your time complexity here, e.g. $$O(n)$$ -->
-
-- Space complexity : $O(2*(l/2))$ = $O(l)$
-=======
 - Time complexity : $O(n*logn)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
 $n$ : number of elements in the array.
@@ -50,40 +44,6 @@ $l$ is the length of array
 
 # Code
 ```
-<<<<<<< Updated upstream
-class Solution {
-    public int[] rearrangeArray(int[] nums) {
-
-        int p[] = new int[nums.length/2]; // to store positive numbers
-        int ip = 0;                       // to maintain current added index 
-        int n[] = new int[nums.length/2]; // to store positive numbers
-        int in = 0;                       // to maintain current added index 
-
-        for( int i = 0; i < nums.length; i++){
-            if( nums[i] > 0){
-                p[ip++] = nums[i];
-
-            }
-            else{
-                n[in++] = nums[i];
-            }
-        }
-        ip = 0;     // resetting value to update 'nums' from these values
-        in = 0;     // resetting value to update 'nums' from these values
-
-        //System.out.println(Arrays.toString(p));
-        //System.out.println(Arrays.toString(n));
-
-        for( int i = 0; i < nums.length; i++){ // updating 'nums' with its positive and negative numbers adding alternately 
-            if( i % 2 == 0){                  // for even index starting with first one, add positive numbers
-                nums[i] = p[ip++];
-            }
-            else{                    // else add negative numbers
-                nums[i] = n[in++];
-            }
-        }
-        return nums;
-=======
 import java.util.Arrays;
 
 public class Solution {
