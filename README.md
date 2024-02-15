@@ -1,25 +1,8 @@
-# बसंत पंचमी की हार्दिक शुभकामनाएं।
-# I'm bowing to the goddess of knowledge without whom I'm nothing.
 # Leetcode Daily Challenge Solutions
-
 This is my attempt to make the coding experience easier for you guys so that you can easily learn what to do in today's leetcode challenge.
 
 ## Always here to assist you guys.
 
-<<<<<<< Updated upstream
-## Today's 14-02-24 [Problem Link](https://leetcode.com/problems/rearrange-array-elements-by-sign/description/)
-## 2149. Rearrange Array Elements by Sign
-
-# Intuition
-<!-- Describe your first thoughts on how to solve this problem. -->
-Separated the positive and negative, then update original.
-
-# Approach
-<!-- Describe your approach to solving the problem. -->
-- I stored the positive and negative in separate arrays in order of there occurence.
-
-- Then simply updated the original 'nums' array by updating alternately with positive and negative numbers.
-=======
 ## Today's 15-02-24 [Problem Link](https://leetcode.com/problems/find-polygon-with-the-largest-perimeter/description/?envType=daily-question&envId=2024-02-15)
 ## 2971. Find Polygon With the Largest Perimeter
 
