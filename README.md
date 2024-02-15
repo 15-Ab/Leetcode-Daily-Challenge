@@ -1,4 +1,5 @@
 # Leetcode Daily Challenge Solutions
+
 This is my attempt to make the coding experience easier for you guys so that you can easily learn what to do in today's leetcode challenge.
 
 ## Always here to assist you guys.
@@ -27,7 +28,6 @@ The problem required finding the largest perimeter of a triangle from an array o
 - If a valid perimeter is found, returned the maximum perimeter; otherwise, returned -1.
 
 My approach ensured that I consider the largest sides to maximize the perimeter of a valid triangle. Sorting the array helped in identifying the larger sides efficiently, and cumulative sums provided a quick way to calculate the sum of elements up to a certain index.
->>>>>>> Stashed changes
 
 ---
 Have a look at the code , still have any confusion then please let me know in the comments
@@ -38,9 +38,7 @@ Keep Solving.:)
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
 $n$ : number of elements in the array.
 - Space complexity : $O(n)$
->>>>>>> Stashed changes
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
-$l$ is the length of array
 
 # Code
 ```
@@ -82,7 +80,6 @@ public class Solution {
         
         // Returning the largest perimeter
         return perimeter;
->>>>>>> Stashed changes
     }
 }
 ```
