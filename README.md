@@ -33,7 +33,7 @@ Have a look at the code , still have any confusion then please let me know in th
 Keep Solving.:)
 
 # Complexity
-- Time complexity : $O(N + N*log N + K*log N)$ ${\equiv}$ $O( N *log N )$
+- Time complexity : $O(N + N*log N + K*log N) {\equiv} O( N *log N )$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
 $N$ : number of unique elements in the array
 
