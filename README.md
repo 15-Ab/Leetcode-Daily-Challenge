@@ -37,7 +37,6 @@ Keep Solving.:)
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
 $N$ : number of unique elements in the array
 
-$K$ : given
 - Space complexity : $O(N)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 
