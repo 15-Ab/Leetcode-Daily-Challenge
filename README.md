@@ -4,82 +4,83 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 15-02-24 [Problem Link](https://leetcode.com/problems/find-polygon-with-the-largest-perimeter/description/?envType=daily-question&envId=2024-02-15)
-## 2971. Find Polygon With the Largest Perimeter
+## Today's 16-02-24 [Problem Link](https://leetcode.com/problems/least-number-of-unique-integers-after-k-removals/description/?envType=daily-question&envId=2024-02-16)
+## 1481. Least Number of Unique Integers after K Removals
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-The problem required finding the largest perimeter of a triangle from an array of integers. The perimeter of a triangle is the sum of its three sides. To maximize the perimeter, I to considered the largest possible combination of three sides from the given array.
+The goal is to find the least number of unique integers in an array after removing 'k' elements.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-**Sorted the Array** 
-- To consider the largest sides, I started by sorting the array in ascending order.
 
-**Cumulative Sums** :
-- Created an array (`h`) to store cumulative sums of the sorted elements. The cumulative sum represents the sum of all elements up to the current index.
+- Created a HashMap to store the frequency of each number in the array.
 
-**Iterated Through the Array** :
-- Iterated through the sorted array, starting from the third element, as I need at least three elements to form a triangle. 
-- For each element at index `i`, checked if the sum of the two smaller elements (`h[i-1]`) is greater than the current element (`nums[i]`). 
-- If true, updated the `perimeter` with the maximum value between the current perimeter and the cumulative sum at index `i`.
+- Populated the HashMap with the frequency of each number.
 
-**Return Result** :
-- If a valid perimeter is found, returned the maximum perimeter; otherwise, returned -1.
+- Created a Priority Queue (min-heap) with the values (frequencies) from the HashMap.
 
-My approach ensured that I consider the largest sides to maximize the perimeter of a valid triangle. Sorting the array helped in identifying the larger sides efficiently, and cumulative sums provided a quick way to calculate the sum of elements up to a certain index.
+- Iterated through the Priority Queue and decremented 'k' by the frequency of each element until 'k' becomes zero.
+
+- If 'k' is negative after the loop, it means more elements were removed than necessary. Returned the remaining number of unique integers plus one.
+
+- If 'k' is zero or positive after the loop, returned the remaining number of unique integers.
+
+My code efficiently found the solution by using a HashMap to store frequencies and a Priority Queue to process the frequencies in ascending order.
 
 ---
 Have a look at the code , still have any confusion then please let me know in the comments
 Keep Solving.:)
 
 # Complexity
-- Time complexity : $O(n*logn)$
+- Time complexity : $O(N + N*log N + K*log N)$ ${\equiv}$ $$O( N *log N )$$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-$n$ : number of elements in the array.
-- Space complexity : $O(n)$
+$N$ : number of unique elements in the array
+
+$K$ : given
+- Space complexity : $O(N)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 
 # Code
 ```
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
-public class Solution {
-    
-    // Method to find the largest perimeter from an array of integers
-    public static long largestPerimeter(int[] nums) {
+class Solution {
+
+    // HashMap to store the frequency of each number in the array
+    HashMap<Integer, Integer> m;
+    // Priority Queue to store the frequencies in ascending order
+    Queue<Integer> mH;
+
+    // Method to find the least number of unique integers after removing 'k' elements
+    public int findLeastNumOfUniqueInts(int[] arr, int k) {
         
-        // Sorting the array in ascending order
-        Arrays.sort(nums);
-        
-        // Variable to store the perimeter
-        long perimeter = 0;
-        
-        // Array to store cumulative sums of sorted elements
-        long[] h = new long[nums.length];
-        h[0] = nums[0];
-        
-        // Calculating cumulative sums
-        for (int i = 1; i < nums.length; i++) {
-            h[i] = h[i - 1] + nums[i];
+        // Initializing the HashMap
+        m = new HashMap<>();
+        // Populating the HashMap with the frequency of each number in the array
+        for (int n : arr) {
+            m.put(n, m.getOrDefault(n, 0) + 1);
         }
-        
-        // Iterating through the array to find the largest perimeter
-        for (int i = 2; i < nums.length; i++) {
-            if (h[i - 1] > nums[i]) {
-                // If the sum of the two smaller sides is greater than the largest side
-                // then updating the perimeter with the current sum
-                perimeter = Math.max(perimeter, h[i]);
-            }
+
+        // Initializing the Priority Queue with the values (frequencies) from the HashMap
+        mH = new PriorityQueue<>(m.values());
+
+        // Continuing removing the smallest frequencies until 'k' becomes zero
+        while (k > 0) {
+            k -= mH.poll();
         }
-        
-        // If no valid perimeter is found, returning -1
-        if (perimeter == 0) {
-            return -1;
+
+        // If 'k' is negative, it means more elements were removed than necessary
+        // In this case, returning the remaining number of unique integers plus one
+        if (k < 0) {
+            return mH.size() + 1;
+        } else {
+            // If 'k' is zero or positive, returning the remaining number of unique integers
+            return mH.size();
         }
-        
-        // Returning the largest perimeter
-        return perimeter;
     }
 }
+
 ```
