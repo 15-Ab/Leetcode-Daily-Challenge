@@ -4,91 +4,122 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 17-02-24 [Problem Link](https://leetcode.com/problems/furthest-building-you-can-reach/description/?envType=daily-question&envId=2024-02-17)
-## 1642. Furthest Building You Can Reach
+## Today's 18-02-24 [Problem Link](https://leetcode.com/problems/meeting-rooms-iii/description/?envType=daily-question&envId=2024-02-18)
+## 2402. Meeting Rooms III
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-This problem involved finding the furthest building that can be reached with a given number of bricks and ladders. To maximize the distance, I wanted to use ladders for the steepest climbs and save bricks for smaller climbs.
+
+- To efficiently track the availability of rooms, I can use a priority queue to manage occupied rooms based on their end times.
+- Additionally, I can use another priority queue to keep track of available room IDs.
+- Sorting the meetings based on their start times will ensure that I process the meetings in chronological order.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-**Priority Queue for Heights Difference :**
-- Used a priority queue (min-heap) to keep track of the differences in heights between consecutive buildings.
-- This helped in efficiently selecting the steepest climbs.
 
-**Iterated Through Buildings :**
-- Iterated through the buildings, calculating the height difference between consecutive ones.
-- If the difference is non-positive, moved to the next building as no resources are needed for descending.
+- I initialized an array to store the count of meetings booked for each room (`meetingCount`).
+- Sorted the meetings based on their start times.
+- Initialized a priority queue (`occupiedRooms`) to store occupied rooms based on end times.
+- Initialized another priority queue (`availableRoomIds`) to store available room IDs.
+- Populated the `availableRoomIds` priority queue with the initial room IDs.
+- Processed each meeting in chronological order:
+   - Moved meetings ending before the current meeting to available rooms from `occupiedRooms`.
+   - If no available rooms, scheduled the meeting in the room with the earliest end time from `occupiedRooms`.
+   - Otherwise, scheduled the meeting in an available room from `availableRoomIds`.
+- Updated the `meetingCount` array with the count of meetings booked for each room.
+- Found the room with the maximum booked meetings and return its index.
 
-**Used Ladders for Steeper Climbs :**
-- If the height difference is positive, added it to the priority queue.
-- If the size of the priority queue exceeded the number of ladders available, it means I need to use bricks. Polled out the smallest height difference from the queue and subtracted it from available bricks.
-
-**Checked Brick Availability :**
-- After subtracting the bricks, if the bricks become negative, returned the current index as it indicated that the remaining buildings cannot be reached with the available resources.
-
-**Retured the Furthest Reachable Building :**
-- If the iteration completed without returning, all buildings can be reached. Returned the index of the last building.
-
-My approach ensured efficient utilization of ladders for steeper climbs and used bricks only when necessary, allowing for the furthest possible reach with the given resources.
+My approach ensured efficient tracking of occupied and available rooms, allowing for the determination of the most frequently booked room.
 
 ---
 Have a look at the code , still have any confusion then please let me know in the comments
 Keep Solving.:)
-# Complexity
-- Time complexity : $O(n*logk)$
-<!-- Add your time complexity here, e.g. $$O(n)$$ -->
-$n$ : length of `heights` array
 
-$k$ :  number of ladders ( given )
-- Space complexity : $O(k)$
+# Complexity
+- Time complexity : $O(m*logm)$
+<!-- Add your time complexity here, e.g. $$O(n)$$ -->
+$m$ :  number of meetings
+- Space complexity : $O(m)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 
 # Code
 ```
-class Solution {
+import java.util.Arrays;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
-    // Priority Queue to store the height differences
-    static Queue<Integer> mH;
-    
-    // Variable to store the current height difference
-    static int antr;
-    
-    // Main method to find the furthest building
-    public int furthestBuilding(int[] heights, int bricks, int ladders) {
-        
-        // Initializing the priority queue
-        mH = new PriorityQueue<>();
-        
-        // Iterating through the heights array
-        for (int i = 0; i < heights.length - 1; i++) {
-            
-            // Calculating the height difference between consecutive buildings
-            antr = heights[i + 1] - heights[i];
-            
-            // If the height difference is non-positive, continuing to the next iteration
-            if (antr <= 0) {
-                continue;
-            }
-            
-            // Adding the height difference to the priority queue
-            mH.offer(antr);
-            
-            // If the size of the priority queue exceeds the number of ladders available,
-            // subtracting the smallest height difference from bricks
-            if (mH.size() > ladders) {
-                bricks -= mH.poll();
-            }
-            
-            // If bricks become negative, returning the current index
-            if (bricks < 0) {
-                return i;
-            }
-        }
-        
-        // If all buildings can be reached, returning the last index
-        return heights.length - 1;
+// Defining a class to represent a meeting with endTime and roomId
+class Meeting {
+    public long endTime;
+    public int roomId;
+
+    public Meeting(long endTime, int roomId) {
+        this.endTime = endTime;
+        this.roomId = roomId;
     }
 }
+
+// Class for meeting scheduling and finding the most booked room
+class Solution {
+
+    static Queue<Meeting> occupiedRooms;
+    static Queue<Integer> availableRoomIds;
+    
+    // Method to find the most booked room
+    public int mostBooked(int numberOfRooms, int[][] meetings) {
+    
+        // Array to store the count of meetings booked for each room
+        int[] meetingCount = new int[numberOfRooms];
+
+        // Sorting meetings based on start time
+        Arrays.sort(meetings, (a, b) -> a[0] - b[0]);
+
+        // Priority queue to store occupied rooms based on end time
+        occupiedRooms = new PriorityQueue<>((a, b) ->
+                a.endTime == b.endTime ? Integer.compare(a.roomId, b.roomId) : Long.compare(a.endTime, b.endTime));
+
+        // Priority queue to store available room IDs
+        availableRoomIds = new PriorityQueue<>();
+
+        // Initializing available room IDs
+        for (int i = 0; i < numberOfRooms; ++i) {
+            availableRoomIds.offer(i);
+        }
+
+        // Processing each meeting
+        for (int[] meeting : meetings) {
+            final int start = meeting[0];
+            final int end = meeting[1];
+
+            // Moving meetings ending before the current meeting to available rooms
+            while (!occupiedRooms.isEmpty() && occupiedRooms.peek().endTime <= start) {
+                availableRoomIds.offer(occupiedRooms.poll().roomId);
+            }
+
+            // If no available room, scheduling the meeting in the room with the earliest end time
+            if (availableRoomIds.isEmpty()) {
+                Meeting prevMeeting = occupiedRooms.poll();
+                ++meetingCount[prevMeeting.roomId];
+                occupiedRooms.offer(new Meeting(prevMeeting.endTime + (end - start), prevMeeting.roomId));
+            } 
+            else {
+                // Scheduling the meeting in an available room
+                final int roomId = availableRoomIds.poll();
+                ++meetingCount[roomId];
+                occupiedRooms.offer(new Meeting(end, roomId));
+            }
+        }
+
+        // Finding the room with the maximum booked meetings
+        int maxIndex = 0;
+        for (int i = 0; i < numberOfRooms; ++i) {
+            if (meetingCount[i] > meetingCount[maxIndex]) {
+                maxIndex = i;
+            }
+        }
+
+        return maxIndex;
+    }
+}
+
 ```
