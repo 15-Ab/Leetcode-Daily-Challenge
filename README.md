@@ -5,7 +5,7 @@ This is my attempt to make the coding experience easier for you guys so that you
 ## Always here to assist you guys.
 
 ## Today's 19-02-24 [Problem Link](https://leetcode.com/problems/power-of-two/description/?envType=daily-question&envId=2024-02-19)
-## 231. Power of Twov
+## 231. Power of Two
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
