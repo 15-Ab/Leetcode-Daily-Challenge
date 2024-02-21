@@ -9,9 +9,9 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-The goal of this problem is to calculate the bitwise AND of all the numbers in the given range [left, right].
+- The goal of this problem is to calculate the bitwise AND of all the numbers in the given range [left, right].
 
-Bitwise AND operation results in 1 only if both corresponding bits are 1. As we move from left to right in a binary representation of numbers, the common prefix of all numbers contributes to the result. Any differing bits will result in a 0 after the AND operation.
+- Bitwise AND operation results in 1 only if both corresponding bits are 1. As we move from left to right in a binary representation of numbers, the common prefix of all numbers contributes to the result. Any differing bits will result in a 0 after the AND operation.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
