@@ -4,58 +4,56 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 20-02-24 [Problem Link](https://leetcode.com/problems/missing-number/description/?envType=daily-question&envId=2024-02-20)
-## 268. Missing Number
+## Today's 21-02-24 [Problem Link](https://leetcode.com/problems/bitwise-and-of-numbers-range/description/?envType=daily-question&envId=2024-02-21)
+## 201. Bitwise AND of Numbers Range
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-The given task is to find the missing number in an array.
+The goal of this problem is to calculate the bitwise AND of all the numbers in the given range [left, right].
+
+Bitwise AND operation results in 1 only if both corresponding bits are 1. As we move from left to right in a binary representation of numbers, the common prefix of all numbers contributes to the result. Any differing bits will result in a 0 after the AND operation.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-- Cumulative Sum Calculation :
-  - A cumulative sum (`jor`) is maintained to keep track of the sum of elements in the array. This sum is calculated by iterating through each element in the array and adding it to the cumulative sum.
+- Initialized a variable `rs` (right shift) to 0 to keep track of the number of right shifts needed.
+- Used a loop to continue right-shifting both `left` and `right` until they become equal.
+- In each iteration, right shifted both `left` and `right` by 1 bit and incremented the `rs` counter.
+- After the loop, performed a left shift on the final value of `left` by the count of right shifts (`rs`).
+- Returned the result.
 
-- Expected Sum Calculation :
-  - The expected sum (`supposedSum`) is calculated based on the assumption that the array contains all numbers from 0 to `nums.length`. The formula used is `(nums.length * (nums.length + 1)) / 2`, representing the sum of an arithmetic series.
-
-- Finding the Missing Number :
-  - The missing number is determined by subtracting the cumulative sum (`jor`) from the expected sum (`supposedSum`). The result is then returned as the missing number in the array.
-
-My approach leverages the concept of arithmetic series to efficiently identify the missing element in the array.
+My idea was to identify the common prefix of all numbers in the range by iteratively right-shifting until `left` and `right` become equal. The count of right shifts is then used to left shift the common prefix to obtain the final result.
 
 ---
 Have a look at the code , still have any confusion then please let me know in the comments ... Keep Solving.:)
 
 # Complexity
-- Time complexity : $O(n)$
+- Time complexity : $O(logN)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-$n$ : length of the input array `nums`
+$N$ :  maximum value between `left` and `right`
 - Space complexity : $O(1)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 
 # Code
 ```
 class Solution {
-    
-    // Static variable to store the cumulative sum
-    static int jor;
 
-    // Method to find the missing number in the array
-    public int missingNumber(int[] nums) {
-        // Initializing the cumulative sum to 0
-        jor = 0;
+    // Method to perform bitwise AND operation on a range of numbers
+    public int rangeBitwiseAnd(int left, int right) {
+   
+        // Initializing a variable to track the number of right shifts
+        int rs = 0;
 
-        // Calculating the cumulative sum of the array elements
-        for (int i : nums) {
-            jor += i;
+        // Continuing the loop until left and right become equal
+        while (left != right) {
+            // Right shifting both left and right by 1 bit
+            left >>= 1;
+            right >>= 1;
+            // Incrementing the count of right shifts
+            rs++;
         }
 
-        // Calculating the expected sum of all numbers from 0 to nums.length
-        int supposedSum = (nums.length * (nums.length + 1)) / 2;
-
-        // Returning the difference between the expected sum and the actual sum
-        return supposedSum - jor;
+        // Performing left shift on the final value of 'left' by the count of right shifts
+        return left << rs;
     }
 }
 ```
