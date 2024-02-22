@@ -4,56 +4,66 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 21-02-24 [Problem Link](https://leetcode.com/problems/bitwise-and-of-numbers-range/description/?envType=daily-question&envId=2024-02-21)
-## 201. Bitwise AND of Numbers Range
+## Today's 22+02=24 [Problem Link](https://leetcode.com/problems/find-the-town-judge/description/?envType=daily-question&envId=2024-02-22)
+## 997. Find the Town Judge
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-- The goal of this problem is to calculate the bitwise AND of all the numbers in the given range [left, right].
-
-- Bitwise AND operation results in 1 only if both corresponding bits are 1. As we move from left to right in a binary representation of numbers, the common prefix of all numbers contributes to the result. Any differing bits will result in a 0 after the AND operation.
+This problem aims to find the judge in a town based on trust relationships between the people. The judge is someone who is trusted by everyone else but does not trust anyone.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-- Initialized a variable `rs` (right shift) to 0 to keep track of the number of right shifts needed.
-- Used a loop to continue right-shifting both `left` and `right` until they become equal.
-- In each iteration, right shifted both `left` and `right` by 1 bit and incremented the `rs` counter.
-- After the loop, performed a left shift on the final value of `left` by the count of right shifts (`rs`).
-- Returned the result.
 
-My idea was to identify the common prefix of all numbers in the range by iteratively right-shifting until `left` and `right` become equal. The count of right shifts is then used to left shift the common prefix to obtain the final result.
+**Initialized the Trust Counts Array :** Created an array to store the trust counts for each person. The array `a` will have a size of `n+1` to accommodate indices from 1 to n.
+
+**Updated the Trust Counts :** Iterated through the trust array and updated the trust counts in the array. Decreased the count for the person making the trust (outgoing trust) and increased the count for the person receiving the trust (incoming trust).
+
+**Found the Judge :** Iterated through the people (from 1 to n) and checked if a person has incoming trusts equal to (n - 1). If found, that person is considered the judge since the judge is trusted by everyone else and does not trust anyone.
+
+**Result :** If a judge is found, returned the person's index. If no judge is found, returned -1.
 
 ---
 Have a look at the code , still have any confusion then please let me know in the comments ... Keep Solving.:)
 
 # Complexity
-- Time complexity : $O(logN)$
+- Time complexity :  $O(N+E)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-$N$ :  maximum value between `left` and `right`
-- Space complexity : $O(1)$
+$N$ : number of people
+$E$ : number of trust relationships
+- Space complexity : $O(N)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 
 # Code
 ```
 class Solution {
 
-    // Method to perform bitwise AND operation on a range of numbers
-    public int rangeBitwiseAnd(int left, int right) {
-   
-        // Initializing a variable to track the number of right shifts
-        int rs = 0;
+    // Creating a static array to store the trust counts for each person.
+    static int[] a;
 
-        // Continuing the loop until left and right become equal
-        while (left != right) {
-            // Right shifting both left and right by 1 bit
-            left >>= 1;
-            right >>= 1;
-            // Incrementing the count of right shifts
-            rs++;
+    // Method to find the judge
+    public int findJudge(int n, int[][] trust) {
+        
+        // Initializing the array to store trust counts
+        a = new int[n + 1];
+
+        // Iterating through the trust array and update the trust counts in the array
+        for (int[] t : trust) {
+            // Decreasing the count for the person making the trust (outgoing trust)
+            a[t[0]]--;
+            // Increasing the count for the person receiving the trust (incoming trust)
+            a[t[1]]++;
         }
 
-        // Performing left shift on the final value of 'left' by the count of right shifts
-        return left << rs;
+        // Iterating through the people (1 to n) to find the judge
+        for (int i = 1; i <= n; i++) {
+            // If a person has incoming trusts equal to (n - 1), they are considered as the judge
+            if (a[i] == n - 1) {
+                return i;
+            }
+        }
+
+        // If no judge is found, returning -1
+        return -1;
     }
 }
 ```
