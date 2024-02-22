@@ -29,6 +29,7 @@ Have a look at the code , still have any confusion then please let me know in th
 - Time complexity :  $O(N+E)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
 $N$ : number of people
+
 $E$ : number of trust relationships
 - Space complexity : $O(N)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
