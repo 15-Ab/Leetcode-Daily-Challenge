@@ -41,7 +41,7 @@ Have a look at the code , still have any confusion then please let me know in th
 $V$ : number of nodes
 $E$ : number of edges in the graph
 
-- Space complexity : $ O(V + E)$ 
+- Space complexity : $O(V + E)$ 
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 
 # Code
