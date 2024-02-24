@@ -37,6 +37,7 @@ Have a look at the code , still have any confusion then please let me know in th
 - Time complexity : $O(m * log n)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
 $m$ : number of meetings
+
 $n$ : number of peoples
 - Space complexity : $O(n + m)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
