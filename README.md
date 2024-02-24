@@ -4,116 +4,130 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 23-02-24 [Problem Link](https://leetcode.com/problems/cheapest-flights-within-k-stops/description/?envType=daily-question&envId=2024-02-23)
-## 787. Cheapest Flights Within K Stops
+## Today's 24-02-24 [Problem Link](https://leetcode.com/problems/find-all-people-with-secret/description/?envType=daily-question&envId=2024-02-24)
+## 2092. Find All People With Secret
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-This problem involves finding the cheapest price to travel from a source city to a destination city with a constraint on the maximum number of stops allowed. This can be solved using Dijkstra's algorithm, which is a graph search algorithm that finds the shortest paths between nodes in a graph.
+**Disjoint Set** : I utilized the Disjoint Set (Union-Find) data structure to manage connected components.
+
+**Union by Rank** : Optimized union operations by merging sets based on their ranks.
+
+**Path Compression** : Enhanced find operations with path compression to shorten the path to the root.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-**Initialized the Graph :**
-   - Created an adjacency list to represent the graph, where each node contained a list of neighboring nodes and their corresponding weights.
+**Initialized the Disjoint Set** : I created a Disjoint Set to represent individual sets for each element.
 
-**Initialized the Data Structures :**
-   - Created a priority queue (minHeap) to store information about the current distance, current node, and remaining stops.
-   - Initialized a 2D array (`dist`) to store the minimum distances from the source to each node with a specific number of stops remaining.
+**Connected Initial Person** : Connected the specified initial person to the root of the disjoint set.
 
-**Dijkstra's Algorithm :**
-   - Initialized the distance from the source to itself with the maximum number of stops allowed to be 0.
-   - Added the source node to the priority queue with the initial distance.
-   - Performed the main loop of Dijkstra's algorithm :
-     - Popped the node with the minimum distance from the priority queue.
-     - If the current node is the destination, returned the minimum cost.
-     - If the remaining stops are 0, skipped to the next iteration.
-     - Relaxation step : Updated the distances to neighbors and added them to the priority queue if a shorter path is found.
+**Organized the Meetings** : I sorted meetings by time using a TreeMap to process them chronologically.
 
-**Result :**
-   - If the destination is not reachable within the allowed stops, returned -1.
+**Processed Meetings** : For each meeting, connected people in the disjoint set and reset unconnected nodes.
+
+**Find Connected People** : Identified all people connected to the root of the disjoint set.
+
+**Result** : Provided the list of people connected to the specified initial person.
+
+My approach ensured efficient management of connected components, enabling the identification of individuals connected to a given starting point.
 
 ---
 Have a look at the code , still have any confusion then please let me know in the comments ... Keep Solving.:)
-
 # Complexity
-- Time complexity : $O((V + E) * log(V))$
+- Time complexity : $O(m * log n)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-$V$ : number of nodes
-$E$ : number of edges in the graph
-
-- Space complexity : $O(V + E)$ 
+$m$ : number of meetings
+$n$ : number of peoples
+- Space complexity : $O(n + m)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 
 # Code
 ```
+// Implementation of Disjoint Set (Union-Find) data structure
+class DisjointSet {
+  private int[] parent;
+  private int[] rank;
+
+  // Constructor to initialize the disjoint set with individual sets for each element
+  public DisjointSet(int size) {
+    parent = new int[size];
+    rank = new int[size];
+    for (int i = 0; i < size; ++i)
+      parent[i] = i;
+  }
+
+  // Union operation with rank optimization to merge sets
+  public void unionByRank(int u, int v) {
+    final int rootU = find(u);
+    final int rootV = find(v);
+    if (rootU == rootV)
+      return;
+    if (rank[rootU] < rank[rootV]) {
+      parent[rootU] = rootV;
+    } else if (rank[rootU] > rank[rootV]) {
+      parent[rootV] = rootU;
+    } else {
+      parent[rootU] = rootV;
+      ++rank[rootV];
+    }
+  }
+
+  // Find operation to determine the root of the set to which an element belongs
+  public boolean isConnected(int u, int v) {
+    return find(u) == find(v);
+  }
+
+  // Resetting the parent of a node, useful for disconnecting nodes from a set
+  public void resetNode(int u) {
+    parent[u] = u;
+  }
+
+  // Recursive find operation with path compression for efficient set determination
+  private int find(int u) {
+    return parent[u] == u ? u : (parent[u] = find(parent[u]));
+  }
+}
+
+// Solution class that utilizes the DisjointSet to find all people connected to a specific person
 class Solution {
 
-    // Static variables for graph, minHeap, and distance matrix
-    static List<Pair<Integer, Integer>>[] graph;
-    static Queue<int[]> minHeap;
-    static int[][] dist;
+  // Method to find all people connected to a specific person based on meeting times
+  public List<Integer> findAllPeople(int numOfPeople, int[][] meetings, int initialPerson) {
+    List<Integer> result = new ArrayList<>();
+    DisjointSet disjointSet = new DisjointSet(numOfPeople);
+    TreeMap<Integer, List<Pair<Integer, Integer>>> timeToPairs = new TreeMap<>();
 
-    // Main function to find the cheapest price using Dijkstra's algorithm
-    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
-        
-        // Initializing the graph as an adjacency list
-        graph = new List[n];
-        for (int i = 0; i < n; i++)
-            graph[i] = new ArrayList<>();
+    // Connecting the initial person to the root of the disjoint set
+    disjointSet.unionByRank(0, initialPerson);
 
-        // Populating the graph with flight information
-        for (int[] flight : flights) {
-            int u = flight[0];
-            int v = flight[1];
-            int w = flight[2];
-            graph[u].add(new Pair<>(v, w));
-        }
-
-        // Initializing the minHeap with a custom comparator for Dijkstra's algorithm
-        minHeap = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));
-
-        // Initializing the distance matrix with maximum values
-        dist = new int[graph.length][k + 2];
-        for (int[] row : dist)
-            Arrays.fill(row, Integer.MAX_VALUE);
-
-        // Setting the distance from source to source with k stops remaining to 0
-        dist[src][k + 1] = 0;
-        minHeap.offer(new int[]{dist[src][k + 1], src, k + 1});
-
-        // Calling the helper function to perform Dijkstra's algorithm
-        return helperDijkstra(src, dst, k);
+    // Organizing meetings based on time
+    for (int[] meeting : meetings) {
+      timeToPairs.putIfAbsent(meeting[2], new ArrayList<>());
+      timeToPairs.get(meeting[2]).add(new Pair<>(meeting[0], meeting[1]));
     }
 
-    // Helper function for Dijkstra's algorithm
-    private static int helperDijkstra(int src, int dst, int k) {
-        // Main loop for Dijkstra's algorithm
-        while (!minHeap.isEmpty()) {
-            int d = minHeap.peek()[0];
-            int u = minHeap.peek()[1];
-            int stops = minHeap.poll()[2];
-
-            // If the destination is reached, returning the minimum cost
-            if (u == dst)
-                return d;
-
-            // If no more stops allowed, skipping to the next iteration
-            if (stops == 0)
-                continue;
-
-            // Relaxation step - update distances to neighbors
-            for (Pair<Integer, Integer> pair : graph[u]) {
-                int v = pair.getKey();
-                int w = pair.getValue();
-                if (d + w < dist[v][stops - 1]) {
-                    dist[v][stops - 1] = d + w;
-                    minHeap.offer(new int[]{dist[v][stops - 1], v, stops - 1});
-                }
-            }
-        }
-
-        // If the destination is not reachable within allowed stops, returning -1
-        return -1;
+    // Processing meetings and connect people in the disjoint set
+    for (List<Pair<Integer, Integer>> pairs : timeToPairs.values()) {
+      Set<Integer> connectedPeople = new HashSet<>();
+      for (Pair<Integer, Integer> pair : pairs) {
+        final int personX = pair.getKey();
+        final int personY = pair.getValue();
+        disjointSet.unionByRank(personX, personY);
+        connectedPeople.add(personX);
+        connectedPeople.add(personY);
+      }
+      // Resetting nodes not connected to the root of the set
+      for (final int person : connectedPeople)
+        if (!disjointSet.isConnected(person, 0))
+          disjointSet.resetNode(person);
     }
+
+    // Finding all people connected to the root of the disjoint set
+    for (int i = 0; i < numOfPeople; ++i)
+      if (disjointSet.isConnected(i, 0))
+        result.add(i);
+
+    return result;
+  }
 }
 ```
