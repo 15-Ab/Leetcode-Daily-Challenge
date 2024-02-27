@@ -4,6 +4,8 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
+### Sorry for past two days as I was offline completely. Now I'll remain regular. Thanks for your pateince.
+
 ## Today's 27-02-24 [Problem Link](https://leetcode.com/problems/diameter-of-binary-tree/description/?envType=daily-question&envId=2024-02-27)
 ## 543. Diameter of Binary Tree
 
