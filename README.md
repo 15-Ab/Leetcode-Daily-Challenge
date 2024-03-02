@@ -4,83 +4,76 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 01-03-24 [Problem Link](https://leetcode.com/problems/maximum-odd-binary-number/description/?envType=daily-question&envId=2024-03-01)
-## 2864. Maximum Odd Binary Number
+## Today's 02-03-24 [Problem Link](https://leetcode.com/problems/squares-of-a-sorted-array/description/?envType=daily-question&envId=2024-03-02)
+## 977. Squares of a Sorted Array
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-The goal of the code is to find the maximum odd binary number based on the input binary string `s`. The approach involves counting the number of '1's in the input string and constructing a new binary string accordingly.
-
+The given code aims to calculate the sorted squares of an array of integers. It uses a two-pointer approach to efficiently process the input array and produce the result array containing the squares in sorted order.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
+- Initialize variables: 
+   - `size`: Get the size of the input array.
+   - `result`: Initialize an array to store the sorted squares.
+   - `index`: Initialize an index to populate the result array in reverse order.
 
-**Counted '1's :**
-   - Initialized a static variable `ones` to count the number of '1's.
-   - Iterated through each character in the input string `s`.
-   - If the character is '1', incremented the `ones` count.
+- Two-pointer traversal :
+   - Use two pointers, `left` starting from the beginning and `right` starting from the end of the array.
+   - Compare the absolute values of elements at `left` and `right` pointers.
 
-**Constructed the Result String  :**
-   - Initialized an empty string `jawab` to store the result.
-   - Added ('1's - 1) times '1' to the result string.
-   - Added ('0's - 1) times '0' to the result string.
-   - If there is at least one '1' in the input string, added a final '1' to the result.
+- Square and store :
+   - If the absolute value at `left` is greater, square it and store it in the `result` array at the specified `index`.
+   - If the absolute value at `right` is greater, square it and store it in the `result` array at the specified `index`.
 
-**Result :**
-   - The constructed string `jawab` represents the maximum odd binary number.
-   - Returned the result string.
+- Move pointers :
+   - Adjust the pointers (`left` or `right`) based on the comparison.
 
-My code ensures that the resulting binary number is odd by including a final '1' in the string. The approach efficiently constructs the result based on the count of '1's in the input string.
+- Repeat until traversal is complete.
+
+- Return the `result` array containing the sorted squares.
+
+My approach ensures that the result array is populated with sorted squares in a time-efficient manner, utilizing the two-pointer technique.
 
 ---
 Have a look at the code , still have any confusion then please let me know in the comments ... Keep Solving.:)
+
 # Complexity
-- Time complexity : $O(s)$
+- Time complexity : $O(N)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-$s$ : length of the input string
-- Space complexity : $O(s)$
+$N$ : size of the input array
+- Space complexity : $O(N)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 
 # Code
 ```
 class Solution {
-    
-    // Static variable to count the number of '1's in the input string
-    static int ones;
 
-    // Method to find the maximum odd binary number
-    public String maximumOddBinaryNumber(String s) {
+    // Method to calculate sorted squares of input numbers
+    public int[] sortedSquares(int[] nums) {
+        // Getting the size of the input array
+        final int size = nums.length;
         
-        // Initializing the count of '1's
-        ones = 0;
+        // Initializing an array to store the result
+        int[] result = new int[size];
+        
+        // Initializing an index for storing results in reverse order
+        int index = size - 1;
 
-        // Counting the number of '1's in the input string
-        for (char c : s.toCharArray()) {
-            if (c == '1') {
-                ones++;
+        // Looping through the input array using two pointers (left and right)
+        for (int left = 0, right = size - 1; left <= right;) {
+            // Comparing the absolute values of numbers at left and right pointers
+            if (Math.abs(nums[left]) > Math.abs(nums[right])) {
+                // If the absolute value at left is greater, squaring it and storing in result
+                result[index--] = nums[left] * nums[left++];
+            } else {
+                // If the absolute value at right is greater, squaring it and storing in result
+                result[index--] = nums[right] * nums[right--];
             }
         }
 
-        // Initializing an empty string to store the result
-        String jawab = "";
-
-        // Adding '1's to the result string (ones - 1) times
-        for (int i = 0; i < ones - 1; i++) {
-            jawab += '1';
-        }
-
-        // Adding '0's to the result string (s.length() - ones) times
-        for (int i = 0; i < s.length() - ones; i++) {
-            jawab += '0';
-        }
-
-        // If there is at least one '1' in the input string, adding a final '1'
-        if (ones > 0) {
-            jawab += '1';
-        }
-
-        // Returning the result string
-        return jawab;
+        // Returning the array containing sorted squares
+        return result;
     }
 }
 ```
