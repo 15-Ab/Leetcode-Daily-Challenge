@@ -27,7 +27,7 @@ Have a look at the code , still have any confusion then please let me know in th
 - Time complexity : $O(N)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
 
-- Space complexity : $o(1)$
+- Space complexity : $O(1)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 
 # Code
