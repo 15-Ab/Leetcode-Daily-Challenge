@@ -1,3 +1,14 @@
+# 🌟 Today is 4 🌟
+
+A very auspicious day for me. Some dates are etched in the heart, and for me, 4 is that magical day. Words fall short in expressing the depth of gratitude I feel towards the divine for this profound emotion.
+
+📖 It's a humble request to all you amazing souls reading my repository :
+
+Life is a journey filled with highs and lows, moments of joy and instances of pain. Embrace every facet, for each contributes to the beautiful tapestry of existence. Remember who you are and maintain unwavering faith in yourself, just as I do.
+
+🚀 Enjoy exploring my solution and keep the coding spirit alive! Happy coding! ✨
+
+
 # Leetcode Daily Challenge Solutions
 
 This is my attempt to make the coding experience easier for you guys so that you can easily learn what to do in today's leetcode challenge.
