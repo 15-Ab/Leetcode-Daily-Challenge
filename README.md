@@ -1,87 +1,69 @@
-# 🌟 Today is 4 🌟
-
-A very auspicious day for me. Some dates are etched in the heart, and for me, 4 is that magical day. Words fall short in expressing the depth of gratitude I feel towards the divine for this profound emotion.
-
-📖 It's a humble request to all you amazing souls reading my repository :
-
-Life is a journey filled with highs and lows, moments of joy and instances of pain. Embrace every facet, for each contributes to the beautiful tapestry of existence. Remember who you are and maintain unwavering faith in yourself, just as I do.
-
-🚀 Enjoy exploring my solution and keep the coding spirit alive! Happy coding ! ✨
-
-
 # Leetcode Daily Challenge Solutions
 
 This is my attempt to make the coding experience easier for you guys so that you can easily learn what to do in today's leetcode challenge.
 
 ## Always here to assist you guys.
 
-## Today's 04-03-24 [Problem Link](https://leetcode.com/problems/bag-of-tokens/description/?envType=daily-question&envId=2024-03-04)
-## 948. Bag of Tokens
+## Today's 05-03-24 [Problem Link](https://leetcode.com/problems/minimum-length-of-string-after-deleting-similar-ends/description/?envType=daily-question&envId=2024-03-05)
+## 1750. Minimum Length of String After Deleting Similar Ends
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-The goal of this algorithm is to calculate the maximum score that can be obtained from a bag of tokens, given the initial power. The idea is to strategically play the tokens to maximize the score.
+The goal is to find the minimum length of a string after repeatedly removing the same character from both ends until the string is no longer symmetric.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-**Sorting** : I sorted the array of tokens in ascending order. This allowed me to consider the smallest tokens first, making the algorithm more efficient.
+- I initialized two pointers, `leftIdx` and `rightIdx`, at the beginning and end of the string, respectively.
+- Used a while loop to iterate while `leftIdx` is less than `rightIdx` and the characters at these indices are equal.
+- Inside the loop :
+   - Stored the current character at `leftIdx` in the variable `currentChar`.
+   - Moved `leftIdx` to the right until a different character is encountered.
+   - Moved `rightIdx` to the left until a different character is encountered.
+- Calculated and return the length of the remaining string by subtracting `leftIdx` from `rightIdx` and adding 1.
 
-**Two Pointers** : Used two pointers, `leftIndex` and `rightIndex`, initially pointing to the smallest and largest tokens, respectively.
-
-**Token Play Loop** : Iterated through the tokens while considering the available power and the current score. Play tokens in a way to maximize the score :
-
-   - Played the smallest face up (increment `leftIndex`) if there's enough power.
-   
-   - Updated the maximum score if needed.
-   
-   - Played the largest face down (decrement `rightIndex`) if there's still score to be used.
-
-**Result** : The final result is the maximum score obtained from the bag of tokens.
-
-My algorithm ensured efficient utilization of power and strategic playing of tokens to achieve the maximum possible score.x
+My algorithm efficiently reduced the length of the string by removing symmetric characters from both ends until no more symmetric characters are found.
 
 ---
 Have a look at the code , still have any confusion then please let me know in the comments ... Keep Solving.:)
 
 # Complexity
-- Time complexity:
+- Time complexity : $O(s)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-
-- Space complexity:
+$s$ : length of the input string
+- Space complexity : $O(1)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 
 # Code
 ```
 class Solution {
     
-    // Method to calculate the maximum score for a given set of tokens and initial power
-    public int bagOfTokensScore(int[] tokens, int power) {
-        int maxScore = 0;          // Variable to store the maximum score
-        int currentScore = 0;      // Variable to track the current score
-        int leftIndex = 0;         // Index of the smallest token
-        int rightIndex = tokens.length - 1;  // Index of the largest token
+  // Method to find the minimum length
+  public int minimumLength(String s) {
+    // Initialize two pointers, leftIdx and rightIdx
+    int leftIdx = 0;
+    int rightIdx = s.length() - 1;
 
-        Arrays.sort(tokens);       // Sorting the tokens in ascending order
+    // Iterating while the leftIdx is less than rightIdx and characters at these indices are equal
+    while (leftIdx < rightIdx && s.charAt(leftIdx) == s.charAt(rightIdx)) {
+      
+      // Storing the current character
+      final char currentChar = s.charAt(leftIdx);
 
-        // Iterating through the tokens while considering the power and score
-        while (leftIndex <= rightIndex && (power >= tokens[leftIndex] || currentScore > 0)) {
-            // Playing the smallest face up as long as there is enough power
-            while (leftIndex <= rightIndex && power >= tokens[leftIndex]) {
-                power -= tokens[leftIndex++];
-                ++currentScore;
-            }
-            // Updating the maximum score
-            maxScore = Math.max(maxScore, currentScore);
-            
-            // Playing the largest face down if there's still score to be used
-            if (leftIndex <= rightIndex && currentScore > 0) {
-                power += tokens[rightIndex--];
-                --currentScore;
-            }
-        }
+      // Moving leftIdx to the right until a different character is encountered
+      while (leftIdx <= rightIdx && s.charAt(leftIdx) == currentChar){
+        leftIdx++;
+      }
 
-        // Returning the calculated maximum score
-        return maxScore;
+      // Moving rightIdx to the left until a different character is encountered
+      while (leftIdx <= rightIdx && s.charAt(rightIdx) == currentChar){
+          rightIdx--;
+      }
+          
     }
+
+    // Returning the calculated minimum length
+    return rightIdx - leftIdx + 1;
+  }
 }
+
 ```
