@@ -4,66 +4,89 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 05-03-24 [Problem Link](https://leetcode.com/problems/minimum-length-of-string-after-deleting-similar-ends/description/?envType=daily-question&envId=2024-03-05)
-## 1750. Minimum Length of String After Deleting Similar Ends
+## Today's 06-03-24 [Problem Link](https://leetcode.com/problems/linked-list-cycle/description/?envType=daily-question&envId=2024-03-06)
+## 141. Linked List Cycle
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-The goal is to find the minimum length of a string after repeatedly removing the same character from both ends until the string is no longer symmetric.
+The goal is to determine whether a given linked list has a cycle or not. A cycle in a linked list occurs when a node points to a previously visited node, creating a loop in the structure.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-- I initialized two pointers, `leftIdx` and `rightIdx`, at the beginning and end of the string, respectively.
-- Used a while loop to iterate while `leftIdx` is less than `rightIdx` and the characters at these indices are equal.
-- Inside the loop :
-   - Stored the current character at `leftIdx` in the variable `currentChar`.
-   - Moved `leftIdx` to the right until a different character is encountered.
-   - Moved `rightIdx` to the left until a different character is encountered.
-- Calculated and return the length of the remaining string by subtracting `leftIdx` from `rightIdx` and adding 1.
+**Edge Case Check :**
+   - Checked if the given linked list is empty (head is null). If it is, returned `false` as there can't be a cycle in an empty list.
 
-My algorithm efficiently reduced the length of the string by removing symmetric characters from both ends until no more symmetric characters are found.
+**HashSet for Visited Nodes :**
+   - Initialized a HashSet (`visitedNodes`) to keep track of visited nodes.
+   - Added the head of the linked list to the HashSet.
+
+**Traverse the Linked List:**
+   - Used a while loop to traverse the linked list.
+   - At each step, checked if the next node is already present in the HashSet. If it is, there is a cycle, so return `true`.
+   - If the next node is not in the HashSet, added it to the HashSet.
+   - Moved to the next node in the linked list.
+
+**Result :**
+   - If the loop completes without finding a cycle, returned `false`.
+
+My approach utilized a HashSet to efficiently detect cycles in a linked list.
 
 ---
 Have a look at the code , still have any confusion then please let me know in the comments ... Keep Solving.:)
-
 # Complexity
-- Time complexity : $O(s)$
+- Time complexity : $O(N)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-$s$ : length of the input string
-- Space complexity : $O(1)$
+$N$ : number of nodes in the linked list
+- Space complexity : $O(N)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 
 # Code
 ```
-class Solution {
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+
+public class Solution {
     
-  // Method to find the minimum length
-  public int minimumLength(String s) {
-    // Initialize two pointers, leftIdx and rightIdx
-    int leftIdx = 0;
-    int rightIdx = s.length() - 1;
+    // Function to check if a linked list has a cycle
+    public boolean hasCycle(ListNode head) {
+        
+        // Checking if the head is null (empty list)
+        if (head == null) {
+            return false;
+        }
+        
+        // HashSet to store visited nodes
+        HashSet<ListNode> visitedNodes = new HashSet<>();
+        
+        // Adding the head to the HashSet
+        visitedNodes.add(head);
 
-    // Iterating while the leftIdx is less than rightIdx and characters at these indices are equal
-    while (leftIdx < rightIdx && s.charAt(leftIdx) == s.charAt(rightIdx)) {
-      
-      // Storing the current character
-      final char currentChar = s.charAt(leftIdx);
-
-      // Moving leftIdx to the right until a different character is encountered
-      while (leftIdx <= rightIdx && s.charAt(leftIdx) == currentChar){
-        leftIdx++;
-      }
-
-      // Moving rightIdx to the left until a different character is encountered
-      while (leftIdx <= rightIdx && s.charAt(rightIdx) == currentChar){
-          rightIdx--;
-      }
-          
+        // Looping through the linked list
+        while (head != null) {
+            
+            // Checking if the next node is already in the HashSet (indicating a cycle)
+            if (visitedNodes.contains(head.next)) {
+                return true;
+            }
+            
+            // Adding the next node to the HashSet
+            visitedNodes.add(head.next);
+            
+            // Moving to the next node in the linked list
+            head = head.next;
+        }
+        
+        // If the loop completes without finding a cycle, returning false
+        return false;
     }
-
-    // Returning the calculated minimum length
-    return rightIdx - leftIdx + 1;
-  }
 }
-
 ```
