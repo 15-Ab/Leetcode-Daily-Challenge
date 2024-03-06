@@ -20,7 +20,7 @@ The goal is to determine whether a given linked list has a cycle or not. A cycle
    - Initialized a HashSet (`visitedNodes`) to keep track of visited nodes.
    - Added the head of the linked list to the HashSet.
 
-**Traverse the Linked List:**
+**Traversed the Linked List :**
    - Used a while loop to traverse the linked list.
    - At each step, checked if the next node is already present in the HashSet. If it is, there is a cycle, so return `true`.
    - If the next node is not in the HashSet, added it to the HashSet.
