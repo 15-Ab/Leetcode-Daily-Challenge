@@ -1,4 +1,5 @@
-# 🔱 Embracing the cosmic energy this Mahashivratri ! Wishing everyone a day filled with devotion, introspection, and coding adventures. Let the blessings of Lord Shiva guide our paths in the coding realm. 🖥️🕉️ #Mahashivratri #CodeWithDevotion #GitHubDiaries
+# 🔱 Embracing the cosmic energy this Mahashivratri ! 
+## Wishing everyone a day filled with devotion, introspection, and coding adventures. Let the blessings of Lord Shiva guide our paths in the coding realm. 🖥️🕉️ #Mahashivratri #CodeWithDevotion #GitHubDiaries
 
 # Leetcode Daily Challenge Solutions
 
