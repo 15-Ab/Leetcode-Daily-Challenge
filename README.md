@@ -1,74 +1,83 @@
+# 🔱 Embracing the cosmic energy this Mahashivratri ! Wishing everyone a day filled with devotion, introspection, and coding adventures. Let the blessings of Lord Shiva guide our paths in the coding realm. 🖥️🕉️ #Mahashivratri #CodeWithDevotion #GitHubDiaries
+
 # Leetcode Daily Challenge Solutions
 
 This is my attempt to make the coding experience easier for you guys so that you can easily learn what to do in today's leetcode challenge.
 
 ## Always here to assist you guys.
 
-## Today's 07-03-24 [Problem Link](https://leetcode.com/problems/middle-of-the-linked-list/description/?envType=daily-question&envId=2024-03-07)
-## 876. Middle of the Linked List
+## Today's 08-03-24 [Problem Link](https://leetcode.com/problems/count-elements-with-maximum-frequency/description/?envType=daily-question&envId=2024-03-08)
+## 3005. Count Elements With Maximum Frequency
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-We are given a singly-linked list and need to find its middle node.
+- I will utilize a HashMap to efficiently store and update the frequency of each element in the input array.
+
+- Keep track of the maximum frequency encountered during the traversal.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-To find the middle node, I followed these steps : 
-- I calculated the length of the linked list using a helper function.
-- Traversed the linked list to find the middle node.
-- Returned the middle node.
+- I initialized a HashMap (m) to store the frequency of each element and a variable (max) to track the maximum frequency.
+
+- Traversed through the input array (nums) :
+  - For each element, updated its frequency in the HashMap.
+  - Updated the maximum frequency (max) if a higher frequency is encountered.
+
+- Iterated through the keys of the HashMap :
+  - For each key, if its frequency is equal to the maximum frequency (max), added its frequency to the final answer (jawab).
+
+- The final result (jawab) is the sum of frequencies of elements with the maximum frequency.
+
+My approach efficiently identified elements with the maximum frequency in the given array.
 
 ---
 Have a look at the code , still have any confusion then please let me know in the comments ... Keep Solving.:)
+
 # Complexity
-- Time complexity : $O(n)$
+- Time complexity : $O(N)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-$n$ : number of nodes in the linked list
-- Space complexity : $O(1)$
+$N$ : number of elements in the input array `nums`
+$u$ : number of unique elements in the input array `nums`
+- Space complexity : $O(u)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 
 # Code
 ```
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
 class Solution {
-    // Function to find the middle node of a linked list
-    public ListNode middleNode(ListNode head) {
+ 
+    // Method to find the maximum frequency elements in an array
+    public int maxFrequencyElements(int[] nums) {
+       // HashMap to store the frequency of each element
+        HashMap<Integer, Integer> m = new HashMap<>();
         
-        // Calculating the length of the linked list
-        int l = length(head);
-        int i = 0;
+        // Variable to track the maximum frequency
+        int max = 0;
         
-        // Traversing to the middle node
-        while( i < l/2){
-            head = head.next;
-            i++;
-        }
-        
-        // Returning the middle node
-        return head;
-    }
+        // Looping through the array to count the frequency of each element
+        for (int i : nums) {
+            // If the element is not present in the HashMap, adding it with a default frequency of 0
+            m.putIfAbsent(i, 0);
+            
+            // Updating the frequency of the element in the HashMap
+            m.put(i, m.getOrDefault(i, 0) + 1);
+            
+            // Updating the maximum frequency
+            max = Math.max(max, m.get(i));
+        }   
 
-    // Function to calculate the length of a linked list
-    static int length(ListNode h){
-        int l = 0;
+        // Variable to store the final answer
+        int jawab = 0;
         
-        // Traversing the linked list and count the nodes
-        while( h != null){
-            l++;
-            h = h.next;
+        // Looping through the keys of the HashMap to find elements with the maximum frequency
+        for (int k : m.keySet()) {
+            // If the frequency of the element is equal to the maximum frequency, adding it to the answer
+            if (m.get(k) == max) {
+                jawab += m.get(k);
+            }
         }
         
-        // Returning the length
-        return l;
+        // Returning the final answer
+        return jawab;
     }
 }
 ```
