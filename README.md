@@ -9,7 +9,7 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-The goal is to find the common element between two arrays, and the approach involves using a HashSet to efficiently check for common elements. My algorithm first determines which array is larger and populates the HashSet with elements from the smaller array. Then, it iterates through the larger array to find the common element by checking HashSet membership. Once found, the common element is returned.
+The goal is to find the common element between two arrays, and my approach involves using a HashSet to efficiently check for common elements. My algorithm first determines which array is larger and populates the HashSet with elements from the smaller array. Then, it iterates through the larger array to find the common element by checking HashSet membership. Once found, the common element is returned.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
@@ -41,6 +41,8 @@ Have a look at the code , still have any confusion then please let me know in th
 - Time complexity : $O(m + n)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
 $m$ : length of smaller array
+
+
 $n$ : length of larger array
 - Space complexity : $O(m)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
