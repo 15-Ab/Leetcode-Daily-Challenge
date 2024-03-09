@@ -1,84 +1,94 @@
-# 🔱 Embracing the cosmic energy this Mahashivratri ! 
-## Wishing everyone a day filled with devotion, introspection, and coding adventures. Let the blessings of Lord Shiva guide our paths in the coding realm. 🖥️🕉️ #Mahashivratri #CodeWithDevotion #GitHubDiaries
-
 # Leetcode Daily Challenge Solutions
 
 This is my attempt to make the coding experience easier for you guys so that you can easily learn what to do in today's leetcode challenge.
 
 ## Always here to assist you guys.
 
-## Today's 08-03-24 [Problem Link](https://leetcode.com/problems/count-elements-with-maximum-frequency/description/?envType=daily-question&envId=2024-03-08)
-## 3005. Count Elements With Maximum Frequency
+## Today's 09-03-24 [Problem Link](https://leetcode.com/problems/minimum-common-value/description/?envType=daily-question&envId=2024-03-09)
+## 2540. Minimum Common Value
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-- I will utilize a HashMap to efficiently store and update the frequency of each element in the input array.
-
-- Keep track of the maximum frequency encountered during the traversal.
+The goal is to find the common element between two arrays, and the approach involves using a HashSet to efficiently check for common elements. My algorithm first determines which array is larger and populates the HashSet with elements from the smaller array. Then, it iterates through the larger array to find the common element by checking HashSet membership. Once found, the common element is returned.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-- I initialized a HashMap (m) to store the frequency of each element and a variable (max) to track the maximum frequency.
+**Initialized the Variables :**
+   - Initialized `common` to -1 to store the common element.
+   - Initialized `n1IsLarge` to false to track which array is larger.
 
-- Traversed through the input array (nums) :
-  - For each element, updated its frequency in the HashMap.
-  - Updated the maximum frequency (max) if a higher frequency is encountered.
+**Determined Larger Array :**
+   - Checked if the length of `nums1` is greater than the length of `nums2`.
+   - Set `n1IsLarge` to true if `nums1` is larger.
 
-- Iterated through the keys of the HashMap :
-  - For each key, if its frequency is equal to the maximum frequency (max), added its frequency to the final answer (jawab).
+**Created HashSet :**
+   - Created a HashSet `h` to store elements of the smaller array.
 
-- The final result (jawab) is the sum of frequencies of elements with the maximum frequency.
+**Populated the HashSet :**
+   - If `n1IsLarge` is true, iterated through `nums2` and added elements to HashSet `h`.
+   - If `n1IsLarge` is false, iterated through `nums1` and added elements to HashSet `h`.
 
-My approach efficiently identified elements with the maximum frequency in the given array.
+**Found Common Element :**
+   - Iterated through the larger array.
+   - If the current element is present in HashSet `h`, set `common` to that element and broke the loop.
+
+**Result :**
+   - Returned the value of `common`, which represents the common element.
 
 ---
 Have a look at the code , still have any confusion then please let me know in the comments ... Keep Solving.:)
-
 # Complexity
-- Time complexity : $O(N)$
+- Time complexity : $O(m + n)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-$N$ : number of elements in the input array `nums`
-$u$ : number of unique elements in the input array `nums`
-- Space complexity : $O(u)$
+$m$ : length of smaller array
+$n$ : length of larger array
+- Space complexity : $O(m)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 
 # Code
 ```
 class Solution {
- 
-    // Method to find the maximum frequency elements in an array
-    public int maxFrequencyElements(int[] nums) {
-       // HashMap to store the frequency of each element
-        HashMap<Integer, Integer> m = new HashMap<>();
-        
-        // Variable to track the maximum frequency
-        int max = 0;
-        
-        // Looping through the array to count the frequency of each element
-        for (int i : nums) {
-            // If the element is not present in the HashMap, adding it with a default frequency of 0
-            m.putIfAbsent(i, 0);
-            
-            // Updating the frequency of the element in the HashMap
-            m.put(i, m.getOrDefault(i, 0) + 1);
-            
-            // Updating the maximum frequency
-            max = Math.max(max, m.get(i));
-        }   
 
-        // Variable to store the final answer
-        int jawab = 0;
+    public int getCommon(int[] nums1, int[] nums2) {
+        int common = -1;
+        boolean n1IsLarge = false;
         
-        // Looping through the keys of the HashMap to find elements with the maximum frequency
-        for (int k : m.keySet()) {
-            // If the frequency of the element is equal to the maximum frequency, adding it to the answer
-            if (m.get(k) == max) {
-                jawab += m.get(k);
+        // Determining which array is larger
+        if (nums1.length > nums2.length) {
+            n1IsLarge = true;
+        }
+        
+        HashSet<Integer> h = new HashSet<>();
+        
+        // Populating the HashSet with the elements of the smaller array
+        if (n1IsLarge) {
+            for (int i : nums2) {
+                h.add(i);
+            }
+            
+            // Finding the common element
+            for (int i = 0; i < nums1.length; i++) {
+                if (h.contains(nums1[i])) {
+                    common = nums1[i];
+                    break;
+                }
+            }
+        } 
+        else {
+            for (int i : nums1) {
+                h.add(i);
+            }
+            
+            // Finding the common element
+            for (int i = 0; i < nums2.length; i++) {
+                if (h.contains(nums2[i])) {
+                    common = nums2[i];
+                    break;
+                }
             }
         }
         
-        // Returning the final answer
-        return jawab;
+        return common;
     }
 }
 ```
