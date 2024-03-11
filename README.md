@@ -38,7 +38,9 @@ Have a look at the code , still have any confusion then please let me know in th
 - Time complexity : $O( O + S + N )$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
 $O$ : length of the order string
+
 $S$ : length of the input string
+
 $N$ :  total number of characters in the input string
 - Space complexity : $O( O + S + N )$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
