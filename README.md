@@ -13,24 +13,24 @@ The goal of my algorithm should be to remove zero-sum sublists from a given link
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-My approach involves using a dummy node and a HashMap to keep track of the prefix sum and the corresponding nodes.
+My approach involved using a dummy node and a HashMap to keep track of the prefix sum and the corresponding nodes.
 
 **Initialization :**
-    - Created a dummy node with a value of 0 and set it as the head.
-    - Initialized a HashMap to store the prefix sum and corresponding nodes, starting with a prefix sum of 0 pointing to the dummy node.
-    - Set the initial prefix sum variable to 0.
+- Created a dummy node with a value of 0 and set it as the head.
+- Initialized a HashMap to store the prefix sum and corresponding nodes, starting with a prefix sum of 0 pointing to the dummy node.
+- Set the initial prefix sum variable to 0.
 
 **Populated the HashMap :**
-    - Traversed the linked list, updating the prefix sum as we iterate.
-    - Stored the current prefix sum and the corresponding node in the HashMap.
+- Traversed the linked list, updating the prefix sum as we iterate.
+- Stored the current prefix sum and the corresponding node in the HashMap.
 
 **Removed Zero-Sum Sublists :**
-    - Reset the prefix sum variable to 0.
-    - Traversed the linked list again.
-    - Updated the next pointers of nodes to remove zero-sum sublists by pointing them to the next node after the corresponding prefix sum in the HashMap.
+- Reset the prefix sum variable to 0.
+- Traversed the linked list again.
+- Updated the next pointers of nodes to remove zero-sum sublists by pointing them to the next node after the corresponding prefix sum in the HashMap.
 
 **Result  :**
-    - Returned the modified list starting from the dummy node's next.
+- Returned the modified list starting from the dummy node's next.
 
 My approach efficiently handled the removal of zero-sum sublists by leveraging the HashMap to keep track of the prefix sums and their corresponding nodes.
 
