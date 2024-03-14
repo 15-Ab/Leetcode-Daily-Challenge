@@ -4,57 +4,67 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 13-03-24 [Problem Link](https://leetcode.com/problems/find-the-pivot-integer/description/?envType=daily-question&envId=2024-03-13)
-## 2485. Find the Pivot Integer
+## Today's 14-03-24 [Problem Link](https://leetcode.com/problems/binary-subarrays-with-sum/description/?envType=daily-question&envId=2024-03-14)
+## 930. Binary Subarrays With Sum
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-The goal of the `pivotInteger` function is to find a pivot integer 'x' for a given integer 'n', where the sum of integers from 1 to 'x' is equal to the sum of integers from 'x + 1' to 'n'.
+To efficiently count the subarrays with the desired sum, I will utilize the concept of prefix sums.
+- A prefix sum of an array at index `i` represents the sum of all elements from index 0 to `i`.
+- By maintaining a prefix sum, I can determine the sum of any subarray by computing the difference between two prefix sums.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-The derivation involves solving a quadratic equation based on the summation of arithmetic series. The key steps are as follows:
+- Initialized the variables : `ans` to store the result, `prefix` to keep track of the prefix sum, and `count` as a HashMap to store the count of encountered prefix sums.
+- Initialized the `count` HashMap with a key-value pair `(0, 1)` to indicate the prefix sum of 0 with count 1.
+- Iterated through the array elements :
+    - Updated the `prefix` sum by adding the current element.
+    - Calculated the difference between the current prefix sum and the target value (`goal`).
+    - If the HashMap contained the calculated key, added the count associated with that key to the result.
+    - Updated the count of the current prefix sum in the HashMap.
+- Returned the final count of subarrays with the given sum (`ans`).
 
-**Summation Equation** : $1 + 2 + ... + x = x + ... + n$
-
-**Quadratic Equation** : $(1 + x) \times \frac{x}{2} = (x + n) \times \frac{n - x + 1}{2}$
-
-**Simplify and Solved** : Manipulated the equation to get $2 * x^2 = n^2 + n$ and solved for 'x'.
-
-**Calculated and Checked** : Calculated 'y' as $\frac{n^2 + n}{2}$ and find the square root 'x'. Checked if $x^2$ equals 'y'.
-
-**Result** : Returned 'x' if it's a perfect square; otherwise, return -1.
+My approach efficiently counted the number of subarrays with the desired sum by utilizing prefix sums and a HashMap to keep track of prefix sum occurrences.
 
 ---
 Have a look at the code , still have any confusion then please let me know in the comments ... Keep Solving.:)
 # Complexity
-- Time complexity : $O(1)$
+- Time complexity : $O(n)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-
-- Space complexity : $O(1)$
+$n$ : size of the input array
+- Space complexity : $O(n)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 
 # Code
 ```
 class Solution {
-  public int pivotInteger(int n) {
+  
+  // Method to count the number of subarrays with the given sum.
+  public int numSubarraysWithSum(int[] nums, int goal) {
 
-    /* Sum of the series: 1 + 2 + ... + x = x + ... + n
-     Equation derivation :
-     (1 + x) * x / 2 = (x + n) * (n - x + 1) / 2
-     Simplifying  :
-     x + x^2 = nx - x^2 + x + n^2 - nx + n
-     2 * x^2 = n^2 + n
-     Solving for x:
-     x = sqrt((n^2 + n) / 2)
-    */
-    
-    // Calculating values and checking for a perfect square
-    final int y = (n * n + n) / 2;
-    final int x = (int) Math.sqrt(y);
-    
-    // Returning result based on perfect square condition
-    return x * x == y ? x : -1;
+    // Initializing variables to store the result and the prefix sum.
+    int ans = 0;
+    int prefix = 0;
+    // Creating a HashMap to store the count of prefix sums encountered so far.
+    Map<Integer, Integer> count = new HashMap<>();
+    // Adding an initial key-value pair to indicate the prefix sum of 0 with count 1.
+    count.put(0, 1);
+
+    // Iterating through the array elements.
+    for (final int num : nums) {
+      // Updating the prefix sum.
+      prefix += num;
+      // Calculating the difference between the current prefix sum and the target value.
+      final int key = prefix - goal;
+      // If the HashMap contains the key, add the count associated with that key to the result.
+      if (count.containsKey(key))
+        ans += count.get(key);
+      // Updating the count of the current prefix sum in the HashMap.
+      count.merge(prefix, 1, Integer::sum);
+    }
+
+    // Returning the final count of subarrays with the given sum.
+    return ans;
   }
 }
 ```
