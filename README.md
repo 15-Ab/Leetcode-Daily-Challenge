@@ -4,67 +4,66 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 14-03-24 [Problem Link](https://leetcode.com/problems/binary-subarrays-with-sum/description/?envType=daily-question&envId=2024-03-14)
-## 930. Binary Subarrays With Sum
+## Today's 15-03-24 [Problem Link](https://leetcode.com/problems/product-of-array-except-self/description/?envType=daily-question&envId=2024-03-15)
+## 238. Product of Array Except Self
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-To efficiently count the subarrays with the desired sum, I will utilize the concept of prefix sums.
-- A prefix sum of an array at index `i` represents the sum of all elements from index 0 to `i`.
-- By maintaining a prefix sum, I can determine the sum of any subarray by computing the difference between two prefix sums.
+Given an array `nums` of integers, we are tasked with finding an array `jawab` such that `jawab[i]` is equal to the product of all the elements of `nums` except `nums[i]`.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-- Initialized the variables : `ans` to store the result, `prefix` to keep track of the prefix sum, and `count` as a HashMap to store the count of encountered prefix sums.
-- Initialized the `count` HashMap with a key-value pair `(0, 1)` to indicate the prefix sum of 0 with count 1.
-- Iterated through the array elements :
-    - Updated the `prefix` sum by adding the current element.
-    - Calculated the difference between the current prefix sum and the target value (`goal`).
-    - If the HashMap contained the calculated key, added the count associated with that key to the result.
-    - Updated the count of the current prefix sum in the HashMap.
-- Returned the final count of subarrays with the given sum (`ans`).
+**Prefix Product Calculation** :
+   - I first calculated the product of all elements to the left of each element `nums[i]` and stored it in the `jawab` array.
+   - I initialized `jawab[0] = 1` and then iterate through the array from index 1 to `nums.length - 1`. For each index `i`, `jawab[i]` is assigned the product of all elements to the left of `nums[i]`.
 
-My approach efficiently counted the number of subarrays with the desired sum by utilizing prefix sums and a HashMap to keep track of prefix sum occurrences.
+**Suffix Product Calculation** :
+   - I then calculated the product of all elements to the right of each element `nums[i]`, multiplying it with the corresponding value in the `jawab` array.
+   - I initialized a variable `s = 1` and iterated through the array from right to left (index `nums.length - 1` to 0). For each index `i`, I multiplied `jawab[i]` with `s` and updated `s` by multiplying it with `nums[i]`.
+
+**Final Result** :
+   - After both prefix and suffix products are calculated and combined, the `jawab` array contained the desired product of all elements except `nums[i]` for each index `i`.
+   - I returned the `jawab` array as the final result.
 
 ---
 Have a look at the code , still have any confusion then please let me know in the comments ... Keep Solving.:)
 # Complexity
 - Time complexity : $O(n)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-$n$ : size of the input array
+$n$ : length of the input array
 - Space complexity : $O(n)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 
 # Code
 ```
 class Solution {
-  
-  // Method to count the number of subarrays with the given sum.
-  public int numSubarraysWithSum(int[] nums, int goal) {
+    
+    // Static variable to store the result
+    static int[] jawab;
 
-    // Initializing variables to store the result and the prefix sum.
-    int ans = 0;
-    int prefix = 0;
-    // Creating a HashMap to store the count of prefix sums encountered so far.
-    Map<Integer, Integer> count = new HashMap<>();
-    // Adding an initial key-value pair to indicate the prefix sum of 0 with count 1.
-    count.put(0, 1);
+    // Method to calculate product of array except self
+    public int[] productExceptSelf(int[] nums) {
+        
+        // Initializing the result array
+        jawab = new int[nums.length];
+        // Set the initial value of the first element in the result array to 1
+        jawab[0] = 1;
 
-    // Iterating through the array elements.
-    for (final int num : nums) {
-      // Updating the prefix sum.
-      prefix += num;
-      // Calculating the difference between the current prefix sum and the target value.
-      final int key = prefix - goal;
-      // If the HashMap contains the key, add the count associated with that key to the result.
-      if (count.containsKey(key))
-        ans += count.get(key);
-      // Updating the count of the current prefix sum in the HashMap.
-      count.merge(prefix, 1, Integer::sum);
+        // Calculating product of elements to the left of current element
+        for (int i = 1; i < nums.length; i++) {
+            jawab[i] = jawab[i - 1] * nums[i - 1];
+        }
+
+        // Initializing a variable to store product of elements to the right of current element
+        int s = 1;
+        // Calculating product of elements to the right of current element and update result array
+        for (int i = nums.length - 1; i >= 0; i--) {
+            jawab[i] *= s;
+            s *= nums[i];
+        }
+
+        // Returning the final result array
+        return jawab;
     }
-
-    // Returning the final count of subarrays with the given sum.
-    return ans;
-  }
 }
 ```
