@@ -41,6 +41,7 @@ Have a look at the code , still have any confusion then please let me know in th
 - Time complexity : $O(n+m)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
 $n$ : number of intervals
+
 $m$ : number of merged intervals
 - Space complexity : $O(n+m)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
