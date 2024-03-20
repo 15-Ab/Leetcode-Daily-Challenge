@@ -15,14 +15,14 @@ The task is to merge the nodes of `head2` into `head1` between the indices `star
 <!-- Describe your approach to solving the problem. -->
 
 - I initialized a pointer `beforeStartNode` to `head1`.
-- Move `beforeStartNode` to the node before the `start` index by iterating `start - 1` times.
-- Initialize a pointer `endNode` to the node at the `start` index (i.e., `beforeStartNode.next`).
-- Move `endNode` to the node at the `end` index by iterating `end - start` times.
-- Connect the node before the `start` index to the head of `head2`.
-- Find the last node in `head2` by traversing till the end of the list.
-- Connect the last node of `head2` to the node after the `end` index.
-- Disconnect the nodes between the `start` and `end` indices from `head1`.
-- Return the modified `head1` after merging `head2` between `start` and `end` indices.
+- Moved `beforeStartNode` to the node before the `start` index by iterating `start - 1` times.
+- Initialized a pointer `endNode` to the node at the `start` index (i.e., `beforeStartNode.next`).
+- Moved `endNode` to the node at the `end` index by iterating `end - start` times.
+- Connected the node before the `start` index to the head of `head2`.
+- Finded the last node in `head2` by traversing till the end of the list.
+- Connected the last node of `head2` to the node after the `end` index.
+- Disconnected the nodes between the `start` and `end` indices from `head1`.
+- Returned the modified `head1` after merging `head2` between `start` and `end` indices.
 
 ---
 Have a look at the code , still have any confusion then please let me know in the comments ... Keep Solving.:)
