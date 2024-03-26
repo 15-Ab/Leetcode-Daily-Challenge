@@ -19,7 +19,7 @@ Simply sort, then look for positive numbers.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-- Sorted the array ( used java collection sorting method which uses $$log(n)$$ time complexity so no issue)
+- Sorted the array ( used java collection sorting method which uses $n*log(n)$ time complexity so no issue)
 - looked for positive numbers starting with 1, if found then searched next number ( 2, then 3, then 4...) 
 - as array is sorted , no issue in arrangement of numbers
 - the last positive number not found will be the answer
