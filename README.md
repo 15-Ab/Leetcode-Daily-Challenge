@@ -29,7 +29,7 @@ Have a look at the code , still have any confusion then please let me know in th
 Keep Solving.:)
 
 # Complexity
-- Time complexity : $O(n log n)$
+- Time complexity : $O(n*log n)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
 $n$ :  length of the input array `nums`
 - Space complexity : $O(1)$
