@@ -4,22 +4,25 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 01-04-24 [Problem Link](https://leetcode.com/problems/length-of-last-word/description/?envType=daily-question&envId=2024-04-01)
-## 58. Length of Last Word
+## Today's 02-04-24 [Problem Link](https://leetcode.com/problems/isomorphic-strings/description/?envType=daily-question&envId=2024-04-02)
+## 205. Isomorphic Strings
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-To find the length of the last word in the given string, I need to identify and isolate the last word. This involves trimming any leading or trailing spaces from the string and then locating the last space character to determine where the last word begins. Once I have isolated the last word, I can calculate its length and return it.
+To check if two strings are isomorphic, we need to establish a one-to-one mapping between characters in one string to characters in the other string. This mapping must preserve the order of characters and ensure that no two characters map to the same character, while allowing a character to map to itself.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-**Trim the string** : Remove dleading and trailing spaces from the input string.
+**Initialization** : Initialized two hash maps (`sToTMap` and `tToSMap`) to store mappings from characters in string `s` to characters in string `t`, and vice versa.
+   
+**Iteration** : Iterated through each character in the strings `s` and `t`.
+   
+**Mapping Check** :
+   - For each character pair `(sChar, tChar)`, checked if `sChar` is already mapped to a character in `t` and if `tChar` is already mapped to a character in `s`.
+   - If a mapping existed and the mapped characters are not equal to each other, returned `false`.
+   - If a mapping does not exist, established the mapping by adding the characters to their respective maps.
 
-**Finded the last space index** : Determined the index of the last space character in the trimmed string.
-
-**Calculated the length of the last word** : Subtracted the index of the last space from the length of the trimmed string to find the length of the last word.
-
-**Returned the length of the last word** : Provided the calculated length as the output.
+**Completion** : If the loop completes without returning `false`, returned `true`, indicating that the strings are isomorphic.
 
 --- 
 Have a look at the code , still have any confusion then please let me know in the comments
@@ -27,25 +30,50 @@ Keep Solving.:)
 # Complexity
 - Time complexity : $O(n)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-$n$ : length of the string
-- Space complexity : $O(1)$
+$n$ : length of the strings `s` and `t` 
+- Space complexity : $O(min(m, n))$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
+$m$ : size of the character set 
 
 # Code
 ```
 class Solution {
-    public int lengthOfLastWord(String s) {
-        // Trimming the string to remove leading and trailing spaces
-        s = s.trim();
+    public boolean isIsomorphic(String s, String t) {
+
+        // Initializing two hash maps to store mappings
+        Map<Character, Character> sToTMap = new HashMap<>();
+        Map<Character, Character> tToSMap = new HashMap<>();
         
-        // Finding the index of the last space character
-        int lastSpaceIndex = s.lastIndexOf(' ');
+        // Iterating through each character in the strings s and t
+        for (int i = 0; i < s.length(); i++) {
+            char sChar = s.charAt(i);
+            char tChar = t.charAt(i);
+            
+            // Checking if sChar is already mapped to a character in t
+            if (sToTMap.containsKey(sChar)) {
+                // If the mapped character is not equal to tChar, returning false
+                if (sToTMap.get(sChar) != tChar) {
+                    return false;
+                }
+            } else {
+                // If sChar is not mapped, mapping it to tChar
+                sToTMap.put(sChar, tChar);
+            }
+            
+            // Checking if tChar is already mapped to a character in s
+            if (tToSMap.containsKey(tChar)) {
+                // If the mapped character is not equal to sChar, returning false
+                if (tToSMap.get(tChar) != sChar) {
+                    return false;
+                }
+            } else {
+                // If tChar is not mapped, mapping it to sChar
+                tToSMap.put(tChar, sChar);
+            }
+        }
         
-        // Calculating the length of the last word
-        int lengthOfLastWord = s.length() - lastSpaceIndex - 1;
-        
-        // Returning the length of the last word
-        return lengthOfLastWord;
+        // If the loop completes without returning false, returning true
+        return true;
     }
 }
 ```
