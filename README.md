@@ -33,7 +33,9 @@ Keep Solving.:)
 - Time complexity : $O(m \times n \times 4^l)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
 $m$ : number of rows
+
 $n$ : number of columns
+
 $l$ : length of the word
 - Space complexity : $O(1)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
