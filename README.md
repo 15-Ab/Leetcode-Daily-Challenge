@@ -9,7 +9,7 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-I should utiliz Depth-First Search (DFS) to systematically explore the board, aiming to find the given word by traversing adjacent cells.
+I should utilize Depth-First Search (DFS) to systematically explore the board, aiming to find the given word by traversing adjacent cells.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
@@ -30,7 +30,7 @@ I should utiliz Depth-First Search (DFS) to systematically explore the board, ai
 Have a look at the code , still have any confusion then please let me know in the comments
 Keep Solving.:)
 # Complexity
-- Time complexity : $ O(m \times n \times 4^l) $
+- Time complexity : $O(m \times n \times 4^l)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
 $m$ : number of rows
 $n$ : number of columns
