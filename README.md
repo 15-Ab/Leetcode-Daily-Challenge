@@ -1,4 +1,4 @@
-🎉 # Special Day Greetings on the 4th ! 🎉
+# 🎉 Special Day Greetings on the 4th ! 🎉
 
 ##### Today, the 4th, holds a special significance for me, and I want to take a moment to share my gratitude with all of you who visit this GitHub repository. Your presence here makes this community vibrant and inspiring.
 
