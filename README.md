@@ -1,91 +1,64 @@
+
+#🎉 Special Day Greetings on the 4th! 🎉
+
+## Hello everyone,
+  Today, the 4th, holds a special significance for me, and I want to take a moment to share my gratitude with all of you who visit this GitHub repository. Your presence here makes this community vibrant and inspiring.
+
+Thank you for being part of this journey. Here's to today and all the wonderful possibilities it brings!
+
 # Leetcode Daily Challenge Solutions
 
 This is my attempt to make the coding experience easier for you guys so that you can easily learn what to do in today's leetcode challenge.
 
 ## Always here to assist you guys.
 
-## Today's 03-04-24 [Problem Link](https://leetcode.com/problems/word-search/description/?envType=daily-question&envId=2024-04-03)
-## 79. Word Search
+## Today's 04-04-24 [Problem Link](https://leetcode.com/problems/maximum-nesting-depth-of-the-parentheses/description/?envType=daily-question&envId=2024-04-04)
+## 1614. Maximum Nesting Depth of the Parentheses
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-I should utilize Depth-First Search (DFS) to systematically explore the board, aiming to find the given word by traversing adjacent cells.
-
+- I aim to find the maximum depth of nested parentheses in a given string.
 # Approach
 <!-- Describe your approach to solving the problem. -->
+   - I initialized two variables, `jawab` and `khula`, to keep track of the maximum depth and current depth, respectively.
+   - Iterated through each character `c` in the string `s`.
+   - If `c` is an opening parenthesis '(', incremented `khula` and update `jawab` to the maximum of its current value and `khula`.
+   - If `c` is a closing parenthesis ')', decremented `khula`.
+   - Finally, returned `jawab` as the maximum depth of parentheses.
 
-**Main Method (exist) :**
-- Iterated through each cell on the board.
-- Initiated DFS exploration from each cell to search for the word.
-- Returned true if the word is found, otherwise false.
-
-**DFS Method (explore) :**
-- Checked if the current cell is within bounds.
-- Verified if the character at the current cell matches the word's character.
-- Recursively explored adjacent cells to find the next character of the word.
-- Marked visited cells to avoid revisiting and backtrack when necessary.
-- If the entire word is found, returned true; otherwise, returned false.
-     
 --- 
 Have a look at the code , still have any confusion then please let me know in the comments
 Keep Solving.:)
 # Complexity
-- Time complexity : $O(m \times n \times 4^l)$
+- Time complexity : $O(n)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-$m$ : number of rows
-
-$n$ : number of columns
-
-$l$ : length of the word
+$n$ : length of the given string
 - Space complexity : $O(1)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 
 # Code
 ```
 class Solution {
-  // Main method to check if the word exists on the board
-  public boolean exist(char[][] board, String word) {
-    for (int row = 0; row < board.length; ++row){
-      for (int col = 0; col < board[0].length; ++col){
-        if (explore(board, word, row, col, 0)){
-          return true;
+  public int maxDepth(String s) {
+    
+        // Initialize variables
+        int jawab = 0; // Store the maximum depth found so far
+        int khula = 0; // Keep track of the current depth
+
+        // Iterate through each character in the string
+        for (final char c : s.toCharArray()){
+            // If the character is an opening parenthesis
+            if (c == '('){
+                khula++; // Incrementing the current depth
+                jawab = Math.max(jawab, khula); // Updating maximum depth if necessary
+            }
+            // If the character is a closing parenthesis
+            else if (c == ')'){
+                khula--; // Decrementing the current depth
+            }
         }
-      }
+        // Returning the maximum depth found
+        return jawab;
     }
-    return false;
-  }
-
-  // DFS method to explore the board and search for the word
-  private boolean explore(char[][] board, String word, int row, int col, int index) {
-    // Check if the current cell is out of bounds
-    if (row < 0 || row == board.length || col < 0 || col == board[0].length){
-      return false;
-    }
-    
-    // Checking if the current cell matches the character of the word
-    if (board[row][col] != word.charAt(index) || board[row][col] == '*'){
-      return false;
-    }
-    
-    // Checking if the entire word has been found
-    if (index == word.length() - 1){
-      return true;
-    }
-
-    // Temporarily marking the current cell as visited
-    final char temp = board[row][col];
-    board[row][col] = '*';
-
-    // Recursively exploring adjacent cells to find the next character of the word
-    final boolean isFound = explore(board, word, row + 1, col, index + 1) || 
-                            explore(board, word, row - 1, col, index + 1) || 
-                            explore(board, word, row, col + 1, index + 1) || 
-                            explore(board, word, row, col - 1, index + 1);
-    
-    // Backtrack by restoring the original value of the current cell
-    board[row][col] = temp;
-
-    return isFound;
-  }
 }
 ```
