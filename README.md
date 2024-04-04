@@ -2,7 +2,7 @@
 
 ##### Today, the 4th, holds a special significance for me, and I want to take a moment to share my gratitude with all of you who visit this GitHub repository. Your presence here makes this community vibrant and inspiring.
 
-Thank you for being part of this journey. Here's to today and all the wonderful possibilities it brings!
+##### Thank you for being part of this journey. Here's to today and all the wonderful possibilities it brings !
 
 # Leetcode Daily Challenge Solutions
 
