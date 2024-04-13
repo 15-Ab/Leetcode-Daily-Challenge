@@ -43,31 +43,58 @@ $n$ : number of columns
 
 # Code
 ```
-class Solution:
-  def maximalRectangle(self, matrix: List[List[str]]) -> int:
-    if not matrix:
-      return 0
+class Solution {
+    
+    // Method to find the maximal rectangle area in a given matrix
+    public int maximalRectangle(char[][] matrix) {
 
-    ans = 0
-    hist = [0] * len(matrix[0])
+        // Check if the matrix is null or empty
+        if (matrix == null || matrix.length == 0) {
+            return 0;
+        }
+        
+        // Initialize the maximal rectangle area
+        int maxArea = 0;
+        // Initialize an array to store the histogram of heights
+        int[] heights = new int[matrix[0].length];
+        
+        // Iterate through each row in the matrix
+        for (char[] row : matrix) {
+            // Update the histogram for each row
+            for (int i = 0; i < row.length; i++) {
+                heights[i] = row[i] == '0' ? 0 : heights[i] + 1;
+            }
+            // Update the maximal rectangle area
+            maxArea = Math.max(maxArea, calculateMaxArea(heights));
+        }
+        
+        return maxArea;
+    }
+    
+    // Method to calculate the maximal rectangle area using histogram
+    private int calculateMaxArea(int[] heights) {
 
-    def largestRectangleArea(heights: List[int]) -> int:
-      ans = 0
-      stack = []
-
-      for i in range(len(heights) + 1):
-        while stack and (i == len(heights) or heights[stack[-1]] > heights[i]):
-          h = heights[stack.pop()]
-          w = i - stack[-1] - 1 if stack else i
-          ans = max(ans, h * w)
-        stack.append(i)
-
-      return ans
-
-    for row in matrix:
-      for i, num in enumerate(row):
-        hist[i] = 0 if num == '0' else hist[i] + 1
-      ans = max(ans, largestRectangleArea(hist))
-
-    return ans
+        // Initialize the maximal rectangle area
+        int maxArea = 0;
+        // Initialize a stack to store the indices of heights
+        Stack<Integer> stack = new Stack<>();
+        
+        // Iterate through each height and calculate the maximal rectangle area
+        for (int i = 0; i <= heights.length; i++) {
+            // Check if the stack is not empty and the current height is less than the height at the top of the stack
+            while (!stack.isEmpty() && (i == heights.length || heights[stack.peek()] > heights[i])) {
+                // Get the height at the top of the stack
+                int currentHeight = heights[stack.pop()];
+                // Calculate the width of the rectangle
+                int width = stack.isEmpty() ? i : i - stack.peek() - 1;
+                // Update the maximal rectangle area
+                maxArea = Math.max(maxArea, currentHeight * width);
+            }
+            // Push the index of the current height onto the stack
+            stack.push(i);
+        }
+        
+        return maxArea;
+    }
+}
 ```
