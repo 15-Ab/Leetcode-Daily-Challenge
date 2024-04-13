@@ -4,62 +4,70 @@ This is my attempt to make the coding experience easier for you guys so that you
 
 ## Always here to assist you guys.
 
-## Today's 09-04-24 [Problem Link](https://leetcode.com/problems/time-needed-to-buy-tickets/description/?envType=daily-question&envId=2024-04-09)
-## 2073. Time Needed to Buy Tickets
+## Today's 13-04-24 [Problem Link](https://leetcode.com/problems/maximal-rectangle/description/?envType=daily-question&envId=2024-04-13)
+## 85. Maximal Rectangle
 
 # Intuition
 <!-- Describe your first thoughts on how to solve this problem. -->
-Given a queue of ticket prices and a special position \( k \), the problem asks to calculate the total time required to buy tickets. If a person is at or before position \( k \), they buy tickets at the \( k \)-th price; otherwise, they buy at \( k \)-th price minus 1.
+The problem involves finding the maximal rectangle containing only 1s in a binary matrix. To solve this problem efficiently, I can utilize the concept of histograms. For each row in the matrix, I can treat it as the base of a histogram and calculate the height of bars in the histogram based on the consecutive 1s in that row. Then, I can apply the largest rectangle in histogram algorithm to find the maximal rectangle for each row. Finally, I return the maximum area among all rows as the result.
 
 # Approach
 <!-- Describe your approach to solving the problem. -->
-- I initialized total time to 0.
-- Iterated through the queue:
-  - For positions before or at \( k \), buy tickets at \( k \)-th price.
-  - For positions after \( k \), buy tickets at \( k \)-th price minus 1.
-- Accumulated the time taken for each purchase.
-- Returned the total time.
+
+- I initialized a variable to store the maximal rectangle area.
+- Iterate through each row in the matrix:
+    - Update the histogram of heights for each row. Treat 1s as bars and consecutive 1s as increasing heights in the histogram.
+    - Calculate the maximal rectangle area using the largest rectangle in histogram algorithm for the current histogram.
+    - Update the maximal rectangle area if the current area is greater.
+- Return the maximal rectangle area as the result.
+
+##### Largest Rectangle in Histogram Algorithm :
+- I nitialized a stack to store the indices of histogram bars.
+- Iterated through each bar in the histogram:
+    - If the stack is empty or the current bar's height is greater than or equal to the height of the bar at the top of the stack, push the index of the current bar onto the stack.
+    - If the current bar's height is less than the height of the bar at the top of the stack, keep popping bars from the stack until the stack is empty or the height of the bar at the top of the stack is less than the current bar's height. For each popped bar, calculate its area using the popped height as the height of the rectangle and the difference between the current index and the index of the bar at the top of the stack as the width of the rectangle. Update the maximal rectangle area if the calculated area is greater.
+- After iterating through all bars, if there are bars left in the stack, repeat step 2 for each remaining bar.
+- Returned the maximal rectangle area calculated.
 
 --- 
 Have a look at the code , still have any confusion then please let me know in the comments
 Keep Solving.:)
 
 # Complexity
-- Time complexity : $O(n)$
+- Time complexity : $O(m*n)$
 <!-- Add your time complexity here, e.g. $$O(n)$$ -->
-$n$ : number of tickets
-- Space complexity : $O(1)$
+$m$ : number of rows
+$n$ : number of columns
+- Space complexity : $O(n)$
 <!-- Add your space complexity here, e.g. $$O(n)$$ -->
 
 # Code
 ```
-class Solution {
+class Solution:
+  def maximalRectangle(self, matrix: List[List[str]]) -> int:
+    if not matrix:
+      return 0
 
-    // Method to calculate the total time required to buy tickets
-    public int timeRequiredToBuy(int[] tickets, int k) {
-        // Variable to store the total time
-        int totalTime = 0;
-        
-        // Looping through each ticket price
-        for (int i = 0; i < tickets.length; i++) {
-            
-            // If the person is at or before the k-th position in the queue
-            if (i <= k) {
-                
-                // Adding the minimum of the ticket price at the current position and the price at the k-th position to the total time
-                totalTime += Math.min(tickets[i], tickets[k]);
-            }
+    ans = 0
+    hist = [0] * len(matrix[0])
 
-            // If the person is after the k-th position in the queue
-            if (i > k) {
-               
-                // Adding the minimum of the ticket price at the current position and the price at the k-th position minus 1 to the total time
-                totalTime += Math.min(tickets[i], tickets[k] - 1);
-            }
-        }
-        
-        // Returning the total time required to buy tickets
-        return totalTime;
-    }
-}
+    def largestRectangleArea(heights: List[int]) -> int:
+      ans = 0
+      stack = []
+
+      for i in range(len(heights) + 1):
+        while stack and (i == len(heights) or heights[stack[-1]] > heights[i]):
+          h = heights[stack.pop()]
+          w = i - stack[-1] - 1 if stack else i
+          ans = max(ans, h * w)
+        stack.append(i)
+
+      return ans
+
+    for row in matrix:
+      for i, num in enumerate(row):
+        hist[i] = 0 if num == '0' else hist[i] + 1
+      ans = max(ans, largestRectangleArea(hist))
+
+    return ans
 ```
